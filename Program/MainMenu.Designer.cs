@@ -97,32 +97,32 @@
             // TSM_Readers_Add
             // 
             this.TSM_Readers_Add.Name = "TSM_Readers_Add";
-            this.TSM_Readers_Add.Size = new System.Drawing.Size(180, 22);
+            this.TSM_Readers_Add.Size = new System.Drawing.Size(165, 22);
             this.TSM_Readers_Add.Text = "Добавить";
             // 
             // TSM_Readers_Change
             // 
             this.TSM_Readers_Change.Name = "TSM_Readers_Change";
-            this.TSM_Readers_Change.Size = new System.Drawing.Size(180, 22);
+            this.TSM_Readers_Change.Size = new System.Drawing.Size(165, 22);
             this.TSM_Readers_Change.Text = "Изменить";
             // 
             // TSM_Readers_Delete
             // 
             this.TSM_Readers_Delete.Name = "TSM_Readers_Delete";
-            this.TSM_Readers_Delete.Size = new System.Drawing.Size(180, 22);
+            this.TSM_Readers_Delete.Size = new System.Drawing.Size(165, 22);
             this.TSM_Readers_Delete.Text = "Удалить";
             // 
             // TSM_Readers_CurrentBooks
             // 
             this.TSM_Readers_CurrentBooks.Name = "TSM_Readers_CurrentBooks";
-            this.TSM_Readers_CurrentBooks.Size = new System.Drawing.Size(180, 22);
+            this.TSM_Readers_CurrentBooks.Size = new System.Drawing.Size(165, 22);
             this.TSM_Readers_CurrentBooks.Text = "Текущие книги";
             this.TSM_Readers_CurrentBooks.Click += new System.EventHandler(this.TSM_Readers_CurrentBooks_Click);
             // 
             // TSM_Readers_CurrentPenalty
             // 
             this.TSM_Readers_CurrentPenalty.Name = "TSM_Readers_CurrentPenalty";
-            this.TSM_Readers_CurrentPenalty.Size = new System.Drawing.Size(180, 22);
+            this.TSM_Readers_CurrentPenalty.Size = new System.Drawing.Size(165, 22);
             this.TSM_Readers_CurrentPenalty.Text = "Текущий штраф";
             this.TSM_Readers_CurrentPenalty.Click += new System.EventHandler(this.TSM_Readers_CurrentPenalty_Click);
             // 
@@ -156,12 +156,14 @@
             this.TSM_books_get.Name = "TSM_books_get";
             this.TSM_books_get.Size = new System.Drawing.Size(210, 22);
             this.TSM_books_get.Text = "Принять книгу";
+            this.TSM_books_get.Click += new System.EventHandler(this.TSM_books_get_Click);
             // 
             // TSM_Books_Journal
             // 
             this.TSM_Books_Journal.Name = "TSM_Books_Journal";
             this.TSM_Books_Journal.Size = new System.Drawing.Size(210, 22);
             this.TSM_Books_Journal.Text = "Открыть журнал выдачи";
+            this.TSM_Books_Journal.Click += new System.EventHandler(this.TSM_Books_Journal_Click);
             // 
             // TSM_Report
             // 

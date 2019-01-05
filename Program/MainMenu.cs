@@ -77,7 +77,20 @@ namespace Program
 
         private void TSM_Books_Give_Click(object sender, EventArgs e)
         {
+            GiveBook formGive = new GiveBook();
+            formGive.ShowDialog();
+        }
 
+        private void TSM_books_get_Click(object sender, EventArgs e)
+        {
+            GetBook formGet = new GetBook();
+            formGet.ShowDialog();
+        }
+
+        private void TSM_Books_Journal_Click(object sender, EventArgs e)
+        {
+            Journal formJournal = new Journal();
+            formJournal.ShowDialog();
         }
     }
 }

@@ -64,11 +64,23 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GetBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GetBook.Designer.cs">
+      <DependentUpon>GetBook.cs</DependentUpon>
+    </Compile>
     <Compile Include="GiveBook.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GiveBook.Designer.cs">
       <DependentUpon>GiveBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Journal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Journal.Designer.cs">
+      <DependentUpon>Journal.cs</DependentUpon>
     </Compile>
     <Compile Include="Librarian_Account.cs">
       <SubType>Form</SubType>
@@ -99,8 +111,14 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GetBook.resx">
+      <DependentUpon>GetBook.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GiveBook.resx">
       <DependentUpon>GiveBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Journal.resx">
+      <DependentUpon>Journal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Librarian_Account.resx">
       <DependentUpon>Librarian_Account.cs</DependentUpon>
