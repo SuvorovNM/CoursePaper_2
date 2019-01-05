@@ -10,11 +10,31 @@ using System.Windows.Forms;
 
 namespace Program
 {
-    public partial class Form1 : Form
+    public partial class Authorization : Form
     {
-        public Form1()
+        public static MainMenu menu;
+        public Authorization()
         {
             InitializeComponent();
+        }
+
+        private void btn_Enter_Click(object sender, EventArgs e)
+        {          
+            
+            menu.Show();
+            MainMenu.enter = this;
+            this.Hide();
+        }
+
+        private void Authorization_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //menu.Close();
+        }
+
+        private void Authorization_Load(object sender, EventArgs e)
+        {
+            MainMenu mainform = new MainMenu();
+            menu = mainform;
         }
     }
 }
