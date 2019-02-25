@@ -19,6 +19,23 @@ namespace Program
         static string patCity = @"^[a-zA-Zа-яА-Я]+(?:[\s-][a-zA-Zа-яА-Я]+)*$";
         Regex rgEmail = new Regex(patEmail);
         Regex rgCity = new Regex(patCity);
+        bool[] correct = new bool[11];
+        private void CheckCorrect()
+        {
+            bool OK = true;
+            for (int i = 0; i < correct.Length; i++)
+            {
+                OK = OK && correct[i];
+            }
+            if (OK)
+            {
+                btn_OK.Enabled = true;
+            }
+            else
+            {
+                btn_OK.Enabled = false;
+            }
+        }
         public AddReader()
         {
             InitializeComponent();
@@ -34,7 +51,7 @@ namespace Program
             //Проверка и добавление в БД
             //Проверка
             bool OK = true;
-            string command = "insert into Address(Region, City, Street, House_Number, Flat_Number, Deleted) values ('"+CB_Region.Text+"', '"+TB_City.Text+"', '"+TB_Street.Text+"', '"+TB_House.Text+"', '"+TB_Flat.Text+"', 0)";
+            string command = "insert into Address(Region, City, Street, House_Number, Flat_Number, Deleted) values ('" + CB_Region.Text + "', '" + TB_City.Text + "', '" + TB_Street.Text + "', '" + TB_House.Text + "', '" + TB_Flat.Text + "', 0)";
             SqlCommand cmd = new SqlCommand(command, Authorization.conn);
             try
             {
@@ -42,7 +59,7 @@ namespace Program
                 reader.Close();
             }
             catch
-            {                
+            {
                 OK = false;
             }
             if (OK)
@@ -66,7 +83,7 @@ namespace Program
                     day = "0" + day;
                 }
                 string date = TB_Year.Text + "-" + ind + "-" + day;
-                command1 = "insert into Person(FIO, Birthday, Phone_Number, Email, Address_Code, Deleted) values ('"+TB_Name.Text+"', '"+date+"', '"+TB_Phone.Text+"', '"+TB_Email.Text+"', '"+Address_ID+"', 0)";
+                command1 = "insert into Person(FIO, Birthday, Phone_Number, Email, Address_Code, Deleted) values ('" + TB_Name.Text + "', '" + date + "', '" + TB_Phone.Text + "', '" + TB_Email.Text + "', '" + Address_ID + "', 0)";
                 cmd = new SqlCommand(command1, Authorization.conn);
                 try
                 {
@@ -76,9 +93,9 @@ namespace Program
                 catch
                 {
                     OK = false;
-                    command1 = "delete from Address where Address_ID="+Address_ID;
+                    command1 = "delete from Address where Address_ID=" + Address_ID;
                     cmd = new SqlCommand(command1, Authorization.conn);
-                    reader =cmd.ExecuteReader();
+                    reader = cmd.ExecuteReader();
                     reader.Close();
                 }
                 if (OK)
@@ -88,7 +105,7 @@ namespace Program
                     reader = cmd.ExecuteReader();
                     reader.Read();
                     string Person_ID = reader[0].ToString();
-                    reader.Close();                    
+                    reader.Close();
                     string RegisterDate = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
                     command2 = "insert into Reader(Person_Code, Registration_Date, Deleted) values ('" + Person_ID + "', '" + RegisterDate + "', 0)";
                     cmd = new SqlCommand(command2, Authorization.conn);
@@ -97,7 +114,7 @@ namespace Program
                         reader = cmd.ExecuteReader();
                         reader.Close();
                         //UPDATE
-                        
+
                     }
                     catch
                     {
@@ -108,9 +125,9 @@ namespace Program
                         reader.Close();
                         command1 = "delete from Address where Address_ID=" + Address_ID;
                         cmd = new SqlCommand(command1, Authorization.conn);
-                        reader=cmd.ExecuteReader();
+                        reader = cmd.ExecuteReader();
                         reader.Close();
-                        
+
                     }
                 }
             }
@@ -144,10 +161,14 @@ namespace Program
                 if (rgEmail.IsMatch(TB_Email.Text))
                 {
                     TB_Email.BackColor = Color.White;
+                    correct[2] = true;
+                    CheckCorrect();
                 }
                 else
                 {
                     TB_Email.BackColor = Color.LightPink;
+                    correct[2] = false;
+                    CheckCorrect();
                 }
         }
 
@@ -164,12 +185,15 @@ namespace Program
             Int32.TryParse(TB_Day.Text, out day);
             if (day > 31 || day < 1)
             {
-                if (TB_Day.Text != "" && TB_Day.Text != null)
-                    TB_Day.BackColor = Color.LightPink;
+                TB_Day.BackColor = Color.LightPink;
+                correct[3] = false;
+                CheckCorrect();
             }
             else
             {
                 TB_Day.BackColor = Color.White;
+                correct[3] = true;
+                CheckCorrect();
             }
         }
 
@@ -187,10 +211,14 @@ namespace Program
             if (year > DateTime.Today.Year || year < 1900)
             {
                 TB_Year.BackColor = Color.LightPink;
+                correct[5] = false;
+                CheckCorrect();
             }
             else
             {
                 TB_Year.BackColor = Color.White;
+                correct[5] = true;
+                CheckCorrect();
             }
         }
 
@@ -203,14 +231,18 @@ namespace Program
 
         private void TB_City_KeyUp(object sender, KeyEventArgs e)
         {
-            if (TB_City.Text!=null&&TB_City.Text!="")
+            if (TB_City.Text != null && TB_City.Text != "")
                 if (rgCity.IsMatch(TB_City.Text))
                 {
                     TB_City.BackColor = Color.White;
+                    correct[7] = true;
+                    CheckCorrect();
                 }
                 else
                 {
                     TB_City.BackColor = Color.LightPink;
+                    correct[7] = false;
+                    CheckCorrect();
                 }
         }
 
@@ -235,10 +267,14 @@ namespace Program
             if (temp.Length < 5)
             {
                 TB_Name.BackColor = Color.LightPink;
+                correct[0] = false;
+                CheckCorrect();
             }
             else
             {
                 TB_Name.BackColor = Color.White;
+                correct[0] = true;
+                CheckCorrect();
             }
         }
 
@@ -246,19 +282,23 @@ namespace Program
         {
             string temp = TB_Phone.Text;
             int count = 0;
-            for (int i=0;i< TB_Phone.Text.Length; i++)
+            for (int i = 0; i < TB_Phone.Text.Length; i++)
             {
                 if (Char.IsDigit(TB_Phone.Text[i]))
                     count++;
             }
-            
+
             if (count != 11)
             {
                 TB_Phone.BackColor = Color.LightPink;
+                correct[1] = false;
+                CheckCorrect();
             }
             else
             {
                 TB_Phone.BackColor = Color.White;
+                correct[1] = true;
+                CheckCorrect();
             }
         }
 
@@ -268,11 +308,15 @@ namespace Program
             temp = temp.Replace(" ", "");
             if (temp.Length < 3)
             {
-                CB_Region.BackColor = Color.LightPink;                
+                CB_Region.BackColor = Color.LightPink;
+                correct[6] = false;
+                CheckCorrect();
             }
             else
             {
                 CB_Region.BackColor = Color.White;
+                correct[6] = true;
+                CheckCorrect();
             }
         }
 
@@ -283,10 +327,14 @@ namespace Program
             if (temp.Length < 3)
             {
                 TB_Street.BackColor = Color.LightPink;
+                correct[8] = false;
+                CheckCorrect();
             }
             else
             {
                 TB_Street.BackColor = Color.White;
+                correct[8] = true;
+                CheckCorrect();
             }
         }
 
@@ -297,10 +345,14 @@ namespace Program
             if (temp.Length < 1)
             {
                 TB_House.BackColor = Color.LightPink;
+                correct[9] = false;
+                CheckCorrect();
             }
             else
             {
                 TB_House.BackColor = Color.White;
+                correct[9] = true;
+                CheckCorrect();
             }
         }
 
@@ -311,10 +363,14 @@ namespace Program
             if (number > 0)
             {
                 TB_Flat.BackColor = Color.White;
+                correct[10] = true;
+                CheckCorrect();
             }
             else
             {
                 TB_Flat.BackColor = Color.LightPink;
+                correct[10] = false;
+                CheckCorrect();
             }
         }
 
@@ -323,6 +379,21 @@ namespace Program
             if (CB_Region.SelectedIndex >= 0)
             {
                 CB_Region.BackColor = Color.White;
+                correct[6] = true;
+            }
+        }
+
+        private void CB_Month_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (CB_Month.SelectedIndex != -1)
+            {
+                correct[4] = true;
+                CheckCorrect();
+            }
+            else
+            {
+                correct[4] = false;
+                CheckCorrect();
             }
         }
     }

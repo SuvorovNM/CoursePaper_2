@@ -63,6 +63,16 @@ namespace Program.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _13 {
+            get {
+                object obj = ResourceManager.GetObject("13", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap img_525519 {
             get {
                 object obj = ResourceManager.GetObject("img_525519", resourceCulture);
@@ -156,6 +166,16 @@ namespace Program.Properties {
         internal static System.Drawing.Bitmap Крест {
             get {
                 object obj = ResourceManager.GetObject("Крест", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Обновить {
+            get {
+                object obj = ResourceManager.GetObject("Обновить", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

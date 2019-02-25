@@ -118,6 +118,7 @@
             this.CB_Month.Name = "CB_Month";
             this.CB_Month.Size = new System.Drawing.Size(73, 21);
             this.CB_Month.TabIndex = 12;
+            this.CB_Month.SelectedValueChanged += new System.EventHandler(this.CB_Month_SelectedValueChanged);
             // 
             // TB_Day
             // 
@@ -335,6 +336,7 @@
             // 
             // btn_OK
             // 
+            this.btn_OK.Enabled = false;
             this.btn_OK.Location = new System.Drawing.Point(243, 370);
             this.btn_OK.Name = "btn_OK";
             this.btn_OK.Size = new System.Drawing.Size(75, 23);

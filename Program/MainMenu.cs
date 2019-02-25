@@ -22,6 +22,7 @@ namespace Program
         public static string SelectedReader="1";
         bool[] ChosenColumns = new bool[5];
         bool[] ChosenFilters = new bool[5];
+        string LastQuery = "";
         //string[] Filters = { };
         //enum Cols { Library_Card, FIO, Birthday, Phone_Number, Email };
         string[] Cols ={ "Library_Card", "FIO", "Birthday", "Phone_Number", "Email" };
@@ -129,6 +130,43 @@ namespace Program
         private void btn_Delete_Click(object sender, EventArgs e)
         {
             //MessageBox -Удалить? -(Да/Нет)
+            DialogResult dialogResult = MessageBox.Show("Вы точно хотите удалить данного читателя?", "Удаление", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                string CheckForExistance = "select Person_ID, Address_ID from Reader, Person, Address where Reader.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Library_Card="+SelectedReader;
+                SqlCommand command = new SqlCommand(CheckForExistance, Authorization.conn);
+                DbDataReader reader = command.ExecuteReader();
+                bool Exist = reader.HasRows;
+                if (Exist)
+                {
+                    reader.Read();
+                    string Person_ID = reader[0].ToString();
+                    string Address_ID = reader[1].ToString();
+                    reader.Close();                
+                    string UpdatingDelete = "update Reader set Deleted=1 where Library_Card='"+SelectedReader+"'";
+                    command = new SqlCommand(UpdatingDelete, Authorization.conn);
+                    reader = command.ExecuteReader();
+                    reader.Close();
+                    UpdatingDelete = "update Person set Deleted=1 where Person_ID='" + SelectedReader + "'";
+                    command = new SqlCommand(UpdatingDelete, Authorization.conn);
+                    reader = command.ExecuteReader();
+                    reader.Close();
+                    UpdatingDelete = "update Address set Deleted=1 where Address_ID='" + SelectedReader + "'";
+                    command = new SqlCommand(UpdatingDelete, Authorization.conn);
+                    reader = command.ExecuteReader();
+                    reader.Close();
+                    MessageBox.Show("Удаление произведено успешно!");
+                }
+                else
+                {
+                    reader.Close();
+                    MessageBox.Show("Данный читатель уже был удален! Обновите список читателей");
+                }
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //do something else
+            }
         }
 
         private void TB_LibraryCard_KeyPress(object sender, KeyPressEventArgs e)
@@ -173,6 +211,7 @@ namespace Program
                     FilterCode += " and " + Cols[i] + "= '" + values[i]+"'";
                 }
             }
+            LastQuery = FilterCode;
             OutputReaders(FilterCode);
             
         }
@@ -267,6 +306,7 @@ namespace Program
             ChosenColumns[0] = true;
             ChosenColumns[1] = true;
             ChosenColumns[2] = true;
+            LastQuery = "";
             OutputReaders("");
         }
 
@@ -428,6 +468,7 @@ namespace Program
             TB_Email.Text = "";
             TB_Email.BackColor = Color.White;
             OutputReaders("");
+            LastQuery = "";
         }
 
         private void DGV_Readers_SelectionChanged(object sender, EventArgs e)
@@ -495,9 +536,10 @@ namespace Program
                 ChosenFilters[4] = false;
             }
         }
-        /*public static void RefreshDGV()
+
+        private void btn_Update_Click(object sender, EventArgs e)
         {
-            
-        }*/
+            OutputReaders(LastQuery);
+        }
     }
 }
