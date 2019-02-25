@@ -222,6 +222,7 @@
             this.MinimizeBox = false;
             this.Name = "ReaderInfo";
             this.Text = "ReaderInfo";
+            this.Load += new System.EventHandler(this.ReaderInfo_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -64,6 +64,11 @@
             this.btn_Change = new System.Windows.Forms.Button();
             this.btn_Add = new System.Windows.Forms.Button();
             this.btn_Info = new System.Windows.Forms.Button();
+            this.CB_Filter_Library_Code = new System.Windows.Forms.CheckBox();
+            this.CB_Filter_FIO = new System.Windows.Forms.CheckBox();
+            this.CB_Filter_Date = new System.Windows.Forms.CheckBox();
+            this.CB_Filter_Phone = new System.Windows.Forms.CheckBox();
+            this.CB_Filter_Email = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Readers)).BeginInit();
             this.SuspendLayout();
@@ -204,12 +209,18 @@
             // 
             // DGV_Readers
             // 
+            this.DGV_Readers.AllowUserToAddRows = false;
+            this.DGV_Readers.AllowUserToDeleteRows = false;
             this.DGV_Readers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
             this.DGV_Readers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGV_Readers.Location = new System.Drawing.Point(154, 48);
+            this.DGV_Readers.Location = new System.Drawing.Point(194, 48);
+            this.DGV_Readers.MultiSelect = false;
             this.DGV_Readers.Name = "DGV_Readers";
+            this.DGV_Readers.ReadOnly = true;
+            this.DGV_Readers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DGV_Readers.Size = new System.Drawing.Size(428, 346);
             this.DGV_Readers.TabIndex = 1;
+            this.DGV_Readers.SelectionChanged += new System.EventHandler(this.DGV_Readers_SelectionChanged);
             // 
             // TB_LibraryCard
             // 
@@ -373,7 +384,7 @@
             // btn_Delete
             // 
             this.btn_Delete.Image = global::Program.Properties.Resources.Крест;
-            this.btn_Delete.Location = new System.Drawing.Point(588, 261);
+            this.btn_Delete.Location = new System.Drawing.Point(628, 261);
             this.btn_Delete.Name = "btn_Delete";
             this.btn_Delete.Size = new System.Drawing.Size(33, 34);
             this.btn_Delete.TabIndex = 18;
@@ -383,7 +394,7 @@
             // btn_Change
             // 
             this.btn_Change.Image = global::Program.Properties.Resources.Гаечный_ключ1;
-            this.btn_Change.Location = new System.Drawing.Point(588, 200);
+            this.btn_Change.Location = new System.Drawing.Point(628, 200);
             this.btn_Change.Name = "btn_Change";
             this.btn_Change.Size = new System.Drawing.Size(33, 34);
             this.btn_Change.TabIndex = 17;
@@ -393,7 +404,7 @@
             // btn_Add
             // 
             this.btn_Add.Image = global::Program.Properties.Resources.plus11;
-            this.btn_Add.Location = new System.Drawing.Point(588, 139);
+            this.btn_Add.Location = new System.Drawing.Point(628, 139);
             this.btn_Add.Name = "btn_Add";
             this.btn_Add.Size = new System.Drawing.Size(33, 34);
             this.btn_Add.TabIndex = 16;
@@ -403,18 +414,73 @@
             // btn_Info
             // 
             this.btn_Info.Image = global::Program.Properties.Resources.img_5255192;
-            this.btn_Info.Location = new System.Drawing.Point(588, 81);
+            this.btn_Info.Location = new System.Drawing.Point(628, 81);
             this.btn_Info.Name = "btn_Info";
             this.btn_Info.Size = new System.Drawing.Size(33, 34);
             this.btn_Info.TabIndex = 15;
             this.btn_Info.UseVisualStyleBackColor = true;
             this.btn_Info.Click += new System.EventHandler(this.btn_Info_Click);
             // 
+            // CB_Filter_Library_Code
+            // 
+            this.CB_Filter_Library_Code.AutoSize = true;
+            this.CB_Filter_Library_Code.Location = new System.Drawing.Point(154, 74);
+            this.CB_Filter_Library_Code.Name = "CB_Filter_Library_Code";
+            this.CB_Filter_Library_Code.Size = new System.Drawing.Size(15, 14);
+            this.CB_Filter_Library_Code.TabIndex = 21;
+            this.CB_Filter_Library_Code.UseVisualStyleBackColor = true;
+            this.CB_Filter_Library_Code.CheckedChanged += new System.EventHandler(this.CB_Filter_Library_Code_CheckedChanged);
+            // 
+            // CB_Filter_FIO
+            // 
+            this.CB_Filter_FIO.AutoSize = true;
+            this.CB_Filter_FIO.Location = new System.Drawing.Point(154, 125);
+            this.CB_Filter_FIO.Name = "CB_Filter_FIO";
+            this.CB_Filter_FIO.Size = new System.Drawing.Size(15, 14);
+            this.CB_Filter_FIO.TabIndex = 22;
+            this.CB_Filter_FIO.UseVisualStyleBackColor = true;
+            this.CB_Filter_FIO.CheckedChanged += new System.EventHandler(this.CB_Filter_FIO_CheckedChanged);
+            // 
+            // CB_Filter_Date
+            // 
+            this.CB_Filter_Date.AutoSize = true;
+            this.CB_Filter_Date.Location = new System.Drawing.Point(154, 176);
+            this.CB_Filter_Date.Name = "CB_Filter_Date";
+            this.CB_Filter_Date.Size = new System.Drawing.Size(15, 14);
+            this.CB_Filter_Date.TabIndex = 23;
+            this.CB_Filter_Date.UseVisualStyleBackColor = true;
+            this.CB_Filter_Date.CheckedChanged += new System.EventHandler(this.CB_Filter_Date_CheckedChanged);
+            // 
+            // CB_Filter_Phone
+            // 
+            this.CB_Filter_Phone.AutoSize = true;
+            this.CB_Filter_Phone.Location = new System.Drawing.Point(154, 227);
+            this.CB_Filter_Phone.Name = "CB_Filter_Phone";
+            this.CB_Filter_Phone.Size = new System.Drawing.Size(15, 14);
+            this.CB_Filter_Phone.TabIndex = 24;
+            this.CB_Filter_Phone.UseVisualStyleBackColor = true;
+            this.CB_Filter_Phone.CheckedChanged += new System.EventHandler(this.CB_Filter_Phone_CheckedChanged);
+            // 
+            // CB_Filter_Email
+            // 
+            this.CB_Filter_Email.AutoSize = true;
+            this.CB_Filter_Email.Location = new System.Drawing.Point(154, 278);
+            this.CB_Filter_Email.Name = "CB_Filter_Email";
+            this.CB_Filter_Email.Size = new System.Drawing.Size(15, 14);
+            this.CB_Filter_Email.TabIndex = 25;
+            this.CB_Filter_Email.UseVisualStyleBackColor = true;
+            this.CB_Filter_Email.CheckedChanged += new System.EventHandler(this.CB_Filter_Email_CheckedChanged);
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(681, 427);
+            this.Controls.Add(this.CB_Filter_Email);
+            this.Controls.Add(this.CB_Filter_Phone);
+            this.Controls.Add(this.CB_Filter_Date);
+            this.Controls.Add(this.CB_Filter_FIO);
+            this.Controls.Add(this.CB_Filter_Library_Code);
             this.Controls.Add(this.btn_FilterReset);
             this.Controls.Add(this.btn_ApplyFilter);
             this.Controls.Add(this.btn_Delete);
@@ -487,5 +553,10 @@
         private System.Windows.Forms.Button btn_Delete;
         private System.Windows.Forms.Button btn_ApplyFilter;
         private System.Windows.Forms.Button btn_FilterReset;
+        private System.Windows.Forms.CheckBox CB_Filter_Library_Code;
+        private System.Windows.Forms.CheckBox CB_Filter_FIO;
+        private System.Windows.Forms.CheckBox CB_Filter_Date;
+        private System.Windows.Forms.CheckBox CB_Filter_Phone;
+        private System.Windows.Forms.CheckBox CB_Filter_Email;
     }
 }

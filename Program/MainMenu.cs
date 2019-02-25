@@ -19,7 +19,10 @@ namespace Program
         static string patEmail = @"^(?(')('.+?(?<!\\)'@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
         Regex rgEmail = new Regex(patEmail);
         public static Authorization enter;
+        public static string SelectedReader="1";
         bool[] ChosenColumns = new bool[5];
+        bool[] ChosenFilters = new bool[5];
+        //string[] Filters = { };
         //enum Cols { Library_Card, FIO, Birthday, Phone_Number, Email };
         string[] Cols ={ "Library_Card", "FIO", "Birthday", "Phone_Number", "Email" };
         string[] ColsForUser = { @"'№'", "'ФИО'", "'Дата рождения'", "'Номер телефона'", "'Email'" };
@@ -145,64 +148,33 @@ namespace Program
 
         private void btn_ApplyFilter_Click(object sender, EventArgs e)//Применить фильтр
         {
-            OutputReaders();
-            /*string Columns = "";
-            bool AtLeastOne = false;
-            for (int i = 0; i < ChosenColumns.Length; i++)
+            string[] values = new string[5];
+            values[0] = TB_LibraryCard.Text;
+            values[1] = TB_FIO.Text;
+            string ind = (CB_Month.SelectedIndex+1).ToString();
+            //ind++;
+            if (ind.Length == 1)
             {
-                if (ChosenColumns[i])
+                ind = "0" + ind;
+            }
+            string day = TB_Day.Text;
+            if (day.Length == 1)
+            {
+                day = "0" + day;
+            }
+            values[2] = TB_Year.Text + "-" + ind + "-" + day;//
+            values[3] = TB_PhoneNumber.Text;
+            values[4] = TB_Email.Text;
+            string FilterCode = "";
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (ChosenFilters[i])
                 {
-                    if (!AtLeastOne)
-                    {
-                        Columns += Cols[i] + " as " + ColsForUser[i];
-                        AtLeastOne = true;
-                    }
-                    else
-                    {
-                        Columns += ", " + Cols[i] + " as " + ColsForUser[i];
-                    }
+                    FilterCode += " and " + Cols[i] + "= '" + values[i]+"'";
                 }
             }
-            string Readers = "select " + Columns + " from Reader, Person, Address where Reader.Person_Code=Person.Person_ID and Person.Address_Code=Address.Address_ID and Reader.Deleted=0";
-            SqlCommand cmd = new SqlCommand(Readers, Authorization.conn);
-            DbDataReader reader = cmd.ExecuteReader();
-            if (reader.HasRows)
-            {
-                DGV_Readers.Rows.Clear();
-                DGV_Readers.Columns.Clear();
-                //DGV_Readers.Columns.
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    string str = reader.GetName(i);
-                    DGV_Readers.Columns.Add(str, str);
-                }
-                reader.Read();
-                object[] temp = new object[reader.FieldCount];
-                reader.GetValues(temp);
-                for (int i = 0; i < reader.FieldCount; i++)//Удаление ЧЧ:ММ из Birthday
-                {
-                    if (temp[i] is DateTime)
-                    {
-                        temp[i] = temp[i].ToString().Substring(0, temp[i].ToString().IndexOf(' '));
-                    }
-                }
-                DGV_Readers.Rows.Add(temp);
-                while (reader.Read())
-                {
-                    temp = new object[reader.FieldCount];
-                    reader.GetValues(temp);
-                    for (int i = 0; i < reader.FieldCount; i++)
-                    {
-                        if (temp[i] is DateTime)
-                        {
-                            temp[i] = temp[i].ToString().Substring(0, temp[i].ToString().IndexOf(' '));
-                        }
-                    }
-                    DGV_Readers.Rows.Add(temp);
-                }
-            }
-            reader.Close();*/
-
+            OutputReaders(FilterCode);
+            
         }
 
         private void TB_Email_KeyPress(object sender, KeyPressEventArgs e)
@@ -220,6 +192,10 @@ namespace Program
             else
             {
                 TB_Email.BackColor = Color.LightPink;
+            }
+            else
+            {
+                TB_Email.BackColor = Color.White;
             }
         }
 
@@ -291,10 +267,10 @@ namespace Program
             ChosenColumns[0] = true;
             ChosenColumns[1] = true;
             ChosenColumns[2] = true;
-            OutputReaders();
+            OutputReaders("");
         }
 
-        private void OutputReaders()
+        private void OutputReaders(string filter)
         {
             string Columns = "";
             bool AtLeastOne = false;//->false
@@ -317,7 +293,7 @@ namespace Program
             {
                 //"select "
                 //Первый и невидимый столец - ID читателя
-                string Readers = "select Library_Card, " + Columns + " from Reader, Person, Address where Reader.Person_Code=Person.Person_ID and Person.Address_Code=Address.Address_ID and Reader.Deleted=0";
+                string Readers = "select Library_Card, " + Columns + " from Reader, Person, Address where Reader.Person_Code=Person.Person_ID and Person.Address_Code=Address.Address_ID and Reader.Deleted=0"+filter;
                 SqlCommand cmd = new SqlCommand(Readers, Authorization.conn);
                 DbDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
@@ -357,7 +333,27 @@ namespace Program
                         DGV_Readers.Rows.Add(temp);
                     }
                 }
+                else
+                {
+                    DGV_Readers.Rows.Clear();
+                    DGV_Readers.Columns.Clear();
+                    MessageBox.Show("По данным параметрам не было найдено читателя");
+                }
                 reader.Close();
+            }
+            if (DGV_Readers.Rows.Count > 0)
+            {
+                btn_Info.Enabled = true;
+                //btn_Add.Enabled = true;
+                btn_Change.Enabled = true;
+                btn_Delete.Enabled = true;
+            }
+            else
+            {
+                btn_Info.Enabled = false;
+                //btn_Add.Enabled = false;
+                btn_Change.Enabled = false;
+                btn_Delete.Enabled = false;
             }
         }
 
@@ -416,7 +412,86 @@ namespace Program
             CB_Birthday.Checked = true;
             CB_Name.Checked = true;
             CB_ReaderTicket.Checked = true;
-            OutputReaders();
+            CB_Filter_Date.Checked = false;
+            CB_Filter_Email.Checked = false;
+            CB_Filter_FIO.Checked = false;
+            CB_Filter_Library_Code.Checked = false;
+            CB_Filter_Phone.Checked = false;
+            TB_LibraryCard.Text = "";
+            TB_FIO.Text = "";
+            TB_Day.Text = "";
+            CB_Month.SelectedIndex = -1;
+            TB_Year.Text = "";
+            TB_PhoneNumber.Text = "";
+            TB_Email.Text = "";
+            TB_Email.BackColor = Color.White;
+            OutputReaders("");
+        }
+
+        private void DGV_Readers_SelectionChanged(object sender, EventArgs e)
+        {
+            if (DGV_Readers.Rows.Count > 0)
+                SelectedReader = DGV_Readers.CurrentRow.Cells[0].Value.ToString();
+        }
+
+        private void CB_Filter_Library_Code_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_Filter_Library_Code.Checked)
+            {
+                ChosenFilters[0] = true;
+            }
+            else
+            {
+                ChosenFilters[0] = false;
+            }
+        }
+
+        private void CB_Filter_FIO_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_Filter_FIO.Checked)
+            {
+                ChosenFilters[1] = true;
+            }
+            else
+            {
+                ChosenFilters[1] = false;
+            }
+        }
+
+        private void CB_Filter_Date_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_Filter_Date.Checked)
+            {
+                ChosenFilters[2] = true;
+            }
+            else
+            {
+                ChosenFilters[2] = false;
+            }
+        }
+
+        private void CB_Filter_Phone_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_Filter_Phone.Checked)
+            {
+                ChosenFilters[3] = true;
+            }
+            else
+            {
+                ChosenFilters[3] = false;
+            }
+        }
+
+        private void CB_Filter_Email_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_Filter_Email.Checked)
+            {
+                ChosenFilters[4] = true;
+            }
+            else
+            {
+                ChosenFilters[4] = false;
+            }
         }
     }
 }
