@@ -75,6 +75,7 @@
             // TB_Name
             // 
             this.TB_Name.Location = new System.Drawing.Point(13, 57);
+            this.TB_Name.MaxLength = 255;
             this.TB_Name.Name = "TB_Name";
             this.TB_Name.Size = new System.Drawing.Size(137, 20);
             this.TB_Name.TabIndex = 2;
@@ -92,6 +93,7 @@
             // TB_Author
             // 
             this.TB_Author.Location = new System.Drawing.Point(13, 108);
+            this.TB_Author.MaxLength = 80;
             this.TB_Author.Name = "TB_Author";
             this.TB_Author.Size = new System.Drawing.Size(137, 20);
             this.TB_Author.TabIndex = 4;
@@ -109,6 +111,7 @@
             // TB_Year
             // 
             this.TB_Year.Location = new System.Drawing.Point(13, 159);
+            this.TB_Year.MaxLength = 4;
             this.TB_Year.Name = "TB_Year";
             this.TB_Year.Size = new System.Drawing.Size(137, 20);
             this.TB_Year.TabIndex = 6;
@@ -126,6 +129,7 @@
             // TB_BBK
             // 
             this.TB_BBK.Location = new System.Drawing.Point(13, 210);
+            this.TB_BBK.MaxLength = 80;
             this.TB_BBK.Name = "TB_BBK";
             this.TB_BBK.Size = new System.Drawing.Size(137, 20);
             this.TB_BBK.TabIndex = 8;
@@ -183,6 +187,7 @@
             // TB_Producer
             // 
             this.TB_Producer.Location = new System.Drawing.Point(13, 364);
+            this.TB_Producer.MaxLength = 80;
             this.TB_Producer.Name = "TB_Producer";
             this.TB_Producer.Size = new System.Drawing.Size(137, 20);
             this.TB_Producer.TabIndex = 14;
@@ -200,6 +205,7 @@
             // TB_ISBN
             // 
             this.TB_ISBN.Location = new System.Drawing.Point(13, 411);
+            this.TB_ISBN.MaxLength = 18;
             this.TB_ISBN.Name = "TB_ISBN";
             this.TB_ISBN.Size = new System.Drawing.Size(137, 20);
             this.TB_ISBN.TabIndex = 16;
@@ -230,6 +236,7 @@
             this.btn_Delete.Size = new System.Drawing.Size(33, 34);
             this.btn_Delete.TabIndex = 22;
             this.btn_Delete.UseVisualStyleBackColor = true;
+            this.btn_Delete.Click += new System.EventHandler(this.btn_Delete_Click);
             // 
             // btn_Change
             // 
@@ -239,6 +246,7 @@
             this.btn_Change.Size = new System.Drawing.Size(33, 34);
             this.btn_Change.TabIndex = 21;
             this.btn_Change.UseVisualStyleBackColor = true;
+            this.btn_Change.Click += new System.EventHandler(this.btn_Change_Click);
             // 
             // btn_Add
             // 
@@ -248,6 +256,7 @@
             this.btn_Add.Size = new System.Drawing.Size(33, 34);
             this.btn_Add.TabIndex = 20;
             this.btn_Add.UseVisualStyleBackColor = true;
+            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
             // 
             // btn_Info
             // 
@@ -257,6 +266,7 @@
             this.btn_Info.Size = new System.Drawing.Size(33, 34);
             this.btn_Info.TabIndex = 19;
             this.btn_Info.UseVisualStyleBackColor = true;
+            this.btn_Info.Click += new System.EventHandler(this.btn_Info_Click);
             // 
             // Books
             // 

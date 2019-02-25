@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Program
 {
-    public partial class Penalty : Form
+    public partial class BookInfo : Form
     {
-        public Penalty()
+        public BookInfo()
         {
             InitializeComponent();
         }
@@ -20,13 +20,6 @@ namespace Program
         private void btn_Back_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8)) return;
-            else
-                e.Handled = true;
         }
     }
 }

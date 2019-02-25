@@ -31,17 +31,15 @@
             this.lb_Name = new System.Windows.Forms.Label();
             this.TB_Name = new System.Windows.Forms.TextBox();
             this.lb_Birthday = new System.Windows.Forms.Label();
-            this.TB_Year = new System.Windows.Forms.TextBox();
-            this.TB_Day = new System.Windows.Forms.TextBox();
+            this.TB_Birth = new System.Windows.Forms.TextBox();
             this.lb_Phone = new System.Windows.Forms.Label();
             this.TB_Phone = new System.Windows.Forms.TextBox();
             this.lb_Email = new System.Windows.Forms.Label();
             this.TB_Email = new System.Windows.Forms.TextBox();
             this.lb_Address = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.RTB_Address = new System.Windows.Forms.RichTextBox();
             this.btn_ChangePassword = new System.Windows.Forms.Button();
             this.btn_OK = new System.Windows.Forms.Button();
-            this.TB_Month = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lb_Name
@@ -70,21 +68,13 @@
             this.lb_Birthday.TabIndex = 2;
             this.lb_Birthday.Text = "Дата Рождения";
             // 
-            // TB_Year
+            // TB_Birth
             // 
-            this.TB_Year.Location = new System.Drawing.Point(208, 67);
-            this.TB_Year.Name = "TB_Year";
-            this.TB_Year.ReadOnly = true;
-            this.TB_Year.Size = new System.Drawing.Size(31, 20);
-            this.TB_Year.TabIndex = 13;
-            // 
-            // TB_Day
-            // 
-            this.TB_Day.Location = new System.Drawing.Point(103, 67);
-            this.TB_Day.Name = "TB_Day";
-            this.TB_Day.ReadOnly = true;
-            this.TB_Day.Size = new System.Drawing.Size(20, 20);
-            this.TB_Day.TabIndex = 11;
+            this.TB_Birth.Location = new System.Drawing.Point(106, 67);
+            this.TB_Birth.Name = "TB_Birth";
+            this.TB_Birth.ReadOnly = true;
+            this.TB_Birth.Size = new System.Drawing.Size(133, 20);
+            this.TB_Birth.TabIndex = 13;
             // 
             // lb_Phone
             // 
@@ -129,14 +119,14 @@
             this.lb_Address.TabIndex = 18;
             this.lb_Address.Text = "Адрес";
             // 
-            // richTextBox1
+            // RTB_Address
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(58, 162);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(253, 96);
-            this.richTextBox1.TabIndex = 19;
-            this.richTextBox1.Text = "";
+            this.RTB_Address.Location = new System.Drawing.Point(58, 162);
+            this.RTB_Address.Name = "RTB_Address";
+            this.RTB_Address.ReadOnly = true;
+            this.RTB_Address.Size = new System.Drawing.Size(253, 96);
+            this.RTB_Address.TabIndex = 19;
+            this.RTB_Address.Text = "";
             // 
             // btn_ChangePassword
             // 
@@ -155,31 +145,22 @@
             this.btn_OK.TabIndex = 21;
             this.btn_OK.Text = "ОК";
             this.btn_OK.UseVisualStyleBackColor = true;
-            // 
-            // TB_Month
-            // 
-            this.TB_Month.Location = new System.Drawing.Point(130, 67);
-            this.TB_Month.Name = "TB_Month";
-            this.TB_Month.ReadOnly = true;
-            this.TB_Month.Size = new System.Drawing.Size(72, 20);
-            this.TB_Month.TabIndex = 22;
+            this.btn_OK.Click += new System.EventHandler(this.btn_OK_Click);
             // 
             // Librarian_Account
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(323, 331);
-            this.Controls.Add(this.TB_Month);
             this.Controls.Add(this.btn_OK);
             this.Controls.Add(this.btn_ChangePassword);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.RTB_Address);
             this.Controls.Add(this.lb_Address);
             this.Controls.Add(this.TB_Email);
             this.Controls.Add(this.lb_Email);
             this.Controls.Add(this.TB_Phone);
             this.Controls.Add(this.lb_Phone);
-            this.Controls.Add(this.TB_Year);
-            this.Controls.Add(this.TB_Day);
+            this.Controls.Add(this.TB_Birth);
             this.Controls.Add(this.lb_Birthday);
             this.Controls.Add(this.TB_Name);
             this.Controls.Add(this.lb_Name);
@@ -187,6 +168,7 @@
             this.MinimizeBox = false;
             this.Name = "Librarian_Account";
             this.Text = "Librarian_Account";
+            this.Load += new System.EventHandler(this.Librarian_Account_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -197,16 +179,14 @@
         private System.Windows.Forms.Label lb_Name;
         private System.Windows.Forms.TextBox TB_Name;
         private System.Windows.Forms.Label lb_Birthday;
-        private System.Windows.Forms.TextBox TB_Year;
-        private System.Windows.Forms.TextBox TB_Day;
+        private System.Windows.Forms.TextBox TB_Birth;
         private System.Windows.Forms.Label lb_Phone;
         private System.Windows.Forms.TextBox TB_Phone;
         private System.Windows.Forms.Label lb_Email;
         private System.Windows.Forms.TextBox TB_Email;
         private System.Windows.Forms.Label lb_Address;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox RTB_Address;
         private System.Windows.Forms.Button btn_ChangePassword;
         private System.Windows.Forms.Button btn_OK;
-        private System.Windows.Forms.TextBox TB_Month;
     }
 }

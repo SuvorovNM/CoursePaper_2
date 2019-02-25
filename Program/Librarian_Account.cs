@@ -16,5 +16,19 @@ namespace Program
         {
             InitializeComponent();
         }
+
+        private void Librarian_Account_Load(object sender, EventArgs e)
+        {
+            TB_Name.Text = MainMenu.CurrentLibrarian.FIO;
+            TB_Birth.Text = MainMenu.CurrentLibrarian.Birth;
+            TB_Phone.Text = MainMenu.CurrentLibrarian.Phone;
+            TB_Email.Text = MainMenu.CurrentLibrarian.Email;
+            RTB_Address.Text = MainMenu.CurrentLibrarian.Address;
+        }
+
+        private void btn_OK_Click(object sender, EventArgs e)
+        {            
+            Close();
+        }
     }
 }

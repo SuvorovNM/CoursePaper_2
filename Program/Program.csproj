@@ -46,6 +46,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddBook.Designer.cs">
+      <DependentUpon>AddBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddReader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddReader.Designer.cs">
+      <DependentUpon>AddReader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BookInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BookInfo.Designer.cs">
+      <DependentUpon>BookInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Books.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +76,8 @@
     <Compile Include="CurrentBooks.Designer.cs">
       <DependentUpon>CurrentBooks.cs</DependentUpon>
     </Compile>
+    <Compile Include="DBSQLServerUtils.cs" />
+    <Compile Include="DBUtils.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +102,7 @@
     <Compile Include="Journal.Designer.cs">
       <DependentUpon>Journal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Librarian.cs" />
     <Compile Include="Librarian_Account.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +123,22 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reader.cs" />
+    <Compile Include="ReaderInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReaderInfo.Designer.cs">
+      <DependentUpon>ReaderInfo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AddBook.resx">
+      <DependentUpon>AddBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddReader.resx">
+      <DependentUpon>AddReader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BookInfo.resx">
+      <DependentUpon>BookInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Books.resx">
       <DependentUpon>Books.cs</DependentUpon>
     </EmbeddedResource>
@@ -139,6 +176,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="ReaderInfo.resx">
+      <DependentUpon>ReaderInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

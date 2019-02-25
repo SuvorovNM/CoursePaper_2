@@ -204,6 +204,7 @@
             // 
             // DGV_Readers
             // 
+            this.DGV_Readers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
             this.DGV_Readers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Readers.Location = new System.Drawing.Point(154, 48);
             this.DGV_Readers.Name = "DGV_Readers";
@@ -216,50 +217,65 @@
             this.TB_LibraryCard.Name = "TB_LibraryCard";
             this.TB_LibraryCard.Size = new System.Drawing.Size(136, 20);
             this.TB_LibraryCard.TabIndex = 3;
+            this.TB_LibraryCard.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LibraryCard_KeyPress);
             // 
             // CB_ReaderTicket
             // 
             this.CB_ReaderTicket.AutoSize = true;
+            this.CB_ReaderTicket.Checked = true;
+            this.CB_ReaderTicket.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CB_ReaderTicket.Location = new System.Drawing.Point(12, 48);
             this.CB_ReaderTicket.Name = "CB_ReaderTicket";
             this.CB_ReaderTicket.Size = new System.Drawing.Size(130, 17);
             this.CB_ReaderTicket.TabIndex = 4;
             this.CB_ReaderTicket.Text = "Читательский билет";
             this.CB_ReaderTicket.UseVisualStyleBackColor = true;
+            this.CB_ReaderTicket.CheckedChanged += new System.EventHandler(this.CB_ReaderTicket_CheckedChanged);
             // 
             // CB_Name
             // 
             this.CB_Name.AutoSize = true;
+            this.CB_Name.Checked = true;
+            this.CB_Name.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CB_Name.Location = new System.Drawing.Point(13, 98);
             this.CB_Name.Name = "CB_Name";
             this.CB_Name.Size = new System.Drawing.Size(53, 17);
             this.CB_Name.TabIndex = 5;
             this.CB_Name.Text = "ФИО";
             this.CB_Name.UseVisualStyleBackColor = true;
+            this.CB_Name.CheckedChanged += new System.EventHandler(this.CB_Name_CheckedChanged);
             // 
             // TB_FIO
             // 
             this.TB_FIO.Location = new System.Drawing.Point(12, 122);
+            this.TB_FIO.MaxLength = 60;
             this.TB_FIO.Name = "TB_FIO";
             this.TB_FIO.Size = new System.Drawing.Size(136, 20);
             this.TB_FIO.TabIndex = 6;
+            this.TB_FIO.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_FIO_KeyPress);
             // 
             // CB_Birthday
             // 
             this.CB_Birthday.AutoSize = true;
+            this.CB_Birthday.Checked = true;
+            this.CB_Birthday.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CB_Birthday.Location = new System.Drawing.Point(12, 149);
             this.CB_Birthday.Name = "CB_Birthday";
             this.CB_Birthday.Size = new System.Drawing.Size(105, 17);
             this.CB_Birthday.TabIndex = 7;
             this.CB_Birthday.Text = "Дата рождения";
             this.CB_Birthday.UseVisualStyleBackColor = true;
+            this.CB_Birthday.CheckedChanged += new System.EventHandler(this.CB_Birthday_CheckedChanged);
             // 
             // TB_Day
             // 
             this.TB_Day.Location = new System.Drawing.Point(12, 173);
+            this.TB_Day.MaxLength = 2;
             this.TB_Day.Name = "TB_Day";
             this.TB_Day.Size = new System.Drawing.Size(20, 20);
             this.TB_Day.TabIndex = 8;
+            this.TB_Day.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_Day_KeyPress);
+            this.TB_Day.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TB_Day_KeyUp);
             // 
             // CB_Month
             // 
@@ -286,9 +302,12 @@
             // TB_Year
             // 
             this.TB_Year.Location = new System.Drawing.Point(117, 173);
+            this.TB_Year.MaxLength = 4;
             this.TB_Year.Name = "TB_Year";
             this.TB_Year.Size = new System.Drawing.Size(31, 20);
             this.TB_Year.TabIndex = 10;
+            this.TB_Year.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_Year_KeyPress);
+            this.TB_Year.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TB_Year_KeyUp);
             // 
             // CB_Phone
             // 
@@ -299,13 +318,16 @@
             this.CB_Phone.TabIndex = 11;
             this.CB_Phone.Text = "Телефон";
             this.CB_Phone.UseVisualStyleBackColor = true;
+            this.CB_Phone.CheckedChanged += new System.EventHandler(this.CB_Phone_CheckedChanged);
             // 
             // TB_PhoneNumber
             // 
             this.TB_PhoneNumber.Location = new System.Drawing.Point(12, 224);
+            this.TB_PhoneNumber.MaxLength = 18;
             this.TB_PhoneNumber.Name = "TB_PhoneNumber";
             this.TB_PhoneNumber.Size = new System.Drawing.Size(136, 20);
             this.TB_PhoneNumber.TabIndex = 12;
+            this.TB_PhoneNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_PhoneNumber_KeyPress);
             // 
             // CB_Email
             // 
@@ -316,13 +338,17 @@
             this.CB_Email.TabIndex = 13;
             this.CB_Email.Text = "e-mail";
             this.CB_Email.UseVisualStyleBackColor = true;
+            this.CB_Email.CheckedChanged += new System.EventHandler(this.CB_Email_CheckedChanged);
             // 
             // TB_Email
             // 
             this.TB_Email.Location = new System.Drawing.Point(12, 275);
+            this.TB_Email.MaxLength = 40;
             this.TB_Email.Name = "TB_Email";
             this.TB_Email.Size = new System.Drawing.Size(136, 20);
             this.TB_Email.TabIndex = 14;
+            this.TB_Email.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_Email_KeyPress);
+            this.TB_Email.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TB_Email_KeyUp);
             // 
             // btn_ApplyFilter
             // 
@@ -332,6 +358,7 @@
             this.btn_ApplyFilter.TabIndex = 19;
             this.btn_ApplyFilter.Text = "Применить фильтр";
             this.btn_ApplyFilter.UseVisualStyleBackColor = true;
+            this.btn_ApplyFilter.Click += new System.EventHandler(this.btn_ApplyFilter_Click);
             // 
             // btn_FilterReset
             // 
@@ -341,6 +368,7 @@
             this.btn_FilterReset.TabIndex = 20;
             this.btn_FilterReset.Text = "Сбросить фильтр";
             this.btn_FilterReset.UseVisualStyleBackColor = true;
+            this.btn_FilterReset.Click += new System.EventHandler(this.btn_FilterReset_Click);
             // 
             // btn_Delete
             // 
@@ -350,6 +378,7 @@
             this.btn_Delete.Size = new System.Drawing.Size(33, 34);
             this.btn_Delete.TabIndex = 18;
             this.btn_Delete.UseVisualStyleBackColor = true;
+            this.btn_Delete.Click += new System.EventHandler(this.btn_Delete_Click);
             // 
             // btn_Change
             // 
@@ -359,6 +388,7 @@
             this.btn_Change.Size = new System.Drawing.Size(33, 34);
             this.btn_Change.TabIndex = 17;
             this.btn_Change.UseVisualStyleBackColor = true;
+            this.btn_Change.Click += new System.EventHandler(this.btn_Change_Click);
             // 
             // btn_Add
             // 
@@ -368,6 +398,7 @@
             this.btn_Add.Size = new System.Drawing.Size(33, 34);
             this.btn_Add.TabIndex = 16;
             this.btn_Add.UseVisualStyleBackColor = true;
+            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
             // 
             // btn_Info
             // 
@@ -377,6 +408,7 @@
             this.btn_Info.Size = new System.Drawing.Size(33, 34);
             this.btn_Info.TabIndex = 15;
             this.btn_Info.UseVisualStyleBackColor = true;
+            this.btn_Info.Click += new System.EventHandler(this.btn_Info_Click);
             // 
             // MainMenu
             // 
@@ -408,6 +440,7 @@
             this.Name = "MainMenu";
             this.Text = "Главное меню";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainMenu_FormClosed);
+            this.Load += new System.EventHandler(this.MainMenu_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Readers)).EndInit();
