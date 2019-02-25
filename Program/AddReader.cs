@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Data.SqlClient;
+using System.Data.Common;
 
 namespace Program
 {
     public partial class AddReader : Form
     {
-        static string patEmail = @"^(?(')('.+?(?<!\\)'@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
+        static string patEmail = @"^(?(')('.+?(?<!\\)'@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
         static string patCity = @"^[a-zA-Zа-яА-Я]+(?:[\s-][a-zA-Zа-яА-Я]+)*$";
         Regex rgEmail = new Regex(patEmail);
         Regex rgCity = new Regex(patCity);
@@ -30,6 +32,96 @@ namespace Program
         private void btn_OK_Click(object sender, EventArgs e)
         {
             //Проверка и добавление в БД
+            //Проверка
+            bool OK = true;
+            string command = "insert into Address(Region, City, Street, House_Number, Flat_Number, Deleted) values ('"+CB_Region.Text+"', '"+TB_City.Text+"', '"+TB_Street.Text+"', '"+TB_House.Text+"', '"+TB_Flat.Text+"', 0)";
+            SqlCommand cmd = new SqlCommand(command, Authorization.conn);
+            try
+            {
+                DbDataReader reader = cmd.ExecuteReader();
+                reader.Close();
+            }
+            catch
+            {                
+                OK = false;
+            }
+            if (OK)
+            {
+                string command1 = "select max(Address_ID) from Address";
+                cmd = new SqlCommand(command1, Authorization.conn);
+                DbDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                string Address_ID = reader[0].ToString();
+                reader.Close();//                
+                //Определение даты рождения
+                string ind = (CB_Month.SelectedIndex + 1).ToString();
+                //ind++;
+                if (ind.Length == 1)
+                {
+                    ind = "0" + ind;
+                }
+                string day = TB_Day.Text;
+                if (day.Length == 1)
+                {
+                    day = "0" + day;
+                }
+                string date = TB_Year.Text + "-" + ind + "-" + day;
+                command1 = "insert into Person(FIO, Birthday, Phone_Number, Email, Address_Code, Deleted) values ('"+TB_Name.Text+"', '"+date+"', '"+TB_Phone.Text+"', '"+TB_Email.Text+"', '"+Address_ID+"', 0)";
+                cmd = new SqlCommand(command1, Authorization.conn);
+                try
+                {
+                    reader = cmd.ExecuteReader();
+                    reader.Close();
+                }
+                catch
+                {
+                    OK = false;
+                    command1 = "delete from Address where Address_ID="+Address_ID;
+                    cmd = new SqlCommand(command1, Authorization.conn);
+                    reader =cmd.ExecuteReader();
+                    reader.Close();
+                }
+                if (OK)
+                {
+                    string command2 = "select max(Person_ID) from Person";
+                    cmd = new SqlCommand(command2, Authorization.conn);
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
+                    string Person_ID = reader[0].ToString();
+                    reader.Close();                    
+                    string RegisterDate = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
+                    command2 = "insert into Reader(Person_Code, Registration_Date, Deleted) values ('" + Person_ID + "', '" + RegisterDate + "', 0)";
+                    cmd = new SqlCommand(command2, Authorization.conn);
+                    try
+                    {
+                        reader = cmd.ExecuteReader();
+                        reader.Close();
+                        //UPDATE
+                        
+                    }
+                    catch
+                    {
+                        OK = false;
+                        command2 = "delete from Person where Person_ID=" + Person_ID;
+                        cmd = new SqlCommand(command2, Authorization.conn);
+                        reader = cmd.ExecuteReader();
+                        reader.Close();
+                        command1 = "delete from Address where Address_ID=" + Address_ID;
+                        cmd = new SqlCommand(command1, Authorization.conn);
+                        reader=cmd.ExecuteReader();
+                        reader.Close();
+                        
+                    }
+                }
+            }
+            if (!OK)
+            {
+                MessageBox.Show("Хотя бы 1 из полей не заполнено/заполнено некорректно");
+            }
+            else
+            {
+                Close();
+            }
         }
 
         private void TB_Name_KeyPress(object sender, KeyPressEventArgs e)
@@ -41,7 +133,7 @@ namespace Program
 
         private void TB_Phone_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8) || (e.KeyChar == '-') || (e.KeyChar == '+') || (e.KeyChar == '(') || (e.KeyChar == ')')) return;
+            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8)) return;
             else
                 e.Handled = true;
         }

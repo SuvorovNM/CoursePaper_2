@@ -245,7 +245,7 @@ namespace Program
 
         private void TB_PhoneNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8) || (e.KeyChar == '-') || (e.KeyChar == '+') || (e.KeyChar == '(') || (e.KeyChar == ')')) return;
+            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8)) return;
             else
                 e.Handled = true;
         }
@@ -270,7 +270,7 @@ namespace Program
             OutputReaders("");
         }
 
-        private void OutputReaders(string filter)
+        public void OutputReaders(string filter)
         {
             string Columns = "";
             bool AtLeastOne = false;//->false
@@ -347,6 +347,7 @@ namespace Program
                 //btn_Add.Enabled = true;
                 btn_Change.Enabled = true;
                 btn_Delete.Enabled = true;
+                TSM_Readers.Enabled = true;
             }
             else
             {
@@ -354,6 +355,7 @@ namespace Program
                 //btn_Add.Enabled = false;
                 btn_Change.Enabled = false;
                 btn_Delete.Enabled = false;
+                TSM_Readers.Enabled = false;
             }
         }
 
@@ -493,5 +495,9 @@ namespace Program
                 ChosenFilters[4] = false;
             }
         }
+        /*public static void RefreshDGV()
+        {
+            
+        }*/
     }
 }
