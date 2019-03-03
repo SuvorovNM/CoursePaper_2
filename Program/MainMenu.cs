@@ -19,13 +19,13 @@ namespace Program
         static string patEmail = @"^(?(')('.+?(?<!\\)'@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
         Regex rgEmail = new Regex(patEmail);
         public static Authorization enter;
-        public static string SelectedReader="1";
+        public static string SelectedReader = "1";
         bool[] ChosenColumns = new bool[5];
         bool[] ChosenFilters = new bool[5];
         string LastQuery = "";
         //string[] Filters = { };
         //enum Cols { Library_Card, FIO, Birthday, Phone_Number, Email };
-        string[] Cols ={ "Library_Card", "FIO", "Birthday", "Phone_Number", "Email" };
+        string[] Cols = { "Library_Card", "FIO", "Birthday", "Phone_Number", "Email" };
         string[] ColsForUser = { @"'№'", "'ФИО'", "'Дата рождения'", "'Номер телефона'", "'Email'" };
         public MainMenu()
         {
@@ -122,9 +122,21 @@ namespace Program
 
         private void btn_Change_Click(object sender, EventArgs e)
         {
-            //Открытие окна с внесенными данными
-            AddReader formChangeReader = new AddReader();
-            formChangeReader.ShowDialog();
+            //Открытие окна с внесенными данными            
+            string CheckForExistance = "select Person_ID, Address_ID from Reader, Person, Address where Reader.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Library_Card=" + SelectedReader;
+            SqlCommand command = new SqlCommand(CheckForExistance, Authorization.conn);
+            DbDataReader reader = command.ExecuteReader();
+            bool Exist = reader.HasRows;
+            reader.Close();
+            if (Exist)
+            {
+                AddReader formChangeReader = new AddReader(true);
+                formChangeReader.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Данный читатель уже был удален из базы. Обновите список читателей!");
+            }
         }
 
         private void btn_Delete_Click(object sender, EventArgs e)
@@ -133,7 +145,7 @@ namespace Program
             DialogResult dialogResult = MessageBox.Show("Вы точно хотите удалить данного читателя?", "Удаление", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                string CheckForExistance = "select Person_ID, Address_ID from Reader, Person, Address where Reader.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Library_Card="+SelectedReader;
+                string CheckForExistance = "select Person_ID, Address_ID from Reader, Person, Address where Reader.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Library_Card=" + SelectedReader;
                 SqlCommand command = new SqlCommand(CheckForExistance, Authorization.conn);
                 DbDataReader reader = command.ExecuteReader();
                 bool Exist = reader.HasRows;
@@ -142,8 +154,8 @@ namespace Program
                     reader.Read();
                     string Person_ID = reader[0].ToString();
                     string Address_ID = reader[1].ToString();
-                    reader.Close();                
-                    string UpdatingDelete = "update Reader set Deleted=1 where Library_Card='"+SelectedReader+"'";
+                    reader.Close();
+                    string UpdatingDelete = "update Reader set Deleted=1 where Library_Card='" + SelectedReader + "'";
                     command = new SqlCommand(UpdatingDelete, Authorization.conn);
                     reader = command.ExecuteReader();
                     reader.Close();
@@ -178,7 +190,7 @@ namespace Program
 
         private void TB_FIO_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsLetter(e.KeyChar)||(e.KeyChar==' ')|| (e.KeyChar == (char)8)) return;
+            if (Char.IsLetter(e.KeyChar) || (e.KeyChar == ' ') || (e.KeyChar == (char)8)) return;
             else
                 e.Handled = true;
 
@@ -189,7 +201,7 @@ namespace Program
             string[] values = new string[5];
             values[0] = TB_LibraryCard.Text;
             values[1] = TB_FIO.Text;
-            string ind = (CB_Month.SelectedIndex+1).ToString();
+            string ind = (CB_Month.SelectedIndex + 1).ToString();
             //ind++;
             if (ind.Length == 1)
             {
@@ -207,31 +219,36 @@ namespace Program
             for (int i = 0; i < values.Length; i++)
             {
                 if (ChosenFilters[i])
-                {
-                    FilterCode += " and " + Cols[i] + "= '" + values[i]+"'";
-                }
+                    if (i == 1)
+                    {
+                        FilterCode += " and " + Cols[i] + " like '%" + values[i] + "%'";
+                    }
+                    else
+                    {
+                        FilterCode += " and " + Cols[i] + "= '" + values[i] + "'";
+                    }
             }
             LastQuery = FilterCode;
             OutputReaders(FilterCode);
-            
+
         }
 
         private void TB_Email_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
+
         }
 
         private void TB_Email_KeyUp(object sender, KeyEventArgs e)
         {
-            if (TB_Email.Text!=null&& TB_Email.Text != "")
-            if (rgEmail.IsMatch(TB_Email.Text))
-            {
-                TB_Email.BackColor = Color.White;
-            }
-            else
-            {
-                TB_Email.BackColor = Color.LightPink;
-            }
+            if (TB_Email.Text != null && TB_Email.Text != "")
+                if (rgEmail.IsMatch(TB_Email.Text))
+                {
+                    TB_Email.BackColor = Color.White;
+                }
+                else
+                {
+                    TB_Email.BackColor = Color.LightPink;
+                }
             else
             {
                 TB_Email.BackColor = Color.White;
@@ -256,10 +273,10 @@ namespace Program
         {
             int day;
             Int32.TryParse(TB_Day.Text, out day);
-            if (day > 31||day<1)
+            if (day > 31 || day < 1)
             {
-                if (TB_Day.Text != ""&& TB_Day.Text != null)
-                TB_Day.BackColor = Color.LightPink;
+                if (TB_Day.Text != "" && TB_Day.Text != null)
+                    TB_Day.BackColor = Color.LightPink;
             }
             else
             {
@@ -333,7 +350,7 @@ namespace Program
             {
                 //"select "
                 //Первый и невидимый столец - ID читателя
-                string Readers = "select Library_Card, " + Columns + " from Reader, Person, Address where Reader.Person_Code=Person.Person_ID and Person.Address_Code=Address.Address_ID and Reader.Deleted=0"+filter;
+                string Readers = "select Library_Card, " + Columns + " from Reader, Person, Address where Reader.Person_Code=Person.Person_ID and Person.Address_Code=Address.Address_ID and Reader.Deleted=0" + filter;
                 SqlCommand cmd = new SqlCommand(Readers, Authorization.conn);
                 DbDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)

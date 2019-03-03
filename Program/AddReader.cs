@@ -15,10 +15,17 @@ namespace Program
 {
     public partial class AddReader : Form
     {
+        public AddReader(bool _Add)
+        {
+            InitializeComponent();
+            this.Add = _Add;
+        }
         static string patEmail = @"^(?(')('.+?(?<!\\)'@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
         static string patCity = @"^[a-zA-Zа-яА-Я]+(?:[\s-][a-zA-Zа-яА-Я]+)*$";
         Regex rgEmail = new Regex(patEmail);
         Regex rgCity = new Regex(patCity);
+        bool Add = false;
+        string reader = "";
         bool[] correct = new bool[11];
         private void CheckCorrect()
         {
@@ -39,6 +46,7 @@ namespace Program
         public AddReader()
         {
             InitializeComponent();
+            Add = false;
         }
 
         private void btn_Cancel_Click(object sender, EventArgs e)
@@ -51,40 +59,104 @@ namespace Program
             //Проверка и добавление в БД
             //Проверка
             bool OK = true;
-            string command = "insert into Address(Region, City, Street, House_Number, Flat_Number, Deleted) values ('" + CB_Region.Text + "', '" + TB_City.Text + "', '" + TB_Street.Text + "', '" + TB_House.Text + "', '" + TB_Flat.Text + "', 0)";
-            SqlCommand cmd = new SqlCommand(command, Authorization.conn);
-            try
+            //Добавление читателя
+            if (!Add)
             {
-                DbDataReader reader = cmd.ExecuteReader();
-                reader.Close();
+                string command = "insert into Address(Region, City, Street, House_Number, Flat_Number, Deleted) values ('" + CB_Region.Text + "', '" + TB_City.Text + "', '" + TB_Street.Text + "', '" + TB_House.Text + "', '" + TB_Flat.Text + "', 0)";
+                SqlCommand cmd = new SqlCommand(command, Authorization.conn);
+                try
+                {
+                    DbDataReader reader = cmd.ExecuteReader();
+                    reader.Close();
+                }
+                catch
+                {
+                    OK = false;
+                }
+
+                if (OK)
+                {
+                    string command1 = "select max(Address_ID) from Address";
+                    cmd = new SqlCommand(command1, Authorization.conn);
+                    DbDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    string Address_ID = reader[0].ToString();
+                    reader.Close();//                
+                                   //Определение даты рождения
+                    string ind = (CB_Month.SelectedIndex + 1).ToString();
+                    //ind++;
+                    if (ind.Length == 1)
+                    {
+                        ind = "0" + ind;
+                    }
+                    string day = TB_Day.Text;
+                    if (day.Length == 1)
+                    {
+                        day = "0" + day;
+                    }
+                    string date = TB_Year.Text + "-" + ind + "-" + day;
+                    command1 = "insert into Person(FIO, Birthday, Phone_Number, Email, Address_Code, Deleted) values ('" + TB_Name.Text + "', '" + date + "', '" + TB_Phone.Text + "', '" + TB_Email.Text + "', '" + Address_ID + "', 0)";
+                    cmd = new SqlCommand(command1, Authorization.conn);
+                    try
+                    {
+                        reader = cmd.ExecuteReader();
+                        reader.Close();
+                    }
+                    catch
+                    {
+                        OK = false;
+                        command1 = "delete from Address where Address_ID=" + Address_ID;
+                        cmd = new SqlCommand(command1, Authorization.conn);
+                        reader = cmd.ExecuteReader();
+                        reader.Close();
+                    }
+                    if (OK)
+                    {
+                        string command2 = "select max(Person_ID) from Person";
+                        cmd = new SqlCommand(command2, Authorization.conn);
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
+                        string Person_ID = reader[0].ToString();
+                        reader.Close();
+                        string RegisterDate = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
+                        command2 = "insert into Reader(Person_Code, Registration_Date, Deleted) values ('" + Person_ID + "', '" + RegisterDate + "', 0)";
+                        cmd = new SqlCommand(command2, Authorization.conn);
+                        try
+                        {
+                            reader = cmd.ExecuteReader();
+                            reader.Close();
+                            //UPDATE
+
+                        }
+                        catch
+                        {
+                            OK = false;
+                            command2 = "delete from Person where Person_ID=" + Person_ID;
+                            cmd = new SqlCommand(command2, Authorization.conn);
+                            reader = cmd.ExecuteReader();
+                            reader.Close();
+                            command1 = "delete from Address where Address_ID=" + Address_ID;
+                            cmd = new SqlCommand(command1, Authorization.conn);
+                            reader = cmd.ExecuteReader();
+                            reader.Close();
+
+                        }
+                    }
+                }
             }
-            catch
+            //Обновление информации о читателе
+            else
             {
-                OK = false;
-            }
-            if (OK)
-            {
-                string command1 = "select max(Address_ID) from Address";
-                cmd = new SqlCommand(command1, Authorization.conn);
+                string IDs = "select Person_ID, Address_ID from Reader, Person, Address where Reader.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Library_Card=" + MainMenu.SelectedReader;
+                SqlCommand cmd = new SqlCommand(IDs, Authorization.conn);
                 DbDataReader reader = cmd.ExecuteReader();
                 reader.Read();
-                string Address_ID = reader[0].ToString();
-                reader.Close();//                
-                //Определение даты рождения
-                string ind = (CB_Month.SelectedIndex + 1).ToString();
-                //ind++;
-                if (ind.Length == 1)
-                {
-                    ind = "0" + ind;
-                }
-                string day = TB_Day.Text;
-                if (day.Length == 1)
-                {
-                    day = "0" + day;
-                }
-                string date = TB_Year.Text + "-" + ind + "-" + day;
-                command1 = "insert into Person(FIO, Birthday, Phone_Number, Email, Address_Code, Deleted) values ('" + TB_Name.Text + "', '" + date + "', '" + TB_Phone.Text + "', '" + TB_Email.Text + "', '" + Address_ID + "', 0)";
-                cmd = new SqlCommand(command1, Authorization.conn);
+                string Person_ID = reader[0].ToString();
+                string Address_ID = reader[1].ToString();
+                reader.Close();
+                //string command = "insert into Address(Region, City, Street, House_Number, Flat_Number, Deleted) values ('" + CB_Region.Text + "', '" + TB_City.Text + "', '" + TB_Street.Text + "', '" + TB_House.Text + "', '" + TB_Flat.Text + "', 0)";
+                string command = "update Address set Region='"+ CB_Region.Text+"', City='"+ TB_City.Text + "', Street='"+ TB_Street.Text+ "', House_Number='"+ TB_House.Text + "', Flat_Number='"+ TB_Flat.Text+ "' where Address_ID=" + Address_ID;
+                cmd = new SqlCommand(command, Authorization.conn);
                 try
                 {
                     reader = cmd.ExecuteReader();
@@ -92,42 +164,36 @@ namespace Program
                 }
                 catch
                 {
+                    if (!reader.IsClosed)
+                        reader.Close();
                     OK = false;
-                    command1 = "delete from Address where Address_ID=" + Address_ID;
-                    cmd = new SqlCommand(command1, Authorization.conn);
-                    reader = cmd.ExecuteReader();
-                    reader.Close();
                 }
                 if (OK)
                 {
-                    string command2 = "select max(Person_ID) from Person";
-                    cmd = new SqlCommand(command2, Authorization.conn);
-                    reader = cmd.ExecuteReader();
-                    reader.Read();
-                    string Person_ID = reader[0].ToString();
-                    reader.Close();
-                    string RegisterDate = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
-                    command2 = "insert into Reader(Person_Code, Registration_Date, Deleted) values ('" + Person_ID + "', '" + RegisterDate + "', 0)";
-                    cmd = new SqlCommand(command2, Authorization.conn);
+                    //Получение ГГГГ-ММ-ДД
+                    string ind = (CB_Month.SelectedIndex + 1).ToString();
+                    if (ind.Length == 1)
+                    {
+                        ind = "0" + ind;
+                    }
+                    string day = TB_Day.Text;
+                    if (day.Length == 1)
+                    {
+                        day = "0" + day;
+                    }
+                    string date = TB_Year.Text + "-" + ind + "-" + day;
+                    command = "update Person set FIO='"+TB_Name.Text+"', Birthday='"+date+"', Phone_Number='"+TB_Phone.Text+"', Email='"+TB_Email.Text+"' where Person_ID="+Person_ID;
                     try
                     {
+                        cmd = new SqlCommand(command, Authorization.conn);
                         reader = cmd.ExecuteReader();
                         reader.Close();
-                        //UPDATE
-
                     }
                     catch
                     {
+                        if (!reader.IsClosed)
+                            reader.Close();
                         OK = false;
-                        command2 = "delete from Person where Person_ID=" + Person_ID;
-                        cmd = new SqlCommand(command2, Authorization.conn);
-                        reader = cmd.ExecuteReader();
-                        reader.Close();
-                        command1 = "delete from Address where Address_ID=" + Address_ID;
-                        cmd = new SqlCommand(command1, Authorization.conn);
-                        reader = cmd.ExecuteReader();
-                        reader.Close();
-
                     }
                 }
             }
@@ -244,6 +310,12 @@ namespace Program
                     correct[7] = false;
                     CheckCorrect();
                 }
+            else
+            {
+                TB_City.BackColor = Color.LightPink;
+                correct[7] = false;
+                CheckCorrect();
+            }
         }
 
         private void TB_City_KeyPress(object sender, KeyPressEventArgs e)
@@ -394,6 +466,44 @@ namespace Program
             {
                 correct[4] = false;
                 CheckCorrect();
+            }
+        }
+
+        private void AddReader_Load(object sender, EventArgs e)
+        {
+            if (Add)
+            {
+                string CheckForExistance = "select FIO, Birthday, Phone_Number, Email, Region, City, Street, House_Number, Flat_Number from Reader, Person, Address where Reader.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Library_Card=" + MainMenu.SelectedReader;
+                SqlCommand command = new SqlCommand(CheckForExistance, Authorization.conn);
+                DbDataReader reader = command.ExecuteReader();
+                bool exist = reader.HasRows;
+                if (exist)
+                {
+                    reader.Read();
+                    TB_Name.Text = reader[0].ToString();
+                    TB_Phone.Text = reader[2].ToString();
+                    TB_Email.Text = reader[3].ToString();
+                    //Выделение
+                    string birth = reader[1].ToString().Substring(0, reader[1].ToString().IndexOf(' '));
+                    string year = birth.Substring(6);
+                    string month = birth.Substring(3, 2);
+                    string day = birth.Substring(0,2);
+                    TB_Year.Text = year;
+                    TB_Day.Text = day;
+                    int MonthId = Int32.Parse(month);
+                    CB_Month.SelectedIndex = MonthId - 1;
+                    CB_Region.Text = reader[4].ToString();
+                    TB_City.Text = reader[5].ToString();
+                    TB_Street.Text = reader[6].ToString();
+                    TB_House.Text = reader[7].ToString();
+                    TB_Flat.Text = reader[8].ToString();
+                    reader.Close();
+                    btn_OK.Enabled = true;
+                    for (int i = 0; i < correct.Length; i++)
+                    {
+                        correct[i] = true;
+                    }
+                }
             }
         }
     }

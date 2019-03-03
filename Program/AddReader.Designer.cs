@@ -386,6 +386,7 @@
             this.MinimizeBox = false;
             this.Name = "AddReader";
             this.Text = "Добавление читателя";
+            this.Load += new System.EventHandler(this.AddReader_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -241,6 +241,7 @@
             this.MinimizeBox = false;
             this.Name = "BookInfo";
             this.Text = "Информация о книге";
+            this.Load += new System.EventHandler(this.BookInfo_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
