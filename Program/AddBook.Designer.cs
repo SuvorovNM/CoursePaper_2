@@ -196,6 +196,7 @@
             this.CB_PubType.Name = "CB_PubType";
             this.CB_PubType.Size = new System.Drawing.Size(205, 21);
             this.CB_PubType.TabIndex = 33;
+            this.CB_PubType.SelectedIndexChanged += new System.EventHandler(this.CB_PubType_SelectedIndexChanged);
             this.CB_PubType.DropDownClosed += new System.EventHandler(this.CB_PubType_DropDownClosed);
             this.CB_PubType.Click += new System.EventHandler(this.CB_PubType_Click);
             // 
@@ -271,6 +272,7 @@
             this.TB_ReleaseNumber.Name = "TB_ReleaseNumber";
             this.TB_ReleaseNumber.Size = new System.Drawing.Size(205, 20);
             this.TB_ReleaseNumber.TabIndex = 41;
+            this.TB_ReleaseNumber.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TB_ReleaseNumber_KeyUp);
             // 
             // btn_OK
             // 
@@ -280,6 +282,7 @@
             this.btn_OK.TabIndex = 42;
             this.btn_OK.Text = "OK";
             this.btn_OK.UseVisualStyleBackColor = true;
+            this.btn_OK.Click += new System.EventHandler(this.btn_OK_Click);
             // 
             // btn_Back
             // 

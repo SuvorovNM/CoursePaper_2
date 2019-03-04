@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Data.SqlClient;
+using System.Data.Common;
 
 namespace Program
 {
@@ -17,8 +19,16 @@ namespace Program
         Regex rgCity = new Regex(patCity);
         static string patISSN = @"^\d{4}-\d{3}[\dxX]$";
         Regex rgISSN = new Regex(patISSN);
+        bool[] correct = new bool[11];
+        bool IsUpdate = false;
         public AddBook()
         {
+            IsUpdate = false;
+            InitializeComponent();
+        }
+        public AddBook(bool Upd)
+        {
+            IsUpdate = Upd;
             InitializeComponent();
         }
 
@@ -68,11 +78,14 @@ namespace Program
                 if (rgCity.IsMatch(TB_City.Text))
                 {
                     TB_City.BackColor = Color.White;
+                    correct[10] = true;
                 }
                 else
                 {
                     TB_City.BackColor = Color.LightPink;
+                    correct[10] = false;
                 }
+            btn_OK.Enabled = Control.CheckCorrect(correct);
         }
 
         private void TB_Year_KeyUp(object sender, KeyEventArgs e)
@@ -82,11 +95,14 @@ namespace Program
             if (year > DateTime.Today.Year || year < 1300)
             {
                 TB_Year.BackColor = Color.LightPink;
+                correct[9] = false;
             }
             else
             {
                 TB_Year.BackColor = Color.White;
+                correct[9] = true;
             }
+            btn_OK.Enabled = Control.CheckCorrect(correct);
         }
 
         private void TB_Pages_KeyUp(object sender, KeyEventArgs e)
@@ -96,11 +112,14 @@ namespace Program
             if (pages < 1)
             {
                 TB_Pages.BackColor = Color.LightPink;
+                correct[6] = false;
             }
             else
             {
                 TB_Pages.BackColor = Color.White;
+                correct[6] = true;
             }
+            btn_OK.Enabled = Control.CheckCorrect(correct);
         }
 
         private void TB_BBK_KeyUp(object sender, KeyEventArgs e)
@@ -110,11 +129,14 @@ namespace Program
             if (temp.Length<2)
             {
                 TB_BBK.BackColor = Color.LightPink;
+                correct[3] = false;
             }
             else
             {
                 TB_BBK.BackColor = Color.White;
+                correct[3] = true;
             }
+            btn_OK.Enabled = Control.CheckCorrect(correct);
         }
 
         private void TB_ISBN_KeyUp(object sender, KeyEventArgs e)
@@ -124,31 +146,38 @@ namespace Program
                 if (rgISSN.IsMatch(TB_ISBN.Text))
                 {
                     TB_ISBN.BackColor = Color.White;
+                    correct[5] = true;
                 }
                 else
                 {
                     TB_ISBN.BackColor = Color.LightPink;
+                    correct[5] = false;
                 }
             }
             else if (TB_ISBN.Text.Length == 1 && TB_ISBN.Text[0] == '-')
             {
                 TB_ISBN.BackColor = Color.White;
+                correct[5] = true;
             }
             else if (TB_ISBN.Text.Length > 9)
             {
                 if (TB_ISBN.Text.Split('-').Length < 3|| TB_ISBN.Text.Split('-').Length > 5)
                 {
                     TB_ISBN.BackColor = Color.LightPink;
+                    correct[5] = false;
                 }
                 else
                 {
                     TB_ISBN.BackColor = Color.White;
+                    correct[5] = true;
                 }
             }
             else
             {
                 TB_ISBN.BackColor = Color.LightPink;
+                correct[5] = false;
             }
+            btn_OK.Enabled = Control.CheckCorrect(correct);
         }
 
         private void TB_UDK_KeyUp(object sender, KeyEventArgs e)
@@ -158,11 +187,14 @@ namespace Program
             if (temp.Length < 2)
             {
                 TB_UDK.BackColor = Color.LightPink;
+                correct[4] = false;
             }
             else
             {
                 TB_UDK.BackColor = Color.White;
+                correct[4] = true;
             }
+            btn_OK.Enabled = Control.CheckCorrect(correct);
         }
 
         private void TB_Name_KeyUp(object sender, KeyEventArgs e)
@@ -172,11 +204,14 @@ namespace Program
             if (temp.Length < 2)
             {
                 TB_Name.BackColor = Color.LightPink;
+                correct[1] = false;
             }
             else
             {
                 TB_Name.BackColor = Color.White;
+                correct[1] = true;
             }
+            btn_OK.Enabled = Control.CheckCorrect(correct);
         }
 
         private void TB_Author_KeyUp(object sender, KeyEventArgs e)
@@ -186,11 +221,14 @@ namespace Program
             if (temp.Length < 5)
             {
                 TB_Author.BackColor = Color.LightPink;
+                correct[2] = false;
             }
             else
             {
                 TB_Author.BackColor = Color.White;
+                correct[2] = true;
             }
+            btn_OK.Enabled = Control.CheckCorrect(correct);
         }
 
         private void TB_PubName_KeyUp(object sender, KeyEventArgs e)
@@ -200,11 +238,14 @@ namespace Program
             if (temp.Length < 2)
             {
                 TB_PubName.BackColor = Color.LightPink;
+                correct[8] = false;
             }
             else
             {
                 TB_PubName.BackColor = Color.White;
+                correct[8] = true;
             }
+            btn_OK.Enabled = Control.CheckCorrect(correct);
         }
 
         private void CB_PubType_Click(object sender, EventArgs e)
@@ -216,6 +257,61 @@ namespace Program
         {
             lb_ReleaseNumber.Visible = false;
             TB_ReleaseNumber.Visible = false;
+            if (!IsUpdate)
+            {
+                btn_OK.Enabled = false;
+            }
+            else
+            {
+                for (int i = 0; i < correct.Length; i++)
+                {
+                    correct[i] = true;
+                }
+                btn_OK.Enabled = true;
+                string SQLCheck = "select * from Book, Publication where Publication_ID=Publication_Code and Publication.Deleted=0 and Publication_ID="+Books.SelectedBook;
+                DbDataReader reader = Control.ExecCommand(SQLCheck);
+                bool IsBook = reader.HasRows;
+                reader.Close();
+                if (IsBook)//Выбрана книга
+                {
+                    CB_PubType.SelectedIndex = 0;
+                    CB_PubType.Enabled = false;
+                    string SQLInfo = "select Publication.Name, Author, BBK, UDK, ISBN, Page_Quantity, Publisher.Name, Year, City from Publication, Publisher, Book where Publication_Code=Publication_ID and Publisher_Code=Publisher_ID and Publication_ID="+Books.SelectedBook;
+                    reader = Control.ExecCommand(SQLInfo);
+                    reader.Read();
+                    TB_Name.Text = reader[0].ToString();
+                    TB_Author.Text = reader[1].ToString();
+                    TB_BBK.Text = reader[2].ToString();
+                    TB_UDK.Text = reader[3].ToString();
+                    TB_ISBN.Text = reader[4].ToString();
+                    TB_Pages.Text = reader[5].ToString();
+                    TB_PubName.Text = reader[6].ToString();
+                    TB_Year.Text = reader[7].ToString();
+                    TB_City.Text = reader[8].ToString();
+                    reader.Close();
+                }
+                else//Выбрано периодическое издание
+                {                    
+                    string SQLInfo = "select Publication.Name, Author, BBK, UDK, ISSN, Page_Quantity, Publisher.Name, Year, City, Release_Number from Publication, Publisher, Journal where Publication_Code=Publication_ID and Publisher_Code=Publisher_ID and Publication_ID=" + Books.SelectedBook;
+                    reader = Control.ExecCommand(SQLInfo);
+                    reader.Read();
+                    TB_Name.Text = reader[0].ToString();
+                    TB_Author.Text = reader[1].ToString();
+                    TB_BBK.Text = reader[2].ToString();
+                    TB_UDK.Text = reader[3].ToString();
+                    TB_ISBN.Text = reader[4].ToString();
+                    TB_Pages.Text = reader[5].ToString();
+                    TB_PubName.Text = reader[6].ToString();
+                    TB_Year.Text = reader[7].ToString();
+                    TB_City.Text = reader[8].ToString();
+                    TB_ReleaseNumber.Text = reader[9].ToString();
+                    CB_PubType.SelectedIndex = 1;
+                    CB_PubType.Enabled = false;
+                    lb_ReleaseNumber.Visible = true;
+                    TB_ReleaseNumber.Visible = true;
+                    reader.Close();
+                }
+            }
         }
 
         private void CB_PubType_DropDownClosed(object sender, EventArgs e)
@@ -231,6 +327,118 @@ namespace Program
                 lb_ReleaseNumber.Visible = false;
                 TB_ReleaseNumber.Visible = false;
             }
+        }
+
+        private void CB_PubType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CB_PubType.SelectedIndex==0)
+            {
+                correct[7] = true;
+            }
+            else
+            {
+                if (TB_ReleaseNumber.Text != null && TB_ReleaseNumber.Text != "")
+                {
+                    correct[7] = true;
+                }
+                else correct[7] = false;
+            }
+            correct[0] = true;
+            btn_OK.Enabled = Control.CheckCorrect(correct);
+        }
+
+        private void TB_ReleaseNumber_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (TB_ReleaseNumber.Text.Length > 0)
+            {
+                correct[7] = true;
+                TB_ReleaseNumber.BackColor = Color.White;
+            }
+            else
+            {
+                correct[7] = false;
+                TB_ReleaseNumber.BackColor = Color.LightPink;
+            }
+            btn_OK.Enabled = Control.CheckCorrect(correct);
+        }
+
+        private void btn_OK_Click(object sender, EventArgs e)
+        {
+            DbDataReader reader;
+            if (!IsUpdate)
+            {
+                int PubID=Control.AddNewPublisher(TB_PubName.Text, TB_Year.Text, TB_City.Text);
+                if (PubID == -1)
+                {
+                    MessageBox.Show("Поля издателя заполнены некорректно/неполностью!");
+                }
+                else
+                {
+                    int BookID = Control.AddNewPublication(TB_Name.Text, TB_BBK.Text, TB_UDK.Text, TB_Author.Text, PubID);
+                    if (BookID == -1)
+                    {
+                        MessageBox.Show("Поля издания заполнены некорректно/неполностью!");
+                        reader=Control.ExecCommand("delete from Publisher where Publisher_ID=" + PubID);
+                        reader.Close();
+                    }
+                    else
+                    {
+                        bool Added = false;
+                        if (CB_PubType.SelectedIndex == 0)//Если выбрана книга
+                        {
+                            Added = Control.AddNewBook(TB_ISBN.Text, TB_Pages.Text, BookID);
+                        }
+                        else //Если выбран журнал
+                        {
+                            Added = Control.AddNewJournal(TB_ReleaseNumber.Text, TB_ISBN.Text.Substring(0,9), TB_Pages.Text, BookID);
+                        }
+                        if (!Added)
+                        {
+                            MessageBox.Show("Поля издания заполнены некорректно/неполностью!");
+                            try
+                            {
+                                reader = Control.ExecCommand("delete from Publication where Publication_ID=" + BookID);
+                                reader.Close();
+                                reader = Control.ExecCommand("delete from Publisher where Publisher_ID=" + PubID);
+                                reader.Close();
+                            }
+                            catch { }
+                        }
+                        else
+                        {
+                            Close();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                bool OK = Control.UpdPublisher(TB_PubName.Text, TB_Year.Text, TB_City.Text);
+                if (OK)
+                {
+                    OK = Control.UpdPublication(TB_Name.Text, TB_BBK.Text, TB_UDK.Text, TB_Author.Text);
+                    if (OK)
+                    {
+                        if (CB_PubType.SelectedIndex == 0)//Выбрана книга
+                        {
+                            OK = Control.UpdBook(TB_ISBN.Text, TB_Pages.Text);
+                        }
+                        else//Выбран журнал
+                        {
+                            OK = Control.UpdJournal(TB_ISBN.Text, TB_Pages.Text, TB_ReleaseNumber.Text);
+                        }
+                    }
+                }
+                if (!OK)
+                {
+                    MessageBox.Show("Хотя бы 1 из полей заполнено некорректно!");
+                }
+                else
+                {
+                    Close();
+                }
+            }
+            
         }
         //Проверить остальные поля на press_up
     }

@@ -18,7 +18,7 @@ namespace Program
         bool[] ChosenFilters = new bool[7];
         string LastQuery = "";
         string[] Cols = { "Publication_ID", "Publication.Name", "Author", "Year", "BBK", "Available", "Publisher.Name" };
-        string[] ColsForUser = { @"'ID'", "'Название'", "'Автор'", "'Год'", "'ББК'", "'Наличие'", "'Издательство'" };
+        string[] ColsForUser = { @"'№'", "'Название'", "'Автор'", "'Год'", "'ББК'", "'Наличие'", "'Издательство'" };
         public static string SelectedBook = "1";
         public Books()
         {
@@ -33,7 +33,7 @@ namespace Program
 
         private void btn_Change_Click(object sender, EventArgs e)
         {
-            AddBook formBookChange = new AddBook();
+            AddBook formBookChange = new AddBook(true);
             formBookChange.ShowDialog();
         }
 
