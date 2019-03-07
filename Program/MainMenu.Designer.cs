@@ -212,7 +212,7 @@
             // 
             this.DGV_Readers.AllowUserToAddRows = false;
             this.DGV_Readers.AllowUserToDeleteRows = false;
-            this.DGV_Readers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
+            this.DGV_Readers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DGV_Readers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Readers.Location = new System.Drawing.Point(194, 48);
             this.DGV_Readers.MultiSelect = false;

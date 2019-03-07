@@ -25,6 +25,22 @@ namespace Program
             DbDataReader reader = command.ExecuteReader();
             return reader;
         }
+        //Сумма штрафа для заданного читателя
+        public static string GetPenalty(string Reader_ID)
+        {
+            string sql = "select sum(Penalty_Sum) from Penalty, BookGiving where Penalty_Code IS NOT NULL and Penalty.Deleted=0 and BookGiving.Deleted=0 and Penalty_Code=Penalty_ID and Librarian_Card_Code="+Reader_ID;
+            DbDataReader reader = null;
+            string penalty = "0";
+            reader = ExecCommand(sql);
+            if (reader.HasRows)
+            {
+                reader.Read();
+                penalty = reader[0].ToString();
+                reader.Close();
+            }
+            if (penalty == "") penalty = "0,00";
+            return penalty;
+        }
         //Принятие книги с записью штрафа:
         public static bool GetBook(string Publication_ID, string Operation_ID, string LibrarianReciever, string Penalty_Info, string Penalty_Sum)
         {

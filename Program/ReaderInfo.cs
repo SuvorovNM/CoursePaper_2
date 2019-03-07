@@ -47,6 +47,7 @@ namespace Program
                 RTB_Address.Text = "Регион: " + reader[5].ToString() + "; Город: " + reader[6].ToString() + "; Улица: " + reader[7].ToString() + "; Дом: " + reader[8].ToString() + "; Квартира: " + reader[9].ToString();
             }
             reader.Close();
+            TB_Penalty.Text = Control.GetPenalty(index);
         }
     }
 }

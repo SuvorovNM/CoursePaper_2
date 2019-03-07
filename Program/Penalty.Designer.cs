@@ -32,9 +32,6 @@
             this.lb_CurrentPenalty = new System.Windows.Forms.Label();
             this.TB_CurrentPenaltySum = new System.Windows.Forms.TextBox();
             this.lb_Currency = new System.Windows.Forms.Label();
-            this.lb_PaySum = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.lb_Currency1 = new System.Windows.Forms.Label();
             this.btn_Back = new System.Windows.Forms.Button();
             this.btn_Pay = new System.Windows.Forms.Button();
             this.DGV_Penalties = new System.Windows.Forms.DataGridView();
@@ -77,33 +74,6 @@
             this.lb_Currency.TabIndex = 3;
             this.lb_Currency.Text = "руб.";
             // 
-            // lb_PaySum
-            // 
-            this.lb_PaySum.AutoSize = true;
-            this.lb_PaySum.Location = new System.Drawing.Point(293, 342);
-            this.lb_PaySum.Name = "lb_PaySum";
-            this.lb_PaySum.Size = new System.Drawing.Size(99, 13);
-            this.lb_PaySum.TabIndex = 4;
-            this.lb_PaySum.Text = "Сумма погашения";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(399, 342);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(66, 20);
-            this.textBox1.TabIndex = 5;
-            this.textBox1.Text = "0";
-            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
-            // 
-            // lb_Currency1
-            // 
-            this.lb_Currency1.AutoSize = true;
-            this.lb_Currency1.Location = new System.Drawing.Point(469, 346);
-            this.lb_Currency1.Name = "lb_Currency1";
-            this.lb_Currency1.Size = new System.Drawing.Size(27, 13);
-            this.lb_Currency1.TabIndex = 6;
-            this.lb_Currency1.Text = "руб.";
-            // 
             // btn_Back
             // 
             this.btn_Back.Location = new System.Drawing.Point(12, 368);
@@ -122,14 +92,22 @@
             this.btn_Pay.TabIndex = 8;
             this.btn_Pay.Text = "Погасить штраф";
             this.btn_Pay.UseVisualStyleBackColor = true;
+            this.btn_Pay.Click += new System.EventHandler(this.btn_Pay_Click);
             // 
             // DGV_Penalties
             // 
+            this.DGV_Penalties.AllowUserToAddRows = false;
+            this.DGV_Penalties.AllowUserToDeleteRows = false;
+            this.DGV_Penalties.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedHeaders;
             this.DGV_Penalties.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Penalties.Location = new System.Drawing.Point(13, 54);
+            this.DGV_Penalties.MultiSelect = false;
             this.DGV_Penalties.Name = "DGV_Penalties";
-            this.DGV_Penalties.Size = new System.Drawing.Size(471, 273);
-            this.DGV_Penalties.TabIndex = 9;
+            this.DGV_Penalties.ReadOnly = true;
+            this.DGV_Penalties.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DGV_Penalties.Size = new System.Drawing.Size(485, 273);
+            this.DGV_Penalties.TabIndex = 1;
+            this.DGV_Penalties.SelectionChanged += new System.EventHandler(this.DGV_Penalties_SelectionChanged);
             // 
             // lb_Precedents
             // 
@@ -149,9 +127,6 @@
             this.Controls.Add(this.DGV_Penalties);
             this.Controls.Add(this.btn_Pay);
             this.Controls.Add(this.btn_Back);
-            this.Controls.Add(this.lb_Currency1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.lb_PaySum);
             this.Controls.Add(this.lb_Currency);
             this.Controls.Add(this.TB_CurrentPenaltySum);
             this.Controls.Add(this.lb_CurrentPenalty);
@@ -160,6 +135,7 @@
             this.MinimizeBox = false;
             this.Name = "Penalty";
             this.Text = "Штраф";
+            this.Load += new System.EventHandler(this.Penalty_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Penalties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -172,9 +148,6 @@
         private System.Windows.Forms.Label lb_CurrentPenalty;
         private System.Windows.Forms.TextBox TB_CurrentPenaltySum;
         private System.Windows.Forms.Label lb_Currency;
-        private System.Windows.Forms.Label lb_PaySum;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label lb_Currency1;
         private System.Windows.Forms.Button btn_Back;
         private System.Windows.Forms.Button btn_Pay;
         private System.Windows.Forms.DataGridView DGV_Penalties;
