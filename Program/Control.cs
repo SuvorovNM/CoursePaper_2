@@ -25,6 +25,132 @@ namespace Program
             DbDataReader reader = command.ExecuteReader();
             return reader;
         }
+        //Принятие книги с записью штрафа:
+        public static bool GetBook(string Publication_ID, string Operation_ID, string LibrarianReciever, string Penalty_Info, string Penalty_Sum)
+        {
+            string sql = "insert into Penalty (Penalty_Info, Penalty_Sum, Deleted) values ('"+Penalty_Info+"', '"+Penalty_Sum+"', 0)";
+            DbDataReader reader = null;
+            string Penalty_ID = "";
+            try
+            {
+                reader = ExecCommand(sql);
+                reader.Close();
+                sql = "select max(Penalty_ID) from Penalty";
+                reader = ExecCommand(sql);
+                reader.Read();
+                Penalty_ID = reader[0].ToString();
+                reader.Close();
+                string today = DateTime.Today.Year+"-"+DateTime.Today.Month+"-"+DateTime.Today.Day;
+                sql = "update BookGiving set Penalty_Code="+Penalty_ID+", Real_Return_Date='"+today+"', LibrarianReciever_Staff_Code="+LibrarianReciever+" where Operation_ID="+Operation_ID;
+                reader = ExecCommand(sql);
+                reader.Close();
+                sql = "update Publication set Available=1 where Publication_ID=" + Publication_ID;
+                reader = ExecCommand(sql);
+                reader.Close();
+                return true;
+            }
+            catch
+            {
+                if (reader != null)
+                    reader.Close();
+                return false;
+            }
+        }
+        public static bool GetBook(string Publication_ID, string Operation_ID, string LibrarianReciever)
+        {
+            string today = DateTime.Today.Year + "-" + DateTime.Today.Month + "-" + DateTime.Today.Day;
+            string sql = "update BookGiving set Real_Return_Date='" + today + "', LibrarianReciever_Staff_Code=" + LibrarianReciever + " where Operation_ID=" + Operation_ID;
+            DbDataReader reader = null;
+            try
+            {
+                reader = ExecCommand(sql);
+                reader.Close();
+                sql = "update Publication set Available=1 where Publication_ID=" + Publication_ID;
+                reader = ExecCommand(sql);
+                reader.Close();
+                return true;
+            }
+            catch
+            {
+                if (reader != null)
+                    reader.Close();
+                return false;
+            }
+        }
+        public static object[] GetInfoAboutGivenBook(string id)
+        //Получение информации о выданной книге (если она на самом деле выдана)
+        {
+            string sql = "select Librarian_Card_Code, Give_Date, Expected_Return_Date, Operation_ID from BookGiving where Publication_Code="+id+" and Real_Return_Date IS NULL";
+            DbDataReader reader = null;
+            try
+            {
+                reader = ExecCommand(sql);
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    object[] items = new object[4];
+                    items[0] = reader[0].ToString();
+                    items[1] = (DateTime)reader[1];
+                    items[2] = (DateTime)reader[2];
+                    items[3] = reader[3].ToString();
+                    reader.Close();
+                    return items;
+                }
+                else
+                {
+                    reader.Close();
+                    return null;
+                }                
+            }
+            catch
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                }
+                return null;
+            }
+        }
+        //Возвращает код операции выдачи
+        public static string GiveBook(string LibrarianGiver_Staff_Code, string Librarian_Card_Code, string Publication_Code, string Give_Date, string Expected_Return_Date)
+        {
+            string sql = "insert into BookGiving(LibrarianGiver_Staff_Code, Librarian_Card_Code, Publication_Code, Give_Date, Expected_Return_Date, Deleted) " +
+                "values ('" + LibrarianGiver_Staff_Code + "', '" + Librarian_Card_Code + "', '" + Publication_Code + "', '" + Give_Date + "', '" + Expected_Return_Date + "', 0)";
+            DbDataReader reader = null;
+            try
+            {
+                //Создание экземпляра "Выдача книг"
+                reader = ExecCommand(sql);
+                reader.Close();
+                //Поиск ID операции:
+                sql = "select max(Operation_ID) from BookGiving";
+                reader = ExecCommand(sql);
+                reader.Read();
+                string ID = reader[0].ToString();
+                reader.Close();
+                //Книги теперь нет в наличии:
+                sql = "update Publication set Available=0 where Publication_ID="+ Publication_Code;
+                reader = ExecCommand(sql);
+                reader.Close();
+                return ID;
+            }
+            catch
+            {
+                if (reader!=null)
+                reader.Close();
+                return "-1";
+            }
+        }
+        //Проверка на наличие книги в БД и ее наличия на складе
+        public static bool BookExists(string id)
+        {
+            bool exists=false;
+            string sql = "select * from Publication where Publication_ID="+id+" and Deleted=0 and Available=1";
+            DbDataReader reader = ExecCommand(sql);
+            exists = reader.HasRows;
+            reader.Close();
+            return exists;
+        }
         public static int AddNewPublisher(string Name, string Year, string City)
         //Возвращает -1, если не было добавлено
         //Возвращает индекс добавленного элемента, если добавление прошло успешно

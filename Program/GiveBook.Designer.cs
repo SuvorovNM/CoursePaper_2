@@ -37,11 +37,9 @@
             this.lb_GiveDate = new System.Windows.Forms.Label();
             this.TB_GiveDay = new System.Windows.Forms.TextBox();
             this.lb_GivenUntil = new System.Windows.Forms.Label();
-            this.TB_Year = new System.Windows.Forms.TextBox();
-            this.CB_Month = new System.Windows.Forms.ComboBox();
-            this.TB_Day = new System.Windows.Forms.TextBox();
             this.btn_OK = new System.Windows.Forms.Button();
             this.btn_Cancel = new System.Windows.Forms.Button();
+            this.DTP_GiveDate = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // lb_BookID
@@ -59,6 +57,8 @@
             this.TB_BookID.Name = "TB_BookID";
             this.TB_BookID.Size = new System.Drawing.Size(153, 20);
             this.TB_BookID.TabIndex = 1;
+            this.TB_BookID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_BookID_KeyPress);
+            this.TB_BookID.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TB_BookID_KeyUp);
             // 
             // lb_ReaderTicket
             // 
@@ -120,50 +120,16 @@
             this.lb_GivenUntil.TabIndex = 8;
             this.lb_GivenUntil.Text = "Выдано до:";
             // 
-            // TB_Year
-            // 
-            this.TB_Year.Location = new System.Drawing.Point(191, 135);
-            this.TB_Year.Name = "TB_Year";
-            this.TB_Year.Size = new System.Drawing.Size(31, 20);
-            this.TB_Year.TabIndex = 13;
-            // 
-            // CB_Month
-            // 
-            this.CB_Month.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Month.FormattingEnabled = true;
-            this.CB_Month.Items.AddRange(new object[] {
-            "Январь",
-            "Февраль",
-            "Март",
-            "Апрель",
-            "Март",
-            "Июнь",
-            "Июль",
-            "Август",
-            "Сентябрь",
-            "Октябрь",
-            "Ноябрь",
-            "Декабрь"});
-            this.CB_Month.Location = new System.Drawing.Point(112, 135);
-            this.CB_Month.Name = "CB_Month";
-            this.CB_Month.Size = new System.Drawing.Size(73, 21);
-            this.CB_Month.TabIndex = 12;
-            // 
-            // TB_Day
-            // 
-            this.TB_Day.Location = new System.Drawing.Point(86, 135);
-            this.TB_Day.Name = "TB_Day";
-            this.TB_Day.Size = new System.Drawing.Size(20, 20);
-            this.TB_Day.TabIndex = 11;
-            // 
             // btn_OK
             // 
+            this.btn_OK.Enabled = false;
             this.btn_OK.Location = new System.Drawing.Point(191, 224);
             this.btn_OK.Name = "btn_OK";
             this.btn_OK.Size = new System.Drawing.Size(106, 23);
             this.btn_OK.TabIndex = 14;
             this.btn_OK.Text = "Выдать книгу";
             this.btn_OK.UseVisualStyleBackColor = true;
+            this.btn_OK.Click += new System.EventHandler(this.btn_OK_Click);
             // 
             // btn_Cancel
             // 
@@ -175,16 +141,22 @@
             this.btn_Cancel.UseVisualStyleBackColor = true;
             this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
             // 
+            // DTP_GiveDate
+            // 
+            this.DTP_GiveDate.Location = new System.Drawing.Point(81, 136);
+            this.DTP_GiveDate.Name = "DTP_GiveDate";
+            this.DTP_GiveDate.Size = new System.Drawing.Size(200, 20);
+            this.DTP_GiveDate.TabIndex = 16;
+            this.DTP_GiveDate.ValueChanged += new System.EventHandler(this.DTP_GiveDate_ValueChanged);
+            // 
             // GiveBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(309, 259);
+            this.Controls.Add(this.DTP_GiveDate);
             this.Controls.Add(this.btn_Cancel);
             this.Controls.Add(this.btn_OK);
-            this.Controls.Add(this.TB_Year);
-            this.Controls.Add(this.CB_Month);
-            this.Controls.Add(this.TB_Day);
             this.Controls.Add(this.lb_GivenUntil);
             this.Controls.Add(this.TB_GiveDay);
             this.Controls.Add(this.lb_GiveDate);
@@ -198,6 +170,7 @@
             this.MinimizeBox = false;
             this.Name = "GiveBook";
             this.Text = "Выдача книги";
+            this.Load += new System.EventHandler(this.GiveBook_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -214,10 +187,8 @@
         private System.Windows.Forms.Label lb_GiveDate;
         private System.Windows.Forms.TextBox TB_GiveDay;
         private System.Windows.Forms.Label lb_GivenUntil;
-        private System.Windows.Forms.TextBox TB_Year;
-        private System.Windows.Forms.ComboBox CB_Month;
-        private System.Windows.Forms.TextBox TB_Day;
         private System.Windows.Forms.Button btn_OK;
         private System.Windows.Forms.Button btn_Cancel;
+        private System.Windows.Forms.DateTimePicker DTP_GiveDate;
     }
 }
