@@ -85,6 +85,11 @@ namespace Program
                     TB_City.BackColor = Color.LightPink;
                     correct[10] = false;
                 }
+            else
+            {
+                TB_City.BackColor = Color.LightPink;
+                correct[10] = false;
+            }
             btn_OK.Enabled = Control.CheckCorrect(correct);
         }
 

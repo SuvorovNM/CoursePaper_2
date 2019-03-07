@@ -45,7 +45,48 @@ namespace Program
 
         private void btn_Delete_Click(object sender, EventArgs e)
         {
-            //MessageBox -Удалить книгу -(да/нет)
+            DialogResult dialogResult = MessageBox.Show("Вы точно хотите удалить данного читателя?", "Удаление", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                string CheckingExistSQL = "select Publisher_Code from Publisher, Publication where Publication.Deleted=0 and Publisher_Code=Publisher_ID and Publication_ID=" + SelectedBook;
+                DbDataReader reader = Control.ExecCommand(CheckingExistSQL);
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    string Publisher_Code = reader[0].ToString();
+                    reader.Close();
+                    string SQLUpd1 = "update Publisher set Deleted=1 where Publisher_ID="+Publisher_Code;
+                    string SQLUpd2 = "update Publication set Deleted=1 where Publication_ID="+SelectedBook;
+                    string SQLCheck = "select * from Book where Publication_Code="+SelectedBook;
+                    //Удаление издателя
+                    reader = Control.ExecCommand(SQLUpd1);
+                    reader.Close();
+                    //Удаление издания
+                    reader = Control.ExecCommand(SQLUpd2);
+                    reader.Close();
+                    //Проверка, что в Book есть книга с Publication_Code
+                    reader = Control.ExecCommand(SQLCheck);
+                    bool IsBook = reader.HasRows;
+                    reader.Close();
+                    if (IsBook)//Если удаляется книга
+                    {
+                        string SQLUpd3 = "update Book set Deleted=1 where Publication_Code="+SelectedBook;
+                        reader = Control.ExecCommand(SQLUpd3);
+                        reader.Close();
+                    }
+                    else//Если удаляется периодическое издание
+                    {
+                        string SQLUpd3 = "update Journal set Deleted=1 where Publication_Code=" + SelectedBook;
+                        reader = Control.ExecCommand(SQLUpd3);
+                        reader.Close();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Данная книга уже была удалена. Обновите список книг!");
+                }
+                reader.Close();
+            }
         }
 
         private void btn_ApplyFilter_Click(object sender, EventArgs e)
