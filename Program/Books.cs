@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data.Common;
 
+
 namespace Program
 {
     public partial class Books : Form
@@ -435,6 +436,11 @@ namespace Program
         {
             if (DGV_Books.Rows.Count > 0)
                 SelectedBook = DGV_Books.CurrentRow.Cells[0].Value.ToString();
+        }
+
+        private void btn_Import_Click(object sender, EventArgs e)
+        {
+            Control.XLInput(@"L:\КР_2курс\Program\List.xlsx");
         }
     }
 }

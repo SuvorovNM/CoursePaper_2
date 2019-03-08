@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data.Common;
+using ClosedXML;
+using ClosedXML.Excel;
 
 namespace Program
 {
@@ -18,6 +20,87 @@ namespace Program
                 OK = OK && correct[i];
             }
             return OK;
+        }
+        public static bool XLInput(string path)
+        {
+            bool CorrectInput = true;
+            using (var workbook = new XLWorkbook(path))
+            {
+                var worksheet = workbook.Worksheets.Worksheet(1);//Position 0/1?
+                string quantity = worksheet.Cell("A1").Value.ToString();
+                int size=0;
+                CorrectInput = Int32.TryParse(quantity, out size);
+                if (!CorrectInput) return false;
+                object[,] books = new object[size, 11];
+                try
+                {
+                    for (int i = 0; i < size; i++)
+                    {
+                        for (int j = 0; j < 11; j++)
+                        {
+                            books[i, j] = worksheet.Cell(i + 2, j+1).Value;
+                        }
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
+                DbDataReader reader = null;
+                /* string sql = "";
+                 SqlCommand command = new SqlCommand(sql,Authorization.conn);*/
+                try
+                {
+                    for (int i = 0; i < size; i++)
+                    {
+                        string IsBook = books[i, 0].ToString();
+                        string Name = books[i, 1].ToString();
+                        string Author = books[i, 2].ToString();
+                        string TypePub = books[i, 0].ToString();
+                        string BBK = books[i, 3].ToString();
+                        string UDK = books[i, 4].ToString();
+                        string ISBN = books[i, 5].ToString();
+                        string Pages = books[i, 6].ToString();
+                        string PubName = books[i, 7].ToString();
+                        string PubYear = books[i, 8].ToString();
+                        string PubCity = books[i, 9].ToString();
+                        string Number = books[i, 10].ToString();
+                        int PubCode = AddNewPublisher(PubName, PubYear, PubCity);
+                        int Pub_ID = 0;
+                        if (PubCode > 0)
+                        {
+                            Pub_ID = AddNewPublication(Name, BBK, UDK, Author, PubCode);
+                            if (Pub_ID > 0)
+                            {
+                                if (IsBook == "0")
+                                {
+                                    AddNewBook(ISBN, Pages, Pub_ID);
+                                }
+                                else if (IsBook == "1")
+                                {
+                                    AddNewJournal(Number, ISBN, Pages, Pub_ID);
+                                }
+                                else
+                                {
+                                    string sql = "delete from Publication where Publication_ID="+Pub_ID;
+                                    reader = ExecCommand(sql);
+                                    reader.Close();
+                                    sql = "delete from Publisher where Publisher_ID" + PubCode;
+                                    reader = ExecCommand(sql);
+                                    reader.Close();
+                                    return false;
+                                }
+                            }
+                            else return false;
+                        }
+                    }
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
         }
         public static DbDataReader ExecCommand(string sql)
         {

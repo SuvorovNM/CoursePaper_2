@@ -57,6 +57,7 @@
             this.CB_Filter_Avail = new System.Windows.Forms.CheckBox();
             this.CB_Filter_Producer = new System.Windows.Forms.CheckBox();
             this.btn_Update = new System.Windows.Forms.Button();
+            this.btn_Import = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Books)).BeginInit();
             this.SuspendLayout();
             // 
@@ -361,11 +362,22 @@
             this.btn_Update.UseVisualStyleBackColor = true;
             this.btn_Update.Click += new System.EventHandler(this.btn_Update_Click);
             // 
+            // btn_Import
+            // 
+            this.btn_Import.Image = global::Program.Properties.Resources.plus11;
+            this.btn_Import.Location = new System.Drawing.Point(688, 407);
+            this.btn_Import.Name = "btn_Import";
+            this.btn_Import.Size = new System.Drawing.Size(33, 34);
+            this.btn_Import.TabIndex = 31;
+            this.btn_Import.UseVisualStyleBackColor = true;
+            this.btn_Import.Click += new System.EventHandler(this.btn_Import_Click);
+            // 
             // Books
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(739, 522);
+            this.Controls.Add(this.btn_Import);
             this.Controls.Add(this.btn_Update);
             this.Controls.Add(this.CB_Filter_Producer);
             this.Controls.Add(this.CB_Filter_Avail);
@@ -437,5 +449,6 @@
         private System.Windows.Forms.CheckBox CB_Filter_Avail;
         private System.Windows.Forms.CheckBox CB_Filter_Producer;
         private System.Windows.Forms.Button btn_Update;
+        private System.Windows.Forms.Button btn_Import;
     }
 }

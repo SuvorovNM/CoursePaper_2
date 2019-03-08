@@ -85,7 +85,7 @@ namespace Program
 
         private void TSM_Readers_CurrentBooks_Click(object sender, EventArgs e)
         {
-            CurrentBooks formBooks = new CurrentBooks();
+            CurrentBooks formBooks = new CurrentBooks(DGV_Readers.CurrentRow.Cells[2].Value.ToString());
             formBooks.ShowDialog();
         }
 
@@ -118,6 +118,7 @@ namespace Program
             //Открытие пустого окна
             AddReader formChangeReader = new AddReader();
             formChangeReader.ShowDialog();
+            OutputReaders(LastQuery);
         }
 
         private void btn_Change_Click(object sender, EventArgs e)
@@ -132,6 +133,7 @@ namespace Program
             {
                 AddReader formChangeReader = new AddReader(true);
                 formChangeReader.ShowDialog();
+                OutputReaders(LastQuery);
             }
             else
             {
@@ -142,43 +144,7 @@ namespace Program
         private void btn_Delete_Click(object sender, EventArgs e)
         {
             //MessageBox -Удалить? -(Да/Нет)
-            DialogResult dialogResult = MessageBox.Show("Вы точно хотите удалить данного читателя?", "Удаление", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
-            {
-                string CheckForExistance = "select Person_ID, Address_ID from Reader, Person, Address where Reader.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Library_Card=" + SelectedReader;
-                SqlCommand command = new SqlCommand(CheckForExistance, Authorization.conn);
-                DbDataReader reader = command.ExecuteReader();
-                bool Exist = reader.HasRows;
-                if (Exist)
-                {
-                    reader.Read();
-                    string Person_ID = reader[0].ToString();
-                    string Address_ID = reader[1].ToString();
-                    reader.Close();
-                    string UpdatingDelete = "update Reader set Deleted=1 where Library_Card='" + SelectedReader + "'";
-                    command = new SqlCommand(UpdatingDelete, Authorization.conn);
-                    reader = command.ExecuteReader();
-                    reader.Close();
-                    UpdatingDelete = "update Person set Deleted=1 where Person_ID='" + SelectedReader + "'";
-                    command = new SqlCommand(UpdatingDelete, Authorization.conn);
-                    reader = command.ExecuteReader();
-                    reader.Close();
-                    UpdatingDelete = "update Address set Deleted=1 where Address_ID='" + SelectedReader + "'";
-                    command = new SqlCommand(UpdatingDelete, Authorization.conn);
-                    reader = command.ExecuteReader();
-                    reader.Close();
-                    MessageBox.Show("Удаление произведено успешно!");
-                }
-                else
-                {
-                    reader.Close();
-                    MessageBox.Show("Данный читатель уже был удален! Обновите список читателей");
-                }
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                //do something else
-            }
+            DeleteReader();
         }
 
         private void TB_LibraryCard_KeyPress(object sender, KeyPressEventArgs e)
@@ -404,7 +370,10 @@ namespace Program
                 //btn_Add.Enabled = true;
                 btn_Change.Enabled = true;
                 btn_Delete.Enabled = true;
-                TSM_Readers.Enabled = true;
+                TSM_Readers_Change.Enabled = true;
+                TSM_Readers_Delete.Enabled = true;
+                TSM_Readers_CurrentBooks.Enabled = true;
+                TSM_Readers_CurrentPenalty.Enabled = true;
             }
             else
             {
@@ -412,7 +381,11 @@ namespace Program
                 //btn_Add.Enabled = false;
                 btn_Change.Enabled = false;
                 btn_Delete.Enabled = false;
-                TSM_Readers.Enabled = false;
+                //TSM_Readers.Enabled = false;
+                TSM_Readers_Change.Enabled = false;
+                TSM_Readers_Delete.Enabled = false;
+                TSM_Readers_CurrentBooks.Enabled = false;
+                TSM_Readers_CurrentPenalty.Enabled = false;
             }
         }
 
@@ -557,6 +530,75 @@ namespace Program
         private void btn_Update_Click(object sender, EventArgs e)
         {
             OutputReaders(LastQuery);
+        }
+
+        private void TSM_Readers_Add_Click(object sender, EventArgs e)
+        {
+            AddReader formChangeReader = new AddReader();
+            formChangeReader.ShowDialog();
+            OutputReaders(LastQuery);
+        }
+
+        private void TSM_Readers_Change_Click(object sender, EventArgs e)
+        {
+            string CheckForExistance = "select Person_ID, Address_ID from Reader, Person, Address where Reader.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Library_Card=" + SelectedReader;
+            SqlCommand command = new SqlCommand(CheckForExistance, Authorization.conn);
+            DbDataReader reader = command.ExecuteReader();
+            bool Exist = reader.HasRows;
+            reader.Close();
+            if (Exist)
+            {
+                AddReader formChangeReader = new AddReader(true);
+                formChangeReader.ShowDialog();
+                OutputReaders(LastQuery);
+            }
+            else
+            {
+                MessageBox.Show("Данный читатель уже был удален из базы. Обновите список читателей!");
+            }
+        }
+
+        private void TSM_Readers_Delete_Click(object sender, EventArgs e)
+        {
+            DeleteReader();
+        }
+
+        private void DeleteReader()
+        {
+            DialogResult dialogResult = MessageBox.Show("Вы точно хотите удалить данного читателя?", "Удаление", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                string CheckForExistance = "select Person_ID, Address_ID from Reader, Person, Address where Reader.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Library_Card=" + SelectedReader;
+                SqlCommand command = new SqlCommand(CheckForExistance, Authorization.conn);
+                DbDataReader reader = command.ExecuteReader();
+                bool Exist = reader.HasRows;
+                if (Exist)
+                {
+                    reader.Read();
+                    string Person_ID = reader[0].ToString();
+                    string Address_ID = reader[1].ToString();
+                    reader.Close();
+                    string UpdatingDelete = "update Reader set Deleted=1 where Library_Card='" + SelectedReader + "'";
+                    command = new SqlCommand(UpdatingDelete, Authorization.conn);
+                    reader = command.ExecuteReader();
+                    reader.Close();
+                    UpdatingDelete = "update Person set Deleted=1 where Person_ID='" + SelectedReader + "'";
+                    command = new SqlCommand(UpdatingDelete, Authorization.conn);
+                    reader = command.ExecuteReader();
+                    reader.Close();
+                    UpdatingDelete = "update Address set Deleted=1 where Address_ID='" + SelectedReader + "'";
+                    command = new SqlCommand(UpdatingDelete, Authorization.conn);
+                    reader = command.ExecuteReader();
+                    reader.Close();
+                    MessageBox.Show("Удаление произведено успешно!");
+                    OutputReaders(LastQuery);
+                }
+                else
+                {
+                    reader.Close();
+                    MessageBox.Show("Данный читатель уже был удален! Обновите список читателей");
+                }
+            }
         }
     }
 }

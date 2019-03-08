@@ -21,7 +21,7 @@ namespace Program
 
         private void btn_CurrentBooks_Click(object sender, EventArgs e)
         {
-            CurrentBooks formBooks = new CurrentBooks();
+            CurrentBooks formBooks = new CurrentBooks(TB_Name.Text);
             formBooks.ShowDialog();
         }
 

@@ -38,7 +38,6 @@
             this.TB_Email = new System.Windows.Forms.TextBox();
             this.lb_Address = new System.Windows.Forms.Label();
             this.RTB_Address = new System.Windows.Forms.RichTextBox();
-            this.btn_ChangePassword = new System.Windows.Forms.Button();
             this.btn_OK = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -128,15 +127,6 @@
             this.RTB_Address.TabIndex = 19;
             this.RTB_Address.Text = "";
             // 
-            // btn_ChangePassword
-            // 
-            this.btn_ChangePassword.Location = new System.Drawing.Point(13, 296);
-            this.btn_ChangePassword.Name = "btn_ChangePassword";
-            this.btn_ChangePassword.Size = new System.Drawing.Size(106, 23);
-            this.btn_ChangePassword.TabIndex = 20;
-            this.btn_ChangePassword.Text = "Сменить пароль";
-            this.btn_ChangePassword.UseVisualStyleBackColor = true;
-            // 
             // btn_OK
             // 
             this.btn_OK.Location = new System.Drawing.Point(235, 296);
@@ -153,7 +143,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(323, 331);
             this.Controls.Add(this.btn_OK);
-            this.Controls.Add(this.btn_ChangePassword);
             this.Controls.Add(this.RTB_Address);
             this.Controls.Add(this.lb_Address);
             this.Controls.Add(this.TB_Email);
@@ -186,7 +175,6 @@
         private System.Windows.Forms.TextBox TB_Email;
         private System.Windows.Forms.Label lb_Address;
         private System.Windows.Forms.RichTextBox RTB_Address;
-        private System.Windows.Forms.Button btn_ChangePassword;
         private System.Windows.Forms.Button btn_OK;
     }
 }

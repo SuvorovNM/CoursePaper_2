@@ -22,6 +22,14 @@ namespace Program
         {
             InitializeComponent();
         }
+        public GetBook(string id)
+        {            
+            InitializeComponent();
+            TB_BookID.Text = id;
+            TB_BookID.Enabled = false;
+            UpdateForm();
+            Correct[0] = true;
+        }
 
         private void btn_Back_Click(object sender, EventArgs e)
         {
@@ -76,6 +84,11 @@ namespace Program
         private void button1_Click(object sender, EventArgs e)
         {
             //Поиск книги в базе выданных книг
+            UpdateForm();
+        }
+
+        private void UpdateForm()
+        {
             object[] items = Control.GetInfoAboutGivenBook(TB_BookID.Text);
             if (items != null)
             {
@@ -140,7 +153,7 @@ namespace Program
                 RTB_PenaltyInfo.Enabled = false;
                 btn_Apply.Enabled = Correct[0];
             }
-            
+
         }
 
         private void TB_PaySum_KeyUp(object sender, KeyEventArgs e)
@@ -161,7 +174,7 @@ namespace Program
 
         private void TB_PaySum_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8)|| (e.KeyChar == ',')) return;
+            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8) || (e.KeyChar == ',')) return;
             else
                 e.Handled = true;
         }
@@ -184,7 +197,7 @@ namespace Program
             if (CB_Penalty.Checked)
             {
                 string PenaltySum = TB_PaySum.Text.Replace(',', '.');
-                if (Control.GetBook(Publication_ID,Operation_ID, MainMenu.CurrentLibrarian.ID, RTB_PenaltyInfo.Text, PenaltySum))
+                if (Control.GetBook(Publication_ID, Operation_ID, MainMenu.CurrentLibrarian.ID, RTB_PenaltyInfo.Text, PenaltySum))
                 {
                     MessageBox.Show("Книга была принята!");
                     Close();
@@ -196,7 +209,7 @@ namespace Program
             }
             else
             {
-                if (Control.GetBook(Publication_ID, Operation_ID, MainMenu.CurrentLibrarian.ID))
+                if (Control.GetBook(Publication_ID, Operation_ID, MainMenu.CurrentLibrarian.ID,"","0"))
                 {
                     MessageBox.Show("Книга была принята!");
                     Close();

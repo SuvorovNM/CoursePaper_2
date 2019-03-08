@@ -45,7 +45,7 @@ namespace Program
 
         private void ShowPenalties()
         {
-            string sql = "select Publication.Name as 'Название книги', Publication_ID as 'Код книги', Real_Return_Date as 'Дата возврата', Penalty_Info as 'Информация', Penalty_Sum as 'Сумма штрафа', Penalty_ID from Penalty, BookGiving, Publication where Penalty_Code IS NOT NULL and Publication_Code=Publication_ID and Penalty.Deleted=0 and BookGiving.Deleted=0 and Penalty_Code=Penalty_ID and Librarian_Card_Code=" + MainMenu.SelectedReader;
+            string sql = "select Publication.Name as 'Название книги', Publication_ID as 'Код книги', Real_Return_Date as 'Дата возврата', Penalty_Info as 'Информация', Penalty_Sum as 'Сумма штрафа', Penalty_ID from Penalty, BookGiving, Publication where Penalty_Code IS NOT NULL and Publication_Code=Publication_ID and Penalty.Deleted=0 and Penalty_Sum<>'0.00' and BookGiving.Deleted=0 and Penalty_Code=Penalty_ID and Librarian_Card_Code=" + MainMenu.SelectedReader;
             DbDataReader reader = Control.ExecCommand(sql);
             if (reader.HasRows)
             {

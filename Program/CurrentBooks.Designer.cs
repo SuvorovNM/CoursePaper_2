@@ -30,18 +30,23 @@
         {
             this.DGV_CurrentBooks = new System.Windows.Forms.DataGridView();
             this.lb_Name = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn_Recieve = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_CurrentBooks)).BeginInit();
             this.SuspendLayout();
             // 
             // DGV_CurrentBooks
             // 
+            this.DGV_CurrentBooks.AllowUserToAddRows = false;
+            this.DGV_CurrentBooks.AllowUserToDeleteRows = false;
             this.DGV_CurrentBooks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_CurrentBooks.Location = new System.Drawing.Point(13, 30);
+            this.DGV_CurrentBooks.MultiSelect = false;
             this.DGV_CurrentBooks.Name = "DGV_CurrentBooks";
+            this.DGV_CurrentBooks.ReadOnly = true;
+            this.DGV_CurrentBooks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DGV_CurrentBooks.Size = new System.Drawing.Size(545, 321);
-            this.DGV_CurrentBooks.TabIndex = 0;
+            this.DGV_CurrentBooks.TabIndex = 1;
             // 
             // lb_Name
             // 
@@ -52,14 +57,15 @@
             this.lb_Name.TabIndex = 1;
             this.lb_Name.Text = "ФИО читателя";
             // 
-            // button1
+            // btn_Recieve
             // 
-            this.button1.Location = new System.Drawing.Point(469, 365);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(89, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Принять книгу";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btn_Recieve.Location = new System.Drawing.Point(469, 365);
+            this.btn_Recieve.Name = "btn_Recieve";
+            this.btn_Recieve.Size = new System.Drawing.Size(89, 23);
+            this.btn_Recieve.TabIndex = 2;
+            this.btn_Recieve.Text = "Принять книгу";
+            this.btn_Recieve.UseVisualStyleBackColor = true;
+            this.btn_Recieve.Click += new System.EventHandler(this.btn_Recieve_Click);
             // 
             // button2
             // 
@@ -77,13 +83,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(570, 400);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btn_Recieve);
             this.Controls.Add(this.lb_Name);
             this.Controls.Add(this.DGV_CurrentBooks);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "CurrentBooks";
             this.Text = "Текущие книги для читателя";
+            this.Load += new System.EventHandler(this.CurrentBooks_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DGV_CurrentBooks)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -94,7 +101,7 @@
 
         private System.Windows.Forms.DataGridView DGV_CurrentBooks;
         private System.Windows.Forms.Label lb_Name;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn_Recieve;
         private System.Windows.Forms.Button button2;
     }
 }
