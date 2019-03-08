@@ -600,5 +600,26 @@ namespace Program
                 }
             }
         }
+
+        private void импортКнигToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog opf = new OpenFileDialog();
+            opf.Filter = "XLSX files (*.xlsx)| *.xlsx";
+            if (opf.ShowDialog() == DialogResult.OK)
+            {
+                string way = opf.FileName;
+                try
+                {
+                    int t = Control.XLInput(way);
+                    if (t > 0)
+                        MessageBox.Show("Было успешно добавлено " + t + " книг!");
+                    else MessageBox.Show("Из данного файла не удалось считать ни одной книги!");
+                }
+                catch
+                {
+                    MessageBox.Show("Файл не удалось обработать!");
+                }
+            }
+        }
     }
 }

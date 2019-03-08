@@ -70,6 +70,7 @@
             this.btn_Change = new System.Windows.Forms.Button();
             this.btn_Add = new System.Windows.Forms.Button();
             this.btn_Info = new System.Windows.Forms.Button();
+            this.импортКнигToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Readers)).BeginInit();
             this.SuspendLayout();
@@ -103,35 +104,35 @@
             // TSM_Readers_Add
             // 
             this.TSM_Readers_Add.Name = "TSM_Readers_Add";
-            this.TSM_Readers_Add.Size = new System.Drawing.Size(180, 22);
+            this.TSM_Readers_Add.Size = new System.Drawing.Size(165, 22);
             this.TSM_Readers_Add.Text = "Добавить";
             this.TSM_Readers_Add.Click += new System.EventHandler(this.TSM_Readers_Add_Click);
             // 
             // TSM_Readers_Change
             // 
             this.TSM_Readers_Change.Name = "TSM_Readers_Change";
-            this.TSM_Readers_Change.Size = new System.Drawing.Size(180, 22);
+            this.TSM_Readers_Change.Size = new System.Drawing.Size(165, 22);
             this.TSM_Readers_Change.Text = "Изменить";
             this.TSM_Readers_Change.Click += new System.EventHandler(this.TSM_Readers_Change_Click);
             // 
             // TSM_Readers_Delete
             // 
             this.TSM_Readers_Delete.Name = "TSM_Readers_Delete";
-            this.TSM_Readers_Delete.Size = new System.Drawing.Size(180, 22);
+            this.TSM_Readers_Delete.Size = new System.Drawing.Size(165, 22);
             this.TSM_Readers_Delete.Text = "Удалить";
             this.TSM_Readers_Delete.Click += new System.EventHandler(this.TSM_Readers_Delete_Click);
             // 
             // TSM_Readers_CurrentBooks
             // 
             this.TSM_Readers_CurrentBooks.Name = "TSM_Readers_CurrentBooks";
-            this.TSM_Readers_CurrentBooks.Size = new System.Drawing.Size(180, 22);
+            this.TSM_Readers_CurrentBooks.Size = new System.Drawing.Size(165, 22);
             this.TSM_Readers_CurrentBooks.Text = "Текущие книги";
             this.TSM_Readers_CurrentBooks.Click += new System.EventHandler(this.TSM_Readers_CurrentBooks_Click);
             // 
             // TSM_Readers_CurrentPenalty
             // 
             this.TSM_Readers_CurrentPenalty.Name = "TSM_Readers_CurrentPenalty";
-            this.TSM_Readers_CurrentPenalty.Size = new System.Drawing.Size(180, 22);
+            this.TSM_Readers_CurrentPenalty.Size = new System.Drawing.Size(165, 22);
             this.TSM_Readers_CurrentPenalty.Text = "Текущий штраф";
             this.TSM_Readers_CurrentPenalty.Click += new System.EventHandler(this.TSM_Readers_CurrentPenalty_Click);
             // 
@@ -141,7 +142,8 @@
             this.TSM_Books_OpenBase,
             this.TSM_Books_Give,
             this.TSM_books_get,
-            this.TSM_Books_Journal});
+            this.TSM_Books_Journal,
+            this.импортКнигToolStripMenuItem});
             this.TSM_Books.Name = "TSM_Books";
             this.TSM_Books.Size = new System.Drawing.Size(52, 20);
             this.TSM_Books.Text = "Книги";
@@ -485,6 +487,13 @@
             this.btn_Info.UseVisualStyleBackColor = true;
             this.btn_Info.Click += new System.EventHandler(this.btn_Info_Click);
             // 
+            // импортКнигToolStripMenuItem
+            // 
+            this.импортКнигToolStripMenuItem.Name = "импортКнигToolStripMenuItem";
+            this.импортКнигToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.импортКнигToolStripMenuItem.Text = "Импорт книг";
+            this.импортКнигToolStripMenuItem.Click += new System.EventHandler(this.импортКнигToolStripMenuItem_Click);
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -574,5 +583,6 @@
         private System.Windows.Forms.CheckBox CB_Filter_Phone;
         private System.Windows.Forms.CheckBox CB_Filter_Email;
         private System.Windows.Forms.Button btn_Update;
+        private System.Windows.Forms.ToolStripMenuItem импортКнигToolStripMenuItem;
     }
 }

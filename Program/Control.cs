@@ -21,16 +21,17 @@ namespace Program
             }
             return OK;
         }
-        public static bool XLInput(string path)
+        public static int XLInput(string path)
         {
             bool CorrectInput = true;
+            int correctexecuted = 0;
             using (var workbook = new XLWorkbook(path))
             {
                 var worksheet = workbook.Worksheets.Worksheet(1);//Position 0/1?
                 string quantity = worksheet.Cell("A1").Value.ToString();
                 int size=0;
                 CorrectInput = Int32.TryParse(quantity, out size);
-                if (!CorrectInput) return false;
+                if (!CorrectInput) return 0;
                 object[,] books = new object[size, 11];
                 try
                 {
@@ -44,7 +45,7 @@ namespace Program
                 }
                 catch
                 {
-                    return false;
+                    return 0;
                 }
                 DbDataReader reader = null;
                 /* string sql = "";
@@ -56,7 +57,7 @@ namespace Program
                         string IsBook = books[i, 0].ToString();
                         string Name = books[i, 1].ToString();
                         string Author = books[i, 2].ToString();
-                        string TypePub = books[i, 0].ToString();
+                        string TypePub = books[i, 0].ToString();//
                         string BBK = books[i, 3].ToString();
                         string UDK = books[i, 4].ToString();
                         string ISBN = books[i, 5].ToString();
@@ -65,40 +66,48 @@ namespace Program
                         string PubYear = books[i, 8].ToString();
                         string PubCity = books[i, 9].ToString();
                         string Number = books[i, 10].ToString();
-                        int PubCode = AddNewPublisher(PubName, PubYear, PubCity);
-                        int Pub_ID = 0;
-                        if (PubCode > 0)
+                        CorrectInput = (IsBook == "0" || IsBook == "1") && Name.Length > 2 && Name.Length < 255 && Author.Length > 2 && Author.Length < 80 &&
+                            BBK.Length > 0 && BBK.Length < 80 && UDK.Length > 0 && UDK.Length < 80 && ISBN.Length > 8 && ISBN.Length < 19 && Pages.Length > 0 && PubName.Length > 2 && PubName.Length < 80
+                            && PubCity.Length > 2 && PubCity.Length < 40 && PubYear.Length == 4;
+                        if (CorrectInput)
                         {
-                            Pub_ID = AddNewPublication(Name, BBK, UDK, Author, PubCode);
-                            if (Pub_ID > 0)
+                            int PubCode = AddNewPublisher(PubName, PubYear, PubCity);
+                            int Pub_ID = 0;
+                            if (PubCode > 0)
                             {
-                                if (IsBook == "0")
+                                Pub_ID = AddNewPublication(Name, BBK, UDK, Author, PubCode);
+                                if (Pub_ID > 0)
                                 {
-                                    AddNewBook(ISBN, Pages, Pub_ID);
+                                    if (IsBook == "0")
+                                    {
+                                        AddNewBook(ISBN, Pages, Pub_ID);
+                                    }
+                                    else if (IsBook == "1"&&Number.Length>0&& ISBN.Length==9)
+                                    {
+                                        AddNewJournal(Number, ISBN, Pages, Pub_ID);
+                                    }
+                                    else
+                                    {
+                                        string sql = "delete from Publication where Publication_ID=" + Pub_ID;
+                                        reader = ExecCommand(sql);
+                                        reader.Close();
+                                        sql = "delete from Publisher where Publisher_ID" + PubCode;
+                                        reader = ExecCommand(sql);
+                                        reader.Close();
+                                        return correctexecuted;
+                                    }
                                 }
-                                else if (IsBook == "1")
-                                {
-                                    AddNewJournal(Number, ISBN, Pages, Pub_ID);
-                                }
-                                else
-                                {
-                                    string sql = "delete from Publication where Publication_ID="+Pub_ID;
-                                    reader = ExecCommand(sql);
-                                    reader.Close();
-                                    sql = "delete from Publisher where Publisher_ID" + PubCode;
-                                    reader = ExecCommand(sql);
-                                    reader.Close();
-                                    return false;
-                                }
+                                else return correctexecuted;
                             }
-                            else return false;
                         }
+                        else return correctexecuted;
+                        correctexecuted++;
                     }
-                    return true;
+                    return correctexecuted;
                 }
                 catch
                 {
-                    return false;
+                    return correctexecuted;
                 }
             }
         }

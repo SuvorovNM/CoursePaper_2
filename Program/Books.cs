@@ -46,7 +46,7 @@ namespace Program
 
         private void btn_Delete_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Вы точно хотите удалить данного читателя?", "Удаление", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Вы точно хотите удалить данную книгу?", "Удаление", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 string CheckingExistSQL = "select Publisher_Code from Publisher, Publication where Publication.Deleted=0 and Publisher_Code=Publisher_ID and Publication_ID=" + SelectedBook;
@@ -440,7 +440,23 @@ namespace Program
 
         private void btn_Import_Click(object sender, EventArgs e)
         {
-            Control.XLInput(@"L:\КР_2курс\Program\List.xlsx");
+            OpenFileDialog opf = new OpenFileDialog();
+            opf.Filter = "XLSX files (*.xlsx)| *.xlsx";
+            if (opf.ShowDialog() == DialogResult.OK)
+            {
+                string way = opf.FileName;
+                try
+                {
+                    int t = Control.XLInput(way);
+                    if (t > 0)
+                        MessageBox.Show("Было успешно добавлено " + t + " книг!");
+                    else MessageBox.Show("Из данного файла не удалось считать ни одной книги!");
+                }
+                catch
+                {
+                    MessageBox.Show("Файл не удалось обработать!");
+                }
+            }
         }
     }
 }

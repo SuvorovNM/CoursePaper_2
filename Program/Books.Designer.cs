@@ -45,10 +45,6 @@
             this.TB_Producer = new System.Windows.Forms.TextBox();
             this.btn_ApplyFilter = new System.Windows.Forms.Button();
             this.btn_FilterReset = new System.Windows.Forms.Button();
-            this.btn_Delete = new System.Windows.Forms.Button();
-            this.btn_Change = new System.Windows.Forms.Button();
-            this.btn_Add = new System.Windows.Forms.Button();
-            this.btn_Info = new System.Windows.Forms.Button();
             this.CB_Filter_Name = new System.Windows.Forms.CheckBox();
             this.CB_Filter_Author = new System.Windows.Forms.CheckBox();
             this.CB_Filter_Year = new System.Windows.Forms.CheckBox();
@@ -56,8 +52,12 @@
             this.CB_Filter_ID = new System.Windows.Forms.CheckBox();
             this.CB_Filter_Avail = new System.Windows.Forms.CheckBox();
             this.CB_Filter_Producer = new System.Windows.Forms.CheckBox();
-            this.btn_Update = new System.Windows.Forms.Button();
             this.btn_Import = new System.Windows.Forms.Button();
+            this.btn_Update = new System.Windows.Forms.Button();
+            this.btn_Delete = new System.Windows.Forms.Button();
+            this.btn_Change = new System.Windows.Forms.Button();
+            this.btn_Add = new System.Windows.Forms.Button();
+            this.btn_Info = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Books)).BeginInit();
             this.SuspendLayout();
             // 
@@ -242,46 +242,6 @@
             this.btn_FilterReset.UseVisualStyleBackColor = true;
             this.btn_FilterReset.Click += new System.EventHandler(this.btn_FilterReset_Click);
             // 
-            // btn_Delete
-            // 
-            this.btn_Delete.Image = global::Program.Properties.Resources.Крест;
-            this.btn_Delete.Location = new System.Drawing.Point(688, 352);
-            this.btn_Delete.Name = "btn_Delete";
-            this.btn_Delete.Size = new System.Drawing.Size(33, 34);
-            this.btn_Delete.TabIndex = 22;
-            this.btn_Delete.UseVisualStyleBackColor = true;
-            this.btn_Delete.Click += new System.EventHandler(this.btn_Delete_Click);
-            // 
-            // btn_Change
-            // 
-            this.btn_Change.Image = global::Program.Properties.Resources.Гаечный_ключ1;
-            this.btn_Change.Location = new System.Drawing.Point(688, 291);
-            this.btn_Change.Name = "btn_Change";
-            this.btn_Change.Size = new System.Drawing.Size(33, 34);
-            this.btn_Change.TabIndex = 21;
-            this.btn_Change.UseVisualStyleBackColor = true;
-            this.btn_Change.Click += new System.EventHandler(this.btn_Change_Click);
-            // 
-            // btn_Add
-            // 
-            this.btn_Add.Image = global::Program.Properties.Resources.plus11;
-            this.btn_Add.Location = new System.Drawing.Point(688, 230);
-            this.btn_Add.Name = "btn_Add";
-            this.btn_Add.Size = new System.Drawing.Size(33, 34);
-            this.btn_Add.TabIndex = 20;
-            this.btn_Add.UseVisualStyleBackColor = true;
-            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
-            // 
-            // btn_Info
-            // 
-            this.btn_Info.Image = global::Program.Properties.Resources.img_5255192;
-            this.btn_Info.Location = new System.Drawing.Point(688, 172);
-            this.btn_Info.Name = "btn_Info";
-            this.btn_Info.Size = new System.Drawing.Size(33, 34);
-            this.btn_Info.TabIndex = 19;
-            this.btn_Info.UseVisualStyleBackColor = true;
-            this.btn_Info.Click += new System.EventHandler(this.btn_Info_Click);
-            // 
             // CB_Filter_Name
             // 
             this.CB_Filter_Name.AutoSize = true;
@@ -352,25 +312,65 @@
             this.CB_Filter_Producer.UseVisualStyleBackColor = true;
             this.CB_Filter_Producer.CheckedChanged += new System.EventHandler(this.CB_Filter_Producer_CheckedChanged);
             // 
+            // btn_Import
+            // 
+            this.btn_Import.Image = global::Program.Properties.Resources.Import1;
+            this.btn_Import.Location = new System.Drawing.Point(688, 387);
+            this.btn_Import.Name = "btn_Import";
+            this.btn_Import.Size = new System.Drawing.Size(33, 39);
+            this.btn_Import.TabIndex = 31;
+            this.btn_Import.UseVisualStyleBackColor = true;
+            this.btn_Import.Click += new System.EventHandler(this.btn_Import_Click);
+            // 
             // btn_Update
             // 
             this.btn_Update.Image = global::Program.Properties.Resources._13;
-            this.btn_Update.Location = new System.Drawing.Point(688, 121);
+            this.btn_Update.Location = new System.Drawing.Point(688, 103);
             this.btn_Update.Name = "btn_Update";
             this.btn_Update.Size = new System.Drawing.Size(33, 34);
             this.btn_Update.TabIndex = 30;
             this.btn_Update.UseVisualStyleBackColor = true;
             this.btn_Update.Click += new System.EventHandler(this.btn_Update_Click);
             // 
-            // btn_Import
+            // btn_Delete
             // 
-            this.btn_Import.Image = global::Program.Properties.Resources.plus11;
-            this.btn_Import.Location = new System.Drawing.Point(688, 407);
-            this.btn_Import.Name = "btn_Import";
-            this.btn_Import.Size = new System.Drawing.Size(33, 34);
-            this.btn_Import.TabIndex = 31;
-            this.btn_Import.UseVisualStyleBackColor = true;
-            this.btn_Import.Click += new System.EventHandler(this.btn_Import_Click);
+            this.btn_Delete.Image = global::Program.Properties.Resources.Крест;
+            this.btn_Delete.Location = new System.Drawing.Point(688, 334);
+            this.btn_Delete.Name = "btn_Delete";
+            this.btn_Delete.Size = new System.Drawing.Size(33, 34);
+            this.btn_Delete.TabIndex = 22;
+            this.btn_Delete.UseVisualStyleBackColor = true;
+            this.btn_Delete.Click += new System.EventHandler(this.btn_Delete_Click);
+            // 
+            // btn_Change
+            // 
+            this.btn_Change.Image = global::Program.Properties.Resources.Гаечный_ключ1;
+            this.btn_Change.Location = new System.Drawing.Point(688, 273);
+            this.btn_Change.Name = "btn_Change";
+            this.btn_Change.Size = new System.Drawing.Size(33, 34);
+            this.btn_Change.TabIndex = 21;
+            this.btn_Change.UseVisualStyleBackColor = true;
+            this.btn_Change.Click += new System.EventHandler(this.btn_Change_Click);
+            // 
+            // btn_Add
+            // 
+            this.btn_Add.Image = global::Program.Properties.Resources.plus11;
+            this.btn_Add.Location = new System.Drawing.Point(688, 212);
+            this.btn_Add.Name = "btn_Add";
+            this.btn_Add.Size = new System.Drawing.Size(33, 34);
+            this.btn_Add.TabIndex = 20;
+            this.btn_Add.UseVisualStyleBackColor = true;
+            this.btn_Add.Click += new System.EventHandler(this.btn_Add_Click);
+            // 
+            // btn_Info
+            // 
+            this.btn_Info.Image = global::Program.Properties.Resources.img_5255192;
+            this.btn_Info.Location = new System.Drawing.Point(688, 154);
+            this.btn_Info.Name = "btn_Info";
+            this.btn_Info.Size = new System.Drawing.Size(33, 34);
+            this.btn_Info.TabIndex = 19;
+            this.btn_Info.UseVisualStyleBackColor = true;
+            this.btn_Info.Click += new System.EventHandler(this.btn_Info_Click);
             // 
             // Books
             // 
