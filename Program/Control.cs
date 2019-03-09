@@ -21,6 +21,23 @@ namespace Program
             }
             return OK;
         }
+        //path - путь к файлу
+        //data - названия столбцов и данные
+        public static void XLOutput(string path, string[,] data,int Rows, int Cols)
+        {
+            if (data.Length == 0)
+                return;
+            var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Library_Report");           
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Cols; j++)
+                {
+                    worksheet.Cell(i + 1, j + 1).Value ="'"+ data[i, j];
+                }
+            }
+            workbook.SaveAs(path);
+        }
         public static int XLInput(string path)
         {
             bool CorrectInput = true;

@@ -67,6 +67,7 @@ namespace Program
                     DGV_Table.Rows.Clear();
                     DGV_Table.Columns.Clear();
                     MessageBox.Show("Не было найдено ни 1 строки, удовлетворяющей запросу!");
+                    Close();
                 }
             }
             catch(Exception ex)
@@ -74,6 +75,36 @@ namespace Program
                 MessageBox.Show("При обработке запроса возникла ошибка: " + ex.Message);
                 Close();
             }
+        }
+
+        private void btn_Output_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Excel files (*.xlsx)|*.xlsx";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                string[,] data = new string[DGV_Table.Rows.Count + 1, DGV_Table.Columns.Count];
+                for (int t=0;t< DGV_Table.Columns.Count; t++)
+                {
+                    data[0, t] = DGV_Table.Columns[t].Name;
+                }
+                for (int i=1;i< DGV_Table.Rows.Count + 1; i++)
+                {
+                    for (int j=0;j< DGV_Table.Columns.Count; j++)
+                    {
+                        data[i, j] = DGV_Table.Rows[i - 1].Cells[j].Value.ToString();
+                    }
+                }
+                try
+                {
+                    Control.XLOutput(sfd.FileName, data, DGV_Table.Rows.Count + 1, DGV_Table.Columns.Count);
+                }
+                catch
+                {
+                    MessageBox.Show("При сохранении файла произошла ошибка!");
+                }
+            }
+            //DGV_Table.
         }
     }
 }
