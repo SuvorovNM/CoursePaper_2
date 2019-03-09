@@ -430,5 +430,59 @@ namespace Program
             }
             return true;
         }
+        public static bool AddNewLibrarian(string FIO, string Phone_Number, string Email, DateTime Birthday, string Region, string City, string Street, string House_Number,string Flat_Number, string Password)
+        //Добавление нового библиотекаря
+        {
+            string sql = "insert into Address(Region, City, Street, House_Number, Flat_Number, Deleted) values ('" + Region + "', '" + City + "', '" + Street + "', '" + House_Number + "', '" + Flat_Number + "', 0)";
+            DbDataReader reader = ExecCommand(sql);
+            reader.Close();
+            sql = "select max(Address_ID) from Address";
+            reader = ExecCommand(sql);
+            reader.Read();
+            string Address_ID = reader[0].ToString();
+            reader.Close();
+            string Bday = Birthday.Year + "-" + Birthday.Month + "-" + Birthday.Day;
+            try
+            {
+                sql = "insert into Person(FIO, Birthday, Phone_Number, Email, Address_Code, Deleted) values ('" + FIO + "', '" + Bday + "', '" + Phone_Number + "', '" + Email + "', '" + Address_ID + "', 0)";
+                reader = ExecCommand(sql);
+                reader.Close();
+            }
+            catch
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                }
+                sql = "delete from Address where Address_ID=" + Address_ID;
+                reader = ExecCommand(sql);
+                reader.Close();
+                return false;
+            }
+            sql= "select max(Person_ID) from Person";
+            reader = ExecCommand(sql);
+            reader.Read();
+            string Person_ID = reader[0].ToString();
+            reader.Close();
+            string Hiring_Date = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
+            sql="insert into Librarian(Person_Code, Hiring_Date, Password, Deleted, Privilege) values ('" + Person_ID + "', '" + Hiring_Date + "', '"+Password+"', 0, 0)";
+            try
+            {
+                reader = ExecCommand(sql);
+                reader.Close();
+                return true;
+            }
+            catch
+            {
+                sql = "delete from Person where Person_ID=" + Person_ID;
+                reader = ExecCommand(sql);
+                reader.Close();
+                sql = "delete from Address where Address_ID=" + Address_ID;
+                reader = ExecCommand(sql);
+                reader.Close();
+                return false;
+            }
+        }
+
     }
 }

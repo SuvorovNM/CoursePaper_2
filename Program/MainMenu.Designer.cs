@@ -66,6 +66,7 @@
             this.CB_Filter_Date = new System.Windows.Forms.CheckBox();
             this.CB_Filter_Phone = new System.Windows.Forms.CheckBox();
             this.CB_Filter_Email = new System.Windows.Forms.CheckBox();
+            this.TSM_Librarian_Work = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_Update = new System.Windows.Forms.Button();
             this.btn_Delete = new System.Windows.Forms.Button();
             this.btn_Change = new System.Windows.Forms.Button();
@@ -194,6 +195,7 @@
             // 
             this.TSM_Librarian.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSM_Librarian_Profile,
+            this.TSM_Librarian_Work,
             this.TSM_Librarian_Change,
             this.TSM_Librarian_Quit});
             this.TSM_Librarian.Name = "TSM_Librarian";
@@ -203,21 +205,21 @@
             // TSM_Librarian_Profile
             // 
             this.TSM_Librarian_Profile.Name = "TSM_Librarian_Profile";
-            this.TSM_Librarian_Profile.Size = new System.Drawing.Size(200, 22);
+            this.TSM_Librarian_Profile.Size = new System.Drawing.Size(218, 22);
             this.TSM_Librarian_Profile.Text = "Просмотр профиля";
             this.TSM_Librarian_Profile.Click += new System.EventHandler(this.TSM_Librarian_Profile_Click);
             // 
             // TSM_Librarian_Change
             // 
             this.TSM_Librarian_Change.Name = "TSM_Librarian_Change";
-            this.TSM_Librarian_Change.Size = new System.Drawing.Size(200, 22);
+            this.TSM_Librarian_Change.Size = new System.Drawing.Size(218, 22);
             this.TSM_Librarian_Change.Text = "Сменить пользователя";
             this.TSM_Librarian_Change.Click += new System.EventHandler(this.TSM_Librarian_Change_Click);
             // 
             // TSM_Librarian_Quit
             // 
             this.TSM_Librarian_Quit.Name = "TSM_Librarian_Quit";
-            this.TSM_Librarian_Quit.Size = new System.Drawing.Size(200, 22);
+            this.TSM_Librarian_Quit.Size = new System.Drawing.Size(218, 22);
             this.TSM_Librarian_Quit.Text = "Выход";
             this.TSM_Librarian_Quit.Click += new System.EventHandler(this.TSM_Librarian_Quit_Click);
             // 
@@ -446,6 +448,13 @@
             this.CB_Filter_Email.UseVisualStyleBackColor = true;
             this.CB_Filter_Email.CheckedChanged += new System.EventHandler(this.CB_Filter_Email_CheckedChanged);
             // 
+            // TSM_Librarian_Work
+            // 
+            this.TSM_Librarian_Work.Name = "TSM_Librarian_Work";
+            this.TSM_Librarian_Work.Size = new System.Drawing.Size(218, 22);
+            this.TSM_Librarian_Work.Text = "Работа с библиотекарями";
+            this.TSM_Librarian_Work.Click += new System.EventHandler(this.TSM_Librarian_Work_Click);
+            // 
             // btn_Update
             // 
             this.btn_Update.Image = global::Program.Properties.Resources._13;
@@ -533,6 +542,7 @@
             this.Text = "Главное меню";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainMenu_FormClosed);
             this.Load += new System.EventHandler(this.MainMenu_Load);
+            this.VisibleChanged += new System.EventHandler(this.MainMenu_VisibleChanged);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Readers)).EndInit();
@@ -586,5 +596,6 @@
         private System.Windows.Forms.CheckBox CB_Filter_Email;
         private System.Windows.Forms.Button btn_Update;
         private System.Windows.Forms.ToolStripMenuItem импортКнигToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TSM_Librarian_Work;
     }
 }

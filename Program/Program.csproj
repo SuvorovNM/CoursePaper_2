@@ -71,6 +71,12 @@
     <Compile Include="AddBook.Designer.cs">
       <DependentUpon>AddBook.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddLib.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddLib.Designer.cs">
+      <DependentUpon>AddLib.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddReader.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +131,12 @@
       <DependentUpon>Journal.cs</DependentUpon>
     </Compile>
     <Compile Include="Librarian.cs" />
+    <Compile Include="Librarians.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Librarians.Designer.cs">
+      <DependentUpon>Librarians.cs</DependentUpon>
+    </Compile>
     <Compile Include="Librarian_Account.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,6 +179,9 @@
     <EmbeddedResource Include="AddBook.resx">
       <DependentUpon>AddBook.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddLib.resx">
+      <DependentUpon>AddLib.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddReader.resx">
       <DependentUpon>AddReader.cs</DependentUpon>
     </EmbeddedResource>
@@ -190,6 +205,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Journal.resx">
       <DependentUpon>Journal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Librarians.resx">
+      <DependentUpon>Librarians.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Librarian_Account.resx">
       <DependentUpon>Librarian_Account.cs</DependentUpon>

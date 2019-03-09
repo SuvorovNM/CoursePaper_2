@@ -23,6 +23,7 @@ namespace Program
         bool[] ChosenColumns = new bool[5];
         bool[] ChosenFilters = new bool[5];
         string LastQuery = "";
+        static public bool admin;
         //string[] Filters = { };
         //enum Cols { Library_Card, FIO, Birthday, Phone_Number, Email };
         string[] Cols = { "Library_Card", "FIO", "Birthday", "Phone_Number", "Email" };
@@ -289,6 +290,7 @@ namespace Program
             ChosenColumns[0] = true;
             ChosenColumns[1] = true;
             ChosenColumns[2] = true;
+            TSM_Librarian_Work.Visible = admin;
             LastQuery = "";
             OutputReaders("");
         }
@@ -627,5 +629,21 @@ namespace Program
             QBE qbeform = new QBE();
             qbeform.ShowDialog();
         }
+
+        private void MainMenu_VisibleChanged(object sender, EventArgs e)
+        {
+            TSM_Librarian_Work.Visible = admin;
+        }
+
+        private void TSM_Librarian_Work_Click(object sender, EventArgs e)
+        {
+            Librarians LibrForm = new Librarians();
+            LibrForm.ShowDialog();
+        }
+
+        /*private void MainMenu_Shown(object sender, EventArgs e)
+        {
+            TSM_Librarian_Work.Visible = admin;
+        }*/
     }
 }
