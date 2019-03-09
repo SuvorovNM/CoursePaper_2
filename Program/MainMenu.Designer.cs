@@ -40,6 +40,7 @@
             this.TSM_Books_Give = new System.Windows.Forms.ToolStripMenuItem();
             this.TSM_books_get = new System.Windows.Forms.ToolStripMenuItem();
             this.TSM_Books_Journal = new System.Windows.Forms.ToolStripMenuItem();
+            this.импортКнигToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSM_Report = new System.Windows.Forms.ToolStripMenuItem();
             this.TSM_Librarian = new System.Windows.Forms.ToolStripMenuItem();
             this.TSM_Librarian_Profile = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,7 +71,6 @@
             this.btn_Change = new System.Windows.Forms.Button();
             this.btn_Add = new System.Windows.Forms.Button();
             this.btn_Info = new System.Windows.Forms.Button();
-            this.импортКнигToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Readers)).BeginInit();
             this.SuspendLayout();
@@ -176,11 +176,19 @@
             this.TSM_Books_Journal.Text = "Открыть журнал выдачи";
             this.TSM_Books_Journal.Click += new System.EventHandler(this.TSM_Books_Journal_Click);
             // 
+            // импортКнигToolStripMenuItem
+            // 
+            this.импортКнигToolStripMenuItem.Name = "импортКнигToolStripMenuItem";
+            this.импортКнигToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.импортКнигToolStripMenuItem.Text = "Импорт книг";
+            this.импортКнигToolStripMenuItem.Click += new System.EventHandler(this.импортКнигToolStripMenuItem_Click);
+            // 
             // TSM_Report
             // 
             this.TSM_Report.Name = "TSM_Report";
             this.TSM_Report.Size = new System.Drawing.Size(60, 20);
             this.TSM_Report.Text = "Отчеты";
+            this.TSM_Report.Click += new System.EventHandler(this.TSM_Report_Click);
             // 
             // TSM_Librarian
             // 
@@ -223,6 +231,7 @@
             this.DGV_Readers.MultiSelect = false;
             this.DGV_Readers.Name = "DGV_Readers";
             this.DGV_Readers.ReadOnly = true;
+            this.DGV_Readers.RowHeadersVisible = false;
             this.DGV_Readers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DGV_Readers.Size = new System.Drawing.Size(428, 346);
             this.DGV_Readers.TabIndex = 1;
@@ -486,13 +495,6 @@
             this.btn_Info.TabIndex = 15;
             this.btn_Info.UseVisualStyleBackColor = true;
             this.btn_Info.Click += new System.EventHandler(this.btn_Info_Click);
-            // 
-            // импортКнигToolStripMenuItem
-            // 
-            this.импортКнигToolStripMenuItem.Name = "импортКнигToolStripMenuItem";
-            this.импортКнигToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.импортКнигToolStripMenuItem.Text = "Импорт книг";
-            this.импортКнигToolStripMenuItem.Click += new System.EventHandler(this.импортКнигToolStripMenuItem_Click);
             // 
             // MainMenu
             // 

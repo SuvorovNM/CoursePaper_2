@@ -621,5 +621,11 @@ namespace Program
                 }
             }
         }
+
+        private void TSM_Report_Click(object sender, EventArgs e)
+        {
+            QBE qbeform = new QBE();
+            qbeform.ShowDialog();
+        }
     }
 }
