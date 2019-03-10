@@ -21,14 +21,21 @@ namespace Program
             this.Add = _Add;
         }
         public bool Lib = false;
+        //Регулярное выражение для поля Email:
         static string patEmail = @"^(?(')('.+?(?<!\\)'@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
+        //Регулярное выражение для поля "Город":
         static string patCity = @"^[a-zA-Zа-яА-Я]+(?:[\s-][a-zA-Zа-яА-Я]+)*$";
         Regex rgEmail = new Regex(patEmail);
         Regex rgCity = new Regex(patCity);
+        //Add - флаг, определяющий для чего используется форма:
+        //false - для добавления библиотекаря
+        //true - для изменения информации о существующем библиотекаре
         bool Add = false;
         string reader = "";
+        //correct - массив, с результатами проверки на корректность каждого элемента:
         bool[] correct = new bool[11];
         private void CheckCorrect()
+        //Провека на то что все элементы correct равны TRUE
         {
             bool OK = true;
             for (int i = 0; i < correct.Length; i++)
@@ -88,14 +95,17 @@ namespace Program
         }
 
         private bool ChangeReader(bool OK)
+        //Изменение информации о читателе
         {
+            //Получение Person_ID, Address_ID:
             string IDs = "select Person_ID, Address_ID from Reader, Person, Address where Reader.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Library_Card=" + MainMenu.SelectedReader;
             SqlCommand cmd = new SqlCommand(IDs, Authorization.conn);
             DbDataReader reader = cmd.ExecuteReader();
             reader.Read();
             string Person_ID = reader[0].ToString();
             string Address_ID = reader[1].ToString();
-            reader.Close();            
+            reader.Close();
+            //Обновление информации об экземпляре сущности "Адрес":
             string command = "update Address set Region='" + CB_Region.Text + "', City='" + TB_City.Text + "', Street='" + TB_Street.Text + "', House_Number='" + TB_House.Text + "', Flat_Number='" + TB_Flat.Text + "' where Address_ID=" + Address_ID;
             cmd = new SqlCommand(command, Authorization.conn);
             try
@@ -110,6 +120,7 @@ namespace Program
                 OK = false;
             }
             if (OK)
+            //Если информация об Адресе была успешна обновлена
             {
                 //Получение ГГГГ-ММ-ДД
                 string ind = (CB_Month.SelectedIndex + 1).ToString();
@@ -123,6 +134,7 @@ namespace Program
                     day = "0" + day;
                 }
                 string date = TB_Year.Text + "-" + ind + "-" + day;
+                //Обновление информации об экземпляре "Человек":
                 command = "update Person set FIO='" + TB_Name.Text + "', Birthday='" + date + "', Phone_Number='" + TB_Phone.Text + "', Email='" + TB_Email.Text + "' where Person_ID=" + Person_ID;
                 try
                 {
@@ -143,6 +155,7 @@ namespace Program
 
         private bool AddNewReader(bool OK)
         {
+            //Создание нового экземпляра сущности "Адрес"
             string command = "insert into Address(Region, City, Street, House_Number, Flat_Number, Deleted) values ('" + CB_Region.Text + "', '" + TB_City.Text + "', '" + TB_Street.Text + "', '" + TB_House.Text + "', '" + TB_Flat.Text + "', 0)";
             SqlCommand cmd = new SqlCommand(command, Authorization.conn);
             try
@@ -154,18 +167,18 @@ namespace Program
             {
                 OK = false;
             }
-
             if (OK)
+            //Если сущность "Адрес" была добавлена
             {
+                //Получение ID созданного адреса:
                 string command1 = "select max(Address_ID) from Address";
                 cmd = new SqlCommand(command1, Authorization.conn);
                 DbDataReader reader = cmd.ExecuteReader();
                 reader.Read();
                 string Address_ID = reader[0].ToString();
-                reader.Close();//                
-                               //Определение даты рождения
+                reader.Close();                
+                //Определение даты рождения:
                 string ind = (CB_Month.SelectedIndex + 1).ToString();
-                //ind++;
                 if (ind.Length == 1)
                 {
                     ind = "0" + ind;
@@ -175,7 +188,9 @@ namespace Program
                 {
                     day = "0" + day;
                 }
+                //date - Дата Рождения
                 string date = TB_Year.Text + "-" + ind + "-" + day;
+                //Создание сущности "Человек":
                 command1 = "insert into Person(FIO, Birthday, Phone_Number, Email, Address_Code, Deleted) values ('" + TB_Name.Text + "', '" + date + "', '" + TB_Phone.Text + "', '" + TB_Email.Text + "', '" + Address_ID + "', 0)";
                 cmd = new SqlCommand(command1, Authorization.conn);
                 try
@@ -184,8 +199,10 @@ namespace Program
                     reader.Close();
                 }
                 catch
+                //Если не удалось добавить:
                 {
                     OK = false;
+                    //Удалить созданный экземпляр "Адрес":
                     command1 = "delete from Address where Address_ID=" + Address_ID;
                     cmd = new SqlCommand(command1, Authorization.conn);
                     reader = cmd.ExecuteReader();
@@ -193,29 +210,33 @@ namespace Program
                 }
                 if (OK)
                 {
+                    //Получение ID созданного экземпляра "Человек":
                     string command2 = "select max(Person_ID) from Person";
                     cmd = new SqlCommand(command2, Authorization.conn);
                     reader = cmd.ExecuteReader();
                     reader.Read();
                     string Person_ID = reader[0].ToString();
                     reader.Close();
+                    //RegisterDate - дата регистрации - сегодня
                     string RegisterDate = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
+                    //Создание экземпляра "Читатель":
                     command2 = "insert into Reader(Person_Code, Registration_Date, Deleted) values ('" + Person_ID + "', '" + RegisterDate + "', 0)";
                     cmd = new SqlCommand(command2, Authorization.conn);
                     try
                     {
                         reader = cmd.ExecuteReader();
                         reader.Close();
-                        //UPDATE
-
                     }
                     catch
+                    //Если не удалось добавить новый экземпляр "Читатель"
                     {
                         OK = false;
+                        //Удаление созданного экземпляра "Человека"
                         command2 = "delete from Person where Person_ID=" + Person_ID;
                         cmd = new SqlCommand(command2, Authorization.conn);
                         reader = cmd.ExecuteReader();
                         reader.Close();
+                        //Удаление созданного экземпляра "Адрес"
                         command1 = "delete from Address where Address_ID=" + Address_ID;
                         cmd = new SqlCommand(command1, Authorization.conn);
                         reader = cmd.ExecuteReader();
@@ -524,6 +545,10 @@ namespace Program
                     {
                         correct[i] = true;
                     }
+                }
+                else
+                {
+                    reader.Close();
                 }
             }
         }

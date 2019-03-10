@@ -584,11 +584,11 @@ namespace Program
                     command = new SqlCommand(UpdatingDelete, Authorization.conn);
                     reader = command.ExecuteReader();
                     reader.Close();
-                    UpdatingDelete = "update Person set Deleted=1 where Person_ID='" + SelectedReader + "'";
+                    UpdatingDelete = "update Person set Deleted=1 where Person_ID='" + Person_ID + "'";
                     command = new SqlCommand(UpdatingDelete, Authorization.conn);
                     reader = command.ExecuteReader();
                     reader.Close();
-                    UpdatingDelete = "update Address set Deleted=1 where Address_ID='" + SelectedReader + "'";
+                    UpdatingDelete = "update Address set Deleted=1 where Address_ID='" + Address_ID + "'";
                     command = new SqlCommand(UpdatingDelete, Authorization.conn);
                     reader = command.ExecuteReader();
                     reader.Close();

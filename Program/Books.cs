@@ -36,12 +36,14 @@ namespace Program
         {
             AddBook formBookChange = new AddBook(true);
             formBookChange.ShowDialog();
+            OutputBooks(LastQuery);
         }
 
         private void btn_Add_Click(object sender, EventArgs e)
         {
             AddBook formBookAdd = new AddBook();
             formBookAdd.ShowDialog();
+            OutputBooks(LastQuery);
         }
 
         private void btn_Delete_Click(object sender, EventArgs e)
@@ -87,6 +89,7 @@ namespace Program
                     MessageBox.Show("Данная книга уже была удалена. Обновите список книг!");
                 }
                 reader.Close();
+                OutputBooks(LastQuery);
             }
         }
 
@@ -292,6 +295,8 @@ namespace Program
                 else
                 {
                     MessageBox.Show("По заданным фильтрам ничего не найдено!");
+                    DGV_Books.Rows.Clear();
+                    DGV_Books.Columns.Clear();
                 }
                 reader.Close();
             }
@@ -406,8 +411,7 @@ namespace Program
 
         private void btn_FilterReset_Click(object sender, EventArgs e)
         {
-            LastQuery = "";
-            OutputBooks(LastQuery);
+            LastQuery = "";            
             CB_Id.Checked = true;
             CB_Name.Checked = true;
             CB_Author.Checked = true;
@@ -429,6 +433,7 @@ namespace Program
             TB_Year.Text = "";
             TB_BBK.Text = "";
             TB_Producer.Text = "";
+            OutputBooks(LastQuery);
             //btn_Info
         }
 
@@ -449,7 +454,10 @@ namespace Program
                 {
                     int t = Control.XLInput(way);
                     if (t > 0)
+                    {
                         MessageBox.Show("Было успешно добавлено " + t + " книг!");
+                        OutputBooks(LastQuery);
+                    }
                     else MessageBox.Show("Из данного файла не удалось считать ни одной книги!");
                 }
                 catch

@@ -134,7 +134,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Penalty";
-            this.Text = "Штраф";
+            this.Text = "Список штрафов";
             this.Load += new System.EventHandler(this.Penalty_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Penalties)).EndInit();
             this.ResumeLayout(false);

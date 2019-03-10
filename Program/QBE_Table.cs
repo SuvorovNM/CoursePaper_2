@@ -106,5 +106,10 @@ namespace Program
             }
             //DGV_Table.
         }
+
+        private void btn_Close_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

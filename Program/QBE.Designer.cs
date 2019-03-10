@@ -43,6 +43,7 @@
             this.btn_Cancel = new System.Windows.Forms.Button();
             this.DGV_Attributes = new System.Windows.Forms.DataGridView();
             this.DGV_Chosen = new System.Windows.Forms.DataGridView();
+            this.lb_Filter = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Attributes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Chosen)).BeginInit();
             this.SuspendLayout();
@@ -228,11 +229,21 @@
             this.DGV_Chosen.Size = new System.Drawing.Size(251, 187);
             this.DGV_Chosen.TabIndex = 16;
             // 
+            // lb_Filter
+            // 
+            this.lb_Filter.AutoSize = true;
+            this.lb_Filter.Location = new System.Drawing.Point(15, 259);
+            this.lb_Filter.Name = "lb_Filter";
+            this.lb_Filter.Size = new System.Drawing.Size(50, 13);
+            this.lb_Filter.TabIndex = 17;
+            this.lb_Filter.Text = "Фильтр:";
+            // 
             // QBE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(635, 371);
+            this.Controls.Add(this.lb_Filter);
             this.Controls.Add(this.DGV_Chosen);
             this.Controls.Add(this.DGV_Attributes);
             this.Controls.Add(this.btn_Cancel);
@@ -248,8 +259,10 @@
             this.Controls.Add(this.btn_AddOne);
             this.Controls.Add(this.lb_Entity);
             this.Controls.Add(this.CB_Entities);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "QBE";
-            this.Text = "QBE";
+            this.Text = "Конструктор запросов";
             this.Load += new System.EventHandler(this.QBE_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Attributes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Chosen)).EndInit();
@@ -275,5 +288,6 @@
         private System.Windows.Forms.Button btn_Cancel;
         private System.Windows.Forms.DataGridView DGV_Attributes;
         private System.Windows.Forms.DataGridView DGV_Chosen;
+        private System.Windows.Forms.Label lb_Filter;
     }
 }

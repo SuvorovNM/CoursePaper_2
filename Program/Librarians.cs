@@ -179,10 +179,19 @@ namespace Program
                         DGV_Workers.Rows.Add(temp);
                     }
                     reader.Close();
+                    btn_Info.Enabled = true;
+                    btn_Change.Enabled = true;
+                    btn_Delete.Enabled = true;
                 }
                 else
                 {
                     reader.Close();
+                    DGV_Workers.Rows.Clear();
+                    DGV_Workers.Columns.Clear();
+                    MessageBox.Show("По данным фильтрам не найдено ни одного библиотекаря!");
+                    btn_Info.Enabled = false;
+                    btn_Change.Enabled = false;
+                    btn_Delete.Enabled = false;
                 }
             }
             else
@@ -200,10 +209,6 @@ namespace Program
 
         private void btn_Add_Click(object sender, EventArgs e)
         {
-            /*AddReader formChangeReader = new AddReader();
-            formChangeReader.Lib = true;
-            formChangeReader.ShowDialog();
-            OutputLibrarians(LastQuery);*/
             AddLib add = new AddLib();
             add.ShowDialog();
             OutputLibrarians(LastQuery);
@@ -212,6 +217,58 @@ namespace Program
         private void btn_Close_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btn_Change_Click(object sender, EventArgs e)
+        {
+            AddLib ChangeForm = new AddLib(true);
+            ChangeForm.ShowDialog();
+            OutputLibrarians(LastQuery);
+        }
+
+        private void DGV_Workers_SelectionChanged(object sender, EventArgs e)
+        {
+            SelectedUser = DGV_Workers.CurrentRow.Cells[0].Value.ToString();
+        }
+
+        private void btn_Info_Click(object sender, EventArgs e)
+        {
+            Librarian_Info InfoForm = new Librarian_Info();
+            InfoForm.ShowDialog();
+        }
+
+        private void btn_Delete_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Вы точно хотите удалить данного библиотекаря?", "Удаление", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                Control.DeleteLib(SelectedUser);
+                OutputLibrarians(LastQuery);
+            }
+        }
+
+        private void btn_FilterReset_Click(object sender, EventArgs e)
+        {
+            CB_StaffNumber.Checked = true;
+            CB_Name.Checked = true;
+            CB_Birthday.Checked = true;
+            CB_Phone.Checked = false;
+            CB_Email.Checked = false;
+            CB_Hiring.Checked = true;
+            CB_Filter_Date.Checked = false;
+            CB_Filter_Email.Checked = false;
+            CB_Filter_FIO.Checked = false;
+            CB_Filter_Hiring.Checked = false;
+            CB_Filter_Library_Code.Checked = false;
+            CB_Filter_Phone.Checked = false;
+            TB_Email.Text = "";
+            TB_FIO.Text = "";
+            TB_LibrarianCode.Text = "";
+            TB_PhoneNumber.Text = "";
+            DTP_Birth.Value = DateTime.Today;
+            DTP_Hiring.Value = DateTime.Today;
+            LastQuery = "";
+            OutputLibrarians(LastQuery);
         }
     }
 }

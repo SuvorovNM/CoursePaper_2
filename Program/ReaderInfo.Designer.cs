@@ -68,7 +68,7 @@
             // lb_LibraryTicket
             // 
             this.lb_LibraryTicket.AutoSize = true;
-            this.lb_LibraryTicket.Location = new System.Drawing.Point(13, 13);
+            this.lb_LibraryTicket.Location = new System.Drawing.Point(13, 16);
             this.lb_LibraryTicket.Name = "lb_LibraryTicket";
             this.lb_LibraryTicket.Size = new System.Drawing.Size(82, 13);
             this.lb_LibraryTicket.TabIndex = 2;
@@ -221,7 +221,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ReaderInfo";
-            this.Text = "ReaderInfo";
+            this.Text = "Информация о читателе";
             this.Load += new System.EventHandler(this.ReaderInfo_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

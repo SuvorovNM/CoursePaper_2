@@ -104,7 +104,6 @@
     </Compile>
     <Compile Include="DBSQLServerUtils.cs" />
     <Compile Include="DBUtils.cs" />
-    <Compile Include="Excel.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,7 +122,6 @@
     <Compile Include="GiveBook.Designer.cs">
       <DependentUpon>GiveBook.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ini.cs" />
     <Compile Include="Journal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +140,12 @@
     </Compile>
     <Compile Include="Librarian_Account.Designer.cs">
       <DependentUpon>Librarian_Account.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Librarian_Info.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Librarian_Info.Designer.cs">
+      <DependentUpon>Librarian_Info.cs</DependentUpon>
     </Compile>
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
@@ -169,7 +173,6 @@
     <Compile Include="QBE_Table.Designer.cs">
       <DependentUpon>QBE_Table.cs</DependentUpon>
     </Compile>
-    <Compile Include="Reader.cs" />
     <Compile Include="ReaderInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Librarian_Account.resx">
       <DependentUpon>Librarian_Account.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Librarian_Info.resx">
+      <DependentUpon>Librarian_Info.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>

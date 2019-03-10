@@ -53,6 +53,7 @@
             this.btn_Close.TabIndex = 1;
             this.btn_Close.Text = "Закрыть";
             this.btn_Close.UseVisualStyleBackColor = true;
+            this.btn_Close.Click += new System.EventHandler(this.btn_Close_Click);
             // 
             // btn_Output
             // 
@@ -72,8 +73,10 @@
             this.Controls.Add(this.btn_Output);
             this.Controls.Add(this.btn_Close);
             this.Controls.Add(this.DGV_Table);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "QBE_Table";
-            this.Text = "QBE_Table";
+            this.Text = "Результат запроса";
             this.Load += new System.EventHandler(this.QBE_Table_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Table)).EndInit();
             this.ResumeLayout(false);

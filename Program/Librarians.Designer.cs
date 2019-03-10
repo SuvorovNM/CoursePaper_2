@@ -126,6 +126,7 @@
             this.btn_FilterReset.TabIndex = 45;
             this.btn_FilterReset.Text = "Сбросить фильтр";
             this.btn_FilterReset.UseVisualStyleBackColor = true;
+            this.btn_FilterReset.Click += new System.EventHandler(this.btn_FilterReset_Click);
             // 
             // btn_ApplyFilter
             // 
@@ -145,6 +146,7 @@
             this.btn_Delete.Size = new System.Drawing.Size(33, 34);
             this.btn_Delete.TabIndex = 43;
             this.btn_Delete.UseVisualStyleBackColor = true;
+            this.btn_Delete.Click += new System.EventHandler(this.btn_Delete_Click);
             // 
             // btn_Change
             // 
@@ -154,6 +156,7 @@
             this.btn_Change.Size = new System.Drawing.Size(33, 34);
             this.btn_Change.TabIndex = 42;
             this.btn_Change.UseVisualStyleBackColor = true;
+            this.btn_Change.Click += new System.EventHandler(this.btn_Change_Click);
             // 
             // btn_Add
             // 
@@ -173,6 +176,7 @@
             this.btn_Info.Size = new System.Drawing.Size(33, 34);
             this.btn_Info.TabIndex = 40;
             this.btn_Info.UseVisualStyleBackColor = true;
+            this.btn_Info.Click += new System.EventHandler(this.btn_Info_Click);
             // 
             // TB_Email
             // 
@@ -280,6 +284,7 @@
             this.DGV_Workers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DGV_Workers.Size = new System.Drawing.Size(428, 346);
             this.DGV_Workers.TabIndex = 27;
+            this.DGV_Workers.SelectionChanged += new System.EventHandler(this.DGV_Workers_SelectionChanged);
             // 
             // btn_Close
             // 
@@ -360,8 +365,10 @@
             this.Controls.Add(this.CB_StaffNumber);
             this.Controls.Add(this.TB_LibrarianCode);
             this.Controls.Add(this.DGV_Workers);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Librarians";
-            this.Text = "Librarians";
+            this.Text = "Работа с библиотекарями";
             this.Load += new System.EventHandler(this.Librarians_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Workers)).EndInit();
             this.ResumeLayout(false);

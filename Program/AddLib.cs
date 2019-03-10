@@ -8,26 +8,76 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Data.SqlClient;
+using System.Data.Common;
 
 namespace Program
 {
     public partial class AddLib : Form
     {
-        bool[] correct = new bool[9];
+        //correct - массив, с результатами проверки на корректность каждого элемента:
+        bool[] correct = new bool[9];        
+        //Регулярное выражение для поля Email:
         static string patEmail = @"^(?(')('.+?(?<!\\)'@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
+        //Регулярное выражение для поля "Город":
         static string patCity = @"^[a-zA-Zа-яА-Я]+(?:[\s-][a-zA-Zа-яА-Я]+)*$";
         Regex rgEmail = new Regex(patEmail);
         Regex rgCity = new Regex(patCity);
+        //Add - флаг, определяющий для чего используется форма:
+        //false - для добавления библиотекаря
+        //true - для изменения информации о существующем библиотекаре
+        bool Add = false;
         public AddLib()
         {
             InitializeComponent();
         }
-
+        public AddLib(bool _Add)
+        {
+            InitializeComponent();
+            Add = _Add;
+        }
         private void AddLib_Load(object sender, EventArgs e)
         {
-
+            //Максимально возможная дата принятия на работу - сегодня
+            DTP_Hiring_Date.MaxDate = DateTime.Today;
+            if (Add)
+            //Если форма используется для изменения информации о библиотекаре
+            {
+                //Заполнение полей формы:
+                FillForm();
+            }
         }
-
+        private void FillForm()
+        //Заполнение всех полей для выбранного библиотекаря:
+        {
+            //Получение информации о библиотекаре:
+            string CheckForExistance = "select FIO, Phone_Number, Email, Birthday, Region, City, Street, House_Number, Flat_Number, Password, Hiring_Date from Librarian, Person, Address where Librarian.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Staff_Number=" + Librarians.SelectedUser;
+            DbDataReader reader = Control.ExecCommand(CheckForExistance);            
+            if (reader.HasRows)
+            //Если библиотекарь был найден в БД:
+            {
+                reader.Read();
+                TB_Name.Text = reader[0].ToString();
+                TB_Phone.Text = reader[1].ToString();
+                TB_Email.Text = reader[2].ToString();
+                DTP_Birth.Value = (DateTime)reader[3];
+                CB_Region.Text = reader[4].ToString();
+                TB_City.Text = reader[5].ToString();
+                TB_Street.Text = reader[6].ToString();
+                TB_House.Text = reader[7].ToString();
+                TB_Flat.Text = reader[8].ToString();
+                tb_Password.Text = reader[9].ToString();
+                DTP_Hiring_Date.Value = (DateTime)reader[10];
+                reader.Close();
+                //Предполагается, что все полученные поля заполнены корректно:
+                btn_OK.Enabled = true;
+                for (int i = 0; i < correct.Length; i++)
+                {
+                    correct[i] = true;
+                }
+            }
+            else reader.Close();
+        }
         private void btn_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -240,14 +290,31 @@ namespace Program
 
         private void btn_OK_Click(object sender, EventArgs e)
         {
-            bool OK=Control.AddNewLibrarian(TB_Name.Text, TB_Phone.Text, TB_Email.Text, DTP_Birth.Value, CB_Region.Text, TB_City.Text, TB_Street.Text, TB_House.Text, TB_Flat.Text, tb_Password.Text);
-            if (!OK)
+            if (!Add)
+            //Если форма используется для добавления библиотекаря
             {
-                MessageBox.Show("Не удалось добавить библиотекаря с такими данными!");
+                bool OK = Control.AddNewLibrarian(TB_Name.Text, TB_Phone.Text, TB_Email.Text, DTP_Birth.Value, CB_Region.Text, TB_City.Text, TB_Street.Text, TB_House.Text, TB_Flat.Text, tb_Password.Text, DTP_Hiring_Date.Value);
+                if (!OK)
+                {
+                    MessageBox.Show("Не удалось добавить библиотекаря с такими данными!");
+                }
+                else
+                {
+                    Close();
+                }
             }
             else
+            //Если форма используется для изменения библиотекаря
             {
-                Close();
+                bool OK = Control.ChangeLibrarian(TB_Name.Text, TB_Phone.Text, TB_Email.Text, DTP_Birth.Value, CB_Region.Text, TB_City.Text, TB_Street.Text, TB_House.Text, TB_Flat.Text, tb_Password.Text, DTP_Hiring_Date.Value);
+                if (!OK)
+                {
+                    MessageBox.Show("При обновлении данных о библиотекаре возникла ошибка!");
+                }
+                else
+                {
+                    Close();
+                }
             }
         }
     }

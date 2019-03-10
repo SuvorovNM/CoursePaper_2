@@ -50,11 +50,13 @@
             this.DTP_Birth = new System.Windows.Forms.DateTimePicker();
             this.tb_Password = new System.Windows.Forms.TextBox();
             this.lb_Pass = new System.Windows.Forms.Label();
+            this.DTP_Hiring_Date = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btn_Cancel
             // 
-            this.btn_Cancel.Location = new System.Drawing.Point(12, 415);
+            this.btn_Cancel.Location = new System.Drawing.Point(12, 444);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(75, 23);
             this.btn_Cancel.TabIndex = 50;
@@ -65,7 +67,7 @@
             // btn_OK
             // 
             this.btn_OK.Enabled = false;
-            this.btn_OK.Location = new System.Drawing.Point(234, 415);
+            this.btn_OK.Location = new System.Drawing.Point(234, 444);
             this.btn_OK.Name = "btn_OK";
             this.btn_OK.Size = new System.Drawing.Size(75, 23);
             this.btn_OK.TabIndex = 49;
@@ -342,11 +344,32 @@
             this.lb_Pass.TabIndex = 53;
             this.lb_Pass.Text = "Пароль для входа";
             // 
+            // DTP_Hiring_Date
+            // 
+            this.DTP_Hiring_Date.Checked = false;
+            this.DTP_Hiring_Date.Location = new System.Drawing.Point(116, 401);
+            this.DTP_Hiring_Date.MaxDate = new System.DateTime(2050, 1, 1, 0, 0, 0, 0);
+            this.DTP_Hiring_Date.MinDate = new System.DateTime(1899, 1, 1, 0, 0, 0, 0);
+            this.DTP_Hiring_Date.Name = "DTP_Hiring_Date";
+            this.DTP_Hiring_Date.Size = new System.Drawing.Size(193, 20);
+            this.DTP_Hiring_Date.TabIndex = 55;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 405);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(83, 13);
+            this.label1.TabIndex = 54;
+            this.label1.Text = "Дата принятия";
+            // 
             // AddLib
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(321, 450);
+            this.ClientSize = new System.Drawing.Size(321, 479);
+            this.Controls.Add(this.DTP_Hiring_Date);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lb_Pass);
             this.Controls.Add(this.tb_Password);
             this.Controls.Add(this.DTP_Birth);
@@ -369,6 +392,8 @@
             this.Controls.Add(this.lb_Email);
             this.Controls.Add(this.lb_Phone);
             this.Controls.Add(this.lb_Name);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddLib";
             this.Text = "Добавление библиотекаря";
             this.Load += new System.EventHandler(this.AddLib_Load);
@@ -401,5 +426,7 @@
         private System.Windows.Forms.DateTimePicker DTP_Birth;
         private System.Windows.Forms.TextBox tb_Password;
         private System.Windows.Forms.Label lb_Pass;
+        private System.Windows.Forms.DateTimePicker DTP_Hiring_Date;
+        private System.Windows.Forms.Label label1;
     }
 }

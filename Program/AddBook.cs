@@ -15,11 +15,17 @@ namespace Program
 {
     public partial class AddBook : Form
     {
+        //Регулярное выражение для поля "Город":
         static string patCity = @"^[a-zA-Zа-яА-Я]+(?:[\s-][a-zA-Zа-яА-Я]+)*$";
         Regex rgCity = new Regex(patCity);
+        //Регулярное выражение для ISSN периодического издания:
         static string patISSN = @"^\d{4}-\d{3}[\dxX]$";
         Regex rgISSN = new Regex(patISSN);
+        //correct - массив, с результатами проверки на корректность каждого элемента:
         bool[] correct = new bool[11];
+        //IsUpdate - флаг, определяющий для чего используется форма:
+        //false - для добавления книги
+        //true - для изменения информации о существующей книге
         bool IsUpdate = false;
         public AddBook()
         {
@@ -262,23 +268,28 @@ namespace Program
         {
             lb_ReleaseNumber.Visible = false;
             TB_ReleaseNumber.Visible = false;
+            //Если форма используется для добавления книги
             if (!IsUpdate)
             {
                 btn_OK.Enabled = false;
             }
             else
+            //Если форма используется для изменения информации о книге
             {
+                //Все поля ожидаются корректно заполненными
                 for (int i = 0; i < correct.Length; i++)
                 {
                     correct[i] = true;
                 }
                 btn_OK.Enabled = true;
+                //Проверка на то, что изменяется: книга или серийное издание:
                 string SQLCheck = "select * from Book, Publication where Publication_ID=Publication_Code and Publication.Deleted=0 and Publication_ID="+Books.SelectedBook;
                 DbDataReader reader = Control.ExecCommand(SQLCheck);
                 bool IsBook = reader.HasRows;
                 reader.Close();
                 if (IsBook)//Выбрана книга
                 {
+                    //Получение необходимой информации о книге для заполнения всех элементов:
                     CB_PubType.SelectedIndex = 0;
                     CB_PubType.Enabled = false;
                     string SQLInfo = "select Publication.Name, Author, BBK, UDK, ISBN, Page_Quantity, Publisher.Name, Year, City from Publication, Publisher, Book where Publication_Code=Publication_ID and Publisher_Code=Publisher_ID and Publication_ID="+Books.SelectedBook;
@@ -296,7 +307,8 @@ namespace Program
                     reader.Close();
                 }
                 else//Выбрано периодическое издание
-                {                    
+                {
+                    //Получение необходимой информации о серийном издании для заполнения всех элементов:
                     string SQLInfo = "select Publication.Name, Author, BBK, UDK, ISSN, Page_Quantity, Publisher.Name, Year, City, Release_Number from Publication, Publisher, Journal where Publication_Code=Publication_ID and Publisher_Code=Publisher_ID and Publication_ID=" + Books.SelectedBook;
                     reader = Control.ExecCommand(SQLInfo);
                     reader.Read();
@@ -369,39 +381,56 @@ namespace Program
 
         private void btn_OK_Click(object sender, EventArgs e)
         {
-            DbDataReader reader;
+            DbDataReader reader;            
             if (!IsUpdate)
+            //Если новое издание добавляется:
             {
-                int PubID=Control.AddNewPublisher(TB_PubName.Text, TB_Year.Text, TB_City.Text);
+                //PubID - ID издателя
+                //AddNewPublisher - операция по добавлению нового издательства
+                int PubID =Control.AddNewPublisher(TB_PubName.Text, TB_Year.Text, TB_City.Text);                
                 if (PubID == -1)
+                //Если не удалось добавить Издательство:
                 {
                     MessageBox.Show("Поля издателя заполнены некорректно/неполностью!");
                 }
                 else
+                //Если издательство было добавлено
                 {
+                    //BookID - ID издания
+                    //AddNewPublication - добавить новое издание
                     int BookID = Control.AddNewPublication(TB_Name.Text, TB_BBK.Text, TB_UDK.Text, TB_Author.Text, PubID);
                     if (BookID == -1)
+                    //Если издание не было добавлено:
                     {
                         MessageBox.Show("Поля издания заполнены некорректно/неполностью!");
+                        //Удаление созданного экземпляра "Издатель":
                         reader=Control.ExecCommand("delete from Publisher where Publisher_ID=" + PubID);
                         reader.Close();
                     }
                     else
+                    //Если издание было добавлено
                     {
+                        //Added - был ли добавлен экземпляр "Книга"/"Серийное издание"
                         bool Added = false;
-                        if (CB_PubType.SelectedIndex == 0)//Если выбрана книга
+                        if (CB_PubType.SelectedIndex == 0)
+                        //Если выбрана книга
                         {
+                            //AddNewBook - операция по добавлению новой книги
                             Added = Control.AddNewBook(TB_ISBN.Text, TB_Pages.Text, BookID);
                         }
-                        else //Если выбран журнал
+                        else
+                        //Если выбран журнал
                         {
+                            //AddNewJournal - операция по добавлению нового серийного издания
                             Added = Control.AddNewJournal(TB_ReleaseNumber.Text, TB_ISBN.Text.Substring(0,9), TB_Pages.Text, BookID);
                         }
                         if (!Added)
+                        //Если не был добавлен
                         {
                             MessageBox.Show("Поля издания заполнены некорректно/неполностью!");
                             try
                             {
+                                //Удаление созданных Издательства и Издания:
                                 reader = Control.ExecCommand("delete from Publication where Publication_ID=" + BookID);
                                 reader.Close();
                                 reader = Control.ExecCommand("delete from Publisher where Publisher_ID=" + PubID);
@@ -417,24 +446,34 @@ namespace Program
                 }
             }
             else
+            //Если обновляется информация о существующем издании
             {
+                //Обновление информации об Издательстве:
                 bool OK = Control.UpdPublisher(TB_PubName.Text, TB_Year.Text, TB_City.Text);
                 if (OK)
+                //Если удалось обновить информацию:
                 {
+                    //Обновление информации о Издании:
                     OK = Control.UpdPublication(TB_Name.Text, TB_BBK.Text, TB_UDK.Text, TB_Author.Text);
                     if (OK)
+                    //Если удалось обновить информацию:
                     {
-                        if (CB_PubType.SelectedIndex == 0)//Выбрана книга
+                        if (CB_PubType.SelectedIndex == 0)
+                        //Выбрана книга
                         {
+                            //Обновление информации о Книге:
                             OK = Control.UpdBook(TB_ISBN.Text, TB_Pages.Text);
                         }
-                        else//Выбран журнал
+                        else
+                        //Выбран журнал
                         {
+                            //Обновление информации о Серийном издании:
                             OK = Control.UpdJournal(TB_ISBN.Text, TB_Pages.Text, TB_ReleaseNumber.Text);
                         }
                     }
                 }
                 if (!OK)
+                //Если не удалось обновить информацию о существующем издании
                 {
                     MessageBox.Show("Хотя бы 1 из полей заполнено некорректно!");
                 }
@@ -445,6 +484,5 @@ namespace Program
             }
             
         }
-        //Проверить остальные поля на press_up
     }
 }
