@@ -26,13 +26,16 @@ namespace Program
 
         private void BookInfo_Load(object sender, EventArgs e)
         {
+            //Определение типа издания
             string cmdType = "select * from Publication, Book where Book.Publication_Code=Publication_ID and Publication_ID="+Books.SelectedBook;
             SqlCommand cmd = new SqlCommand(cmdType, Authorization.conn);
             DbDataReader reader = cmd.ExecuteReader();
             bool IsBook = reader.HasRows;
             reader.Close();
-            if (IsBook)//Выбрана книга
+            if (IsBook)
+            //Выбрана книга
             {
+                //Получение информации о книге и вывод пользователю:
                 string command = "select Publication_ID, Publication.Name, Publication.Author, BBK, UDK, ISBN, Page_Quantity, Publisher.Name, Publisher.City, Year, Available from Publication, Publisher, Book where Book.Publication_Code=Publication_ID and Publisher_Code=Publisher_ID and Publication_ID="+Books.SelectedBook;
                 cmd = new SqlCommand(command, Authorization.conn);
                 reader = cmd.ExecuteReader();
@@ -57,7 +60,9 @@ namespace Program
                 reader.Close();
             }
             else
+            //Выбрано серийное издание
             {
+                //Получение информации о серийном издании и вывод пользователю:
                 string command = "select Publication_ID, Publication.Name, Publication.Author, BBK, UDK, ISSN, Page_Quantity, Publisher.Name, Publisher.City, Year, Available, Release_Number from Publication, Publisher, Journal where Journal.Publication_Code=Publication_ID and Publisher_Code=Publisher_ID and Publication_ID=" + Books.SelectedBook;
                 cmd = new SqlCommand(command, Authorization.conn);
                 reader = cmd.ExecuteReader();

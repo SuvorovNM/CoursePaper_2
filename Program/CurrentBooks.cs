@@ -33,25 +33,33 @@ namespace Program
             }
         }
         private bool OutputBooks()
-        {
+        //Операция по выводу всех несданных книг для заданного читателя
+        {            
             string sql = "select Publication_Code as 'ID', Name as 'Название книги', Author as 'Автор', Give_Date as 'Дата выдачи', Expected_Return_Date as 'Выдано до', Publication_ID from BookGiving, Publication where Publication_Code=Publication_ID and Real_Return_Date IS NULL and Librarian_Card_Code="+MainMenu.SelectedReader;
             DbDataReader reader = Control.ExecCommand(sql);
             if (reader.HasRows)
+            //Если у читателя есть несданные книги
             {
                 DGV_CurrentBooks.Rows.Clear();
                 DGV_CurrentBooks.Columns.Clear();
+                //Определение названий столбцов:
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
                     string str = reader.GetName(i);
                     DGV_CurrentBooks.Columns.Add(str, str);
                 }
+                //Publication_ID не будет виден пользователю:
                 DGV_CurrentBooks.Columns[reader.FieldCount - 1].Visible = false;
+                //Считывание первой строки:
                 reader.Read();
                 object[] temp = new object[reader.FieldCount];
                 reader.GetValues(temp);
+                //Преобразование дат:
                 temp[3] = ((DateTime)(temp[3])).ToShortDateString();
                 temp[4] = ((DateTime)(temp[4])).ToShortDateString();
+                //Добавление первой строки
                 DGV_CurrentBooks.Rows.Add(temp);
+                //Считывание и добавление остальных строк:
                 while (reader.Read())
                 {
                     temp = new object[reader.FieldCount];
@@ -65,6 +73,7 @@ namespace Program
                 return true;
             }
             else
+            //Если у читателя нет несданных книг
             {
                 reader.Close();
                 DGV_CurrentBooks.Rows.Clear();
@@ -76,11 +85,11 @@ namespace Program
 
         private void btn_Recieve_Click(object sender, EventArgs e)
         {
+            //id - Publication_ID выбранной строки
             string id = DGV_CurrentBooks.CurrentRow.Cells[5].Value.ToString();
             GetBook GiveForm = new GetBook(id);
             GiveForm.ShowDialog();
             OutputBooks();
-            //if (DialogResult.)
         }
     }
 }

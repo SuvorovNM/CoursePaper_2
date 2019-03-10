@@ -14,7 +14,7 @@ namespace Program
             string datasource = @"COMPUTER";
 
             string database = "LibraryDB";
-            string username = @"Admin";//COMPUTER\
+            string username = @"Admin";
             string password = "SuvorovNM_2251";
 
             return DBSQLServerUtils.GetDBConnection(datasource, database, username, password);

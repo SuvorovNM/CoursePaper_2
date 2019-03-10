@@ -17,7 +17,7 @@ namespace Program
         string[] Book = {"Book_ID","ISBN", "Page_Quantity","Publication_Code","Deleted"};
         string[] BookGiving = {"Operation_ID","LibrarianGiver_Staff_Code","Librarian_Card_Code","Penalty_Code", "Publication_Code", "Give_Date","Expected_Return_Date","Real_Return_Date","LibrarianReciever_Staff_Code","Deleted"};
         string[] Journal = {"Journal_ID", "Release_Number", "ISSN", "Page_Quantity", "Publication_Code", "Deleted" };
-        string[] Librarian = {"Staff_Number", "Person_Code", "Hiring_Date", "Password", "Deleted" };
+        string[] Librarian = {"Staff_Number", "Person_Code", "Hiring_Date", "Password", "Deleted", "Privilege" };
         string[] Penalty = {"Penalty_ID","Penalty_Info","Penalty_Sum", "Deleted" };
         string[] Person = {"Person_ID", "FIO","Birthday","Phone_Number","Email","Address_Code","Deleted" };
         string[] Publication = {"Publication_ID", "Name", "BBK", "UDK", "Author", "Publisher_Code", "Deleted","Available" };
@@ -57,6 +57,14 @@ namespace Program
 
         private void QBE_Load(object sender, EventArgs e)
         {
+            if (MainMenu.admin)
+            {
+                Librarian = new string[]{ "Staff_Number", "Person_Code", "Hiring_Date", "Password", "Deleted", "Privilege" };
+            }
+            else
+            {
+                Librarian = new string[] { "Staff_Number", "Person_Code", "Hiring_Date", "Deleted", "Privilege" };
+            }
             Items = new Dictionary<string, string[]>();
             Items.Add("Address", Address);
             Items.Add("Book", Book);

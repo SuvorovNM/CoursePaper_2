@@ -15,11 +15,17 @@ namespace Program
 {
     public partial class Books : Form
     {
+        //ChosenColumns - список выбранных столбцов (true - столбец выбран, false - не выбран)
         bool[] ChosenColumns = new bool[7];
+        //ChosenFilters - список выбранных фильтров (true - фильтр выбран, false - не выбран)
         bool[] ChosenFilters = new bool[7];
+        //LastQuery - Последний использованный фильтр
         string LastQuery = "";
+        //Cols - список названий атрибутов сущностей для выводимых столбцов
         string[] Cols = { "Publication_ID", "Publication.Name", "Author", "Year", "BBK", "Available", "Publisher.Name" };
+        //Cols - список алиасов (названий, выводимых пользователю) для выводимых столбцов
         string[] ColsForUser = { @"'№'", "'Название'", "'Автор'", "'Год'", "'ББК'", "'Наличие'", "'Издательство'" };
+        //SelectedBook - Publication_ID выбранного издания
         public static string SelectedBook = "1";
         public Books()
         {
@@ -47,10 +53,12 @@ namespace Program
         }
 
         private void btn_Delete_Click(object sender, EventArgs e)
+        //Удаление издания
         {
             DialogResult dialogResult = MessageBox.Show("Вы точно хотите удалить данную книгу?", "Удаление", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
+                //Получение ID Издательства:
                 string CheckingExistSQL = "select Publisher_Code from Publisher, Publication where Publication.Deleted=0 and Publisher_Code=Publisher_ID and Publication_ID=" + SelectedBook;
                 DbDataReader reader = Control.ExecCommand(CheckingExistSQL);
                 if (reader.HasRows)
@@ -73,12 +81,14 @@ namespace Program
                     reader.Close();
                     if (IsBook)//Если удаляется книга
                     {
+                        //Удаление книги
                         string SQLUpd3 = "update Book set Deleted=1 where Publication_Code="+SelectedBook;
                         reader = Control.ExecCommand(SQLUpd3);
                         reader.Close();
                     }
                     else//Если удаляется периодическое издание
                     {
+                        //Удаление периодического издания
                         string SQLUpd3 = "update Journal set Deleted=1 where Publication_Code=" + SelectedBook;
                         reader = Control.ExecCommand(SQLUpd3);
                         reader.Close();
@@ -95,6 +105,7 @@ namespace Program
 
         private void btn_ApplyFilter_Click(object sender, EventArgs e)
         {
+            //Создание WHERE CLAUSE:
             string[] values = new string[7];
             values[0] = TB_Id.Text;
             values[1] = TB_Name.Text;
@@ -108,11 +119,13 @@ namespace Program
             {
                 if (ChosenFilters[i])
                 {
+                    //Если использован фильтр Название, Автор, Издательство, то проверяется не точное, а частичное совпадение
                     if (i == 1 || i == 2 || i == 6)
                     {
                         FilterCode += " and " + Cols[i] + " like '%" + values[i] + "%'";
                     }
                     else
+                    //Проверка на точное совпадение заданному значению
                     {
                         FilterCode += " and " + Cols[i] + "= '" + values[i] + "'";
                     }
@@ -214,15 +227,22 @@ namespace Program
             ChosenColumns[4] = true;
             ChosenColumns[5] = true;
             LastQuery = "";
+            //Изначальный вывод книг при загрузке формы:
             OutputBooks(LastQuery);
         }
         public void OutputBooks(string filter)
+        //Вывод книг по заданному фильтру (WHERE CLAUSE)
         {
+            //existance - наличие книги
             bool existance = false;
             int index = 0;
+            //indexofex - Номер столбца с наличием книги
             int indexofex = -1;
+            //Columns - выводимые столбцы
             string Columns = "";
+            //AtLeastOne - выводится хотя бы 1 столбец
             bool AtLeastOne = false;
+            //Составление строки с выводимыми столбцами (с алиасами):
             for (int i = 0; i < ChosenColumns.Length; i++)
             {
                 if (ChosenColumns[i])
@@ -231,13 +251,15 @@ namespace Program
                     {
                         existance = true;
                         indexofex = index;
-                    }
+                    }                    
                     if (!AtLeastOne)
+                    //Первый выводимый столбец:
                     {
                         Columns += Cols[i] + " as " + ColsForUser[i];
                         AtLeastOne = true;
                     }
                     else
+                    //Начиная со второго столбца:
                     {
                         Columns += ", " + Cols[i] + " as " + ColsForUser[i];
                     }
@@ -245,25 +267,33 @@ namespace Program
                 }
             }
             if (Columns != "")
+            //Если список выводимых столбцов не пуст:
             {
+                //Составление итогового запроса:
+                //Publication_ID используется для однозначного определения выбранного пользователем издания
                 string Books = "select Publication_ID, "+Columns+" from Publication, Publisher where Publisher_Code=Publisher_ID and Publication.Deleted=0 "+filter;
                 SqlCommand cmd = new SqlCommand(Books, Authorization.conn);
                 DbDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
+                //Если по заданному запросу найдено хотя бы 1 издание
                 {
                     DGV_Books.Rows.Clear();
                     DGV_Books.Columns.Clear();
+                    //Столбец ID - будет невидимым для пользователя
                     DGV_Books.Columns.Add("ID", "ID");
                     DGV_Books.Columns[0].Visible = false;
+                    //Определение названий столбцов для DataGridView:
                     for (int i = 1; i < reader.FieldCount; i++)
                     {
                         string str = reader.GetName(i);
                         DGV_Books.Columns.Add(str, str);
                     }
+                    //Считывание первой строки:
                     reader.Read();
                     object[] temp = new object[reader.FieldCount];
                     reader.GetValues(temp);
-                    if (existance == true)
+                    if (existance)
+                    //Преобразование значения столбца "Наличия" в приемлимый для пользователя вид
                     {
                         if (temp[indexofex + 1].ToString() == "false")
                         {
@@ -274,11 +304,13 @@ namespace Program
                             temp[indexofex + 1] = "Есть";
                         }
                     }
+                    //Добавление строки
                     DGV_Books.Rows.Add(temp);
+                    //Считывание остальных строк:
                     while (reader.Read())
                     {
                         reader.GetValues(temp);
-                        if (existance == true)
+                        if (existance)
                         {
                             if (temp[indexofex+1].ToString() == "False")
                             {
@@ -293,6 +325,7 @@ namespace Program
                     }
                 }
                 else
+                //Если по заданному запросу не было найдено ни 1 книги:
                 {
                     MessageBox.Show("По заданным фильтрам ничего не найдено!");
                     DGV_Books.Rows.Clear();
@@ -301,6 +334,7 @@ namespace Program
                 reader.Close();
             }
             else
+            //Если список выводимых столбцов пуст
             {
                 DGV_Books.Rows.Clear();
                 DGV_Books.Columns.Clear();
@@ -411,6 +445,7 @@ namespace Program
 
         private void btn_FilterReset_Click(object sender, EventArgs e)
         {
+            //Сброс всех фильтров на изначальные значения:
             LastQuery = "";            
             CB_Id.Checked = true;
             CB_Name.Checked = true;
@@ -434,7 +469,6 @@ namespace Program
             TB_BBK.Text = "";
             TB_Producer.Text = "";
             OutputBooks(LastQuery);
-            //btn_Info
         }
 
         private void DGV_Books_SelectionChanged(object sender, EventArgs e)
@@ -452,8 +486,11 @@ namespace Program
                 string way = opf.FileName;
                 try
                 {
+                    //Control.XLInput - операция по импорту книг из файла с расширением .xlsx
+                    //t - количество добавленных книг
                     int t = Control.XLInput(way);
                     if (t > 0)
+                    //Если была добавлена хоть 1 книга:
                     {
                         MessageBox.Show("Было успешно добавлено " + t + " книг!");
                         OutputBooks(LastQuery);
