@@ -13,10 +13,14 @@ namespace Program
 {
     public partial class GetBook : Form
     {
+        //Регулярное выражение для формата валюты
         static string CurrFormat = @"^((\d{1,3})(?:[0-9]{3}){0,1}|(\d{1})(?:[0-9]{3}){0,2}|(\d{1,7}))(\,\d{2})?$";
         Regex rgCurr = new Regex(CurrFormat);
+        //correct - массив, с результатами проверки на корректность каждого элемента:
         bool[] Correct = new bool[3];
+        //Publication_ID - ID издания
         string Publication_ID;
+        //Operation_ID - ID операции по выдаче книги
         string Operation_ID;
         public GetBook()
         {
@@ -40,8 +44,7 @@ namespace Program
         {
             TB_PaySum.Enabled = false;
             RTB_PenaltyInfo.Enabled = false;
-            /*Correct[1] = true;
-            Correct[2] = true;*/
+            btn_Search.Enabled = false;
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -59,6 +62,7 @@ namespace Program
         private void TB_BookID_KeyUp(object sender, KeyEventArgs e)
         {
             int id = 0;
+            btn_Search.Enabled = TB_BookID.Text.Length > 0;
             if (TB_BookID.Text.Length > 0)
             {
                 Int32.TryParse(TB_BookID.Text, out id);
@@ -89,8 +93,14 @@ namespace Program
 
         private void UpdateForm()
         {
+            //items - массив информации о выданной книге:
+            //items[0] - номер читательского билета читателя, которому была выдана книга
+            //items[1] - дата выдачи книги
+            //items[2] - дата, до которой выдана книга
+            //items[3] - код операции по выдаче книги
             object[] items = Control.GetInfoAboutGivenBook(TB_BookID.Text);
             if (items != null)
+            //Если книга с TB_BookID есть в списке выданных, но не сданных книг
             {
                 TB_LibraryTicket.Text = items[0].ToString();
                 TB_LibraryTicket.Visible = true;
@@ -118,6 +128,7 @@ namespace Program
                 Operation_ID = items[3].ToString();
             }
             else
+            //Если книги с TB_BookID нет в списке выданных, но не сданных книг
             {
                 TB_LibraryTicket.Visible = false;
                 lb_ReaderTicket.Visible = false;
@@ -141,7 +152,7 @@ namespace Program
 
         private void CB_Penalty_CheckedChanged(object sender, EventArgs e)
         {
-            if (CB_Penalty.Checked)
+            if (CB_Penalty.Checked)            
             {
                 TB_PaySum.Enabled = true;
                 RTB_PenaltyInfo.Enabled = true;
@@ -158,7 +169,6 @@ namespace Program
 
         private void TB_PaySum_KeyUp(object sender, KeyEventArgs e)
         {
-            //
             if (rgCurr.IsMatch(TB_PaySum.Text))
             {
                 Correct[1] = true;

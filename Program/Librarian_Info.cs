@@ -21,10 +21,13 @@ namespace Program
 
         private void Librarian_Info_Load(object sender, EventArgs e)
         {
+            //index - ID выбранного библиотекаря
             string index = Librarians.SelectedUser;
+            //Получение информации о выбранном библиотекаре
             string command = "select Staff_Number, FIO, Birthday, Phone_Number, Email, Region, City, Street, House_Number, Flat_Number, Password, Hiring_Date from Librarian, Person, Address where Librarian.Person_Code=Person.Person_ID and Address_Code=Address_ID and Staff_Number=" + index;
             DbDataReader reader = Control.ExecCommand(command);
             if (reader.HasRows)
+            //Если в БД присутствует библиотекарь с ID=index:
             {
                 reader.Read();
                 TB_StaffNumber.Text = reader[0].ToString();
@@ -34,10 +37,11 @@ namespace Program
                 TB_Email.Text = reader[4].ToString();
                 RTB_Address.Text = "Регион: " + reader[5].ToString() + "; Город: " + reader[6].ToString() + "; Улица: " + reader[7].ToString() + "; Дом: " + reader[8].ToString() + "; Квартира: " + reader[9].ToString();
                 TB_Password.Text = reader[10].ToString();
-                TB_Hiring_Date.Text = reader[11].ToString();
+                TB_Hiring_Date.Text = ((DateTime)reader[11]).ToShortDateString();
                 reader.Close();
             }
             else
+            //Если библиотекарь не был найден:
             {
                 reader.Close();
                 MessageBox.Show("Не удалось получить информацию о данном библиотекаре!");

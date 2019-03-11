@@ -48,7 +48,7 @@
             this.RTB_PenaltyInfo = new System.Windows.Forms.RichTextBox();
             this.btn_Apply = new System.Windows.Forms.Button();
             this.btn_Back = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn_Search = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // TB_GivenUntil
@@ -249,22 +249,22 @@
             this.btn_Back.UseVisualStyleBackColor = true;
             this.btn_Back.Click += new System.EventHandler(this.btn_Back_Click);
             // 
-            // button1
+            // btn_Search
             // 
-            this.button1.Location = new System.Drawing.Point(204, 33);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 34;
-            this.button1.Text = "Поиск";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btn_Search.Location = new System.Drawing.Point(204, 33);
+            this.btn_Search.Name = "btn_Search";
+            this.btn_Search.Size = new System.Drawing.Size(75, 23);
+            this.btn_Search.TabIndex = 34;
+            this.btn_Search.Text = "Поиск";
+            this.btn_Search.UseVisualStyleBackColor = true;
+            this.btn_Search.Click += new System.EventHandler(this.button1_Click);
             // 
             // GetBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(307, 423);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btn_Search);
             this.Controls.Add(this.btn_Back);
             this.Controls.Add(this.btn_Apply);
             this.Controls.Add(this.RTB_PenaltyInfo);
@@ -316,6 +316,6 @@
         private System.Windows.Forms.RichTextBox RTB_PenaltyInfo;
         private System.Windows.Forms.Button btn_Apply;
         private System.Windows.Forms.Button btn_Back;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn_Search;
     }
 }

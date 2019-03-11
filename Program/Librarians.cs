@@ -14,11 +14,17 @@ namespace Program
 {
     public partial class Librarians : Form
     {
+        //ChosenColumns - список выбранных столбцов (true - столбец выбран, false - не выбран)
         bool[] ChosenColumns = new bool[6];
+        //ChosenFilters - список выбранных фильтров (true - фильтр выбран, false - не выбран)
         bool[] ChosenFilters = new bool[6];
+        //SelectedUser - ID выбранного библиотекаря
         public static string SelectedUser = "1";
+        //LastQuery - Последний использованный фильтр
         string LastQuery = "";
+        //Cols - список названий атрибутов сущностей для выводимых столбцов
         string[] Cols = { "Staff_Number", "FIO", "Birthday", "Phone_Number", "Email", "Hiring_Date" };
+        //ColsForUser - список алиасов (названий, выводимых пользователю) для выводимых столбцов
         string[] ColsForUser = { @"'№'", "'ФИО'", "'Дата рождения'", "'Номер телефона'", "'Email'", "'Дата принятия'" };
 
         public Librarians()
@@ -97,6 +103,7 @@ namespace Program
 
         private void btn_ApplyFilter_Click(object sender, EventArgs e)
         {
+            //Составление фильтра (WHERE CLAUSE):
             string[] values = new string[6];
             values[0] = TB_LibrarianCode.Text;
             values[1] = TB_FIO.Text;
@@ -118,53 +125,70 @@ namespace Program
                     }
             }
             LastQuery = FilterCode;
+            //Вывод таблицы по заданному фильтру и выбранным столбцам
             OutputLibrarians(LastQuery);
         }
         private void OutputLibrarians(string filter)
+        //Вывод библиотекарей по заданному фильтру filter (WHERE CLAUSE) и выбранным столбцам
         {
+            //Columns - строка для выводимых пользователю столбцов
             string Columns = "";
-            bool AtLeastOne = false;//->false
+            //AtLeastOne - выводится хотя бы 1 столбец
+            bool AtLeastOne = false;
+            //Составление строки с выводимыми столбцами (с алиасами):
             for (int i = 0; i < ChosenColumns.Length; i++)
             {
                 if (ChosenColumns[i])
                 {
                     if (!AtLeastOne)
+                    //Первый выводимый столбец:
                     {
                         Columns += Cols[i] + " as " + ColsForUser[i];
                         AtLeastOne = true;
                     }
                     else
+                    //Начиная со второго столбца:
                     {
                         Columns += ", " + Cols[i] + " as " + ColsForUser[i];
                     }
                 }
             }
             if (Columns != "")
+            //Если список выводимых столбцов не пуст:
             {
+                //Составление итогового запроса:
                 string Readers = "select Staff_Number, " + Columns + " from Librarian, Person, Address where Librarian.Person_Code=Person.Person_ID and Person.Address_Code=Address.Address_ID and Privilege=0 and Librarian.Deleted=0" + filter;
                 DbDataReader reader = Control.ExecCommand(Readers);
                 if (reader.HasRows)
+                //Если по заданному запросу найден хотя бы 1 библиотекарь
                 {
                     DGV_Workers.Rows.Clear();
                     DGV_Workers.Columns.Clear();
+                    //В столбце ID будет храниться ID выводимого библиотекаря
+                    //Столбец ID не будет виден пользователю
                     DGV_Workers.Columns.Add("ID", "ID");
                     DGV_Workers.Columns[0].Visible = false;
+                    //Определение названий столбцов для DataGridView:
                     for (int i = 1; i < reader.FieldCount; i++)
                     {
                         string str = reader.GetName(i);
                         DGV_Workers.Columns.Add(str, str);
                     }
+                    //Считывание первой строки:
                     reader.Read();
                     object[] temp = new object[reader.FieldCount];
                     reader.GetValues(temp);
-                    for (int i = 0; i < reader.FieldCount; i++)//Удаление ЧЧ:ММ из DateTime
+                    for (int i = 0; i < reader.FieldCount; i++)
                     {
+                        //Удаление ЧЧ:ММ из выводимых дат:
                         if (temp[i] is DateTime)
                         {
                             temp[i] = temp[i].ToString().Substring(0, temp[i].ToString().IndexOf(' '));
                         }
                     }
+                    //Вывод строки
                     DGV_Workers.Rows.Add(temp);
+                    //Считывание и вывод остальных строк
                     while (reader.Read())
                     {
                         temp = new object[reader.FieldCount];
@@ -184,6 +208,7 @@ namespace Program
                     btn_Delete.Enabled = true;
                 }
                 else
+                //Если по данному запросу не было найдено ни 1 библиотекаря:
                 {
                     reader.Close();
                     DGV_Workers.Rows.Clear();
@@ -195,6 +220,7 @@ namespace Program
                 }
             }
             else
+            //Если список выводимых столбцов оказался пуст
             {
                 DGV_Workers.Rows.Clear();
                 DGV_Workers.Columns.Clear();
@@ -209,6 +235,7 @@ namespace Program
 
         private void btn_Add_Click(object sender, EventArgs e)
         {
+            //Добавление библиотекаря:
             AddLib add = new AddLib();
             add.ShowDialog();
             OutputLibrarians(LastQuery);
@@ -221,6 +248,7 @@ namespace Program
 
         private void btn_Change_Click(object sender, EventArgs e)
         {
+            //Изменение библиотекаря:
             AddLib ChangeForm = new AddLib(true);
             ChangeForm.ShowDialog();
             OutputLibrarians(LastQuery);
@@ -239,6 +267,7 @@ namespace Program
 
         private void btn_Delete_Click(object sender, EventArgs e)
         {
+            //Удаление библиотекаря:
             DialogResult dialogResult = MessageBox.Show("Вы точно хотите удалить данного библиотекаря?", "Удаление", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {

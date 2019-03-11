@@ -13,7 +13,7 @@ using System.Data.Common;
 namespace Program
 {
     public partial class ReaderInfo : Form
-    {//Добавить инфу о штрафах
+    {
         public ReaderInfo()
         {
             InitializeComponent();
@@ -23,6 +23,7 @@ namespace Program
         {
             CurrentBooks formBooks = new CurrentBooks(TB_Name.Text);
             formBooks.ShowDialog();
+            TB_Penalty.Text = Control.GetPenalty(MainMenu.SelectedReader);//
         }
 
         private void btn_Back_Click(object sender, EventArgs e)

@@ -219,7 +219,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Librarian_Info";
-            this.Text = "Librarian_Info";
+            this.Text = "Информация о библиотекаре";
             this.Load += new System.EventHandler(this.Librarian_Info_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

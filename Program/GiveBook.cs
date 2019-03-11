@@ -12,7 +12,9 @@ namespace Program
 {
     public partial class GiveBook : Form
     {
+        //Correct - флаг, показывающий корректность заполнения поля "Идент. номер книги"
         bool Correct = false;
+        //date - дата, до которой выдана книга
         string date;
         public GiveBook()
         {
@@ -79,6 +81,7 @@ namespace Program
         private void btn_OK_Click(object sender, EventArgs e)
         {
             if (Control.BookExists(TB_BookID.Text))
+            //Если книга была найдена в списке доступных, то выдача книги текущему читателю:
             {
                 string Today = DateTime.Today.Year + "-" + DateTime.Today.Month + "-" + DateTime.Today.Day;
                 string id =Control.GiveBook(TB_StaffID.Text, TB_LibraryTicket.Text, TB_BookID.Text, Today, date);
@@ -89,6 +92,7 @@ namespace Program
                 }
             }
             else
+            //Если книги нет в списке доступных для выдачи, вывод сообщения об ошибке:
             {
                 MessageBox.Show("Данной книги нет в списке доступных для выдачи книг!");
             }

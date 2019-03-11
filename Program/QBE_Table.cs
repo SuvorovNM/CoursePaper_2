@@ -14,6 +14,7 @@ namespace Program
 {
     public partial class QBE_Table : Form
     {
+        //sql - переданный SQL-запрос из формы QBE
         string sql = "";
         public QBE_Table(string _sql)
         {
@@ -27,18 +28,22 @@ namespace Program
             {
                 DbDataReader reader = Control.ExecCommand(sql);
                 if (reader.HasRows)
+                //Если результат SQL-запроса не пуст
                 {
                     DGV_Table.Rows.Clear();
                     DGV_Table.Columns.Clear();
+                    //Определение названий столбцов для DataGridView:
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
                         string str = reader.GetName(i);
                         DGV_Table.Columns.Add(str, str);
                     }
+                    //Считывание и обработка 1 строки:
                     reader.Read();
                     object[] temp = new object[reader.FieldCount];
                     reader.GetValues(temp);
-                    for (int i = 0; i < reader.FieldCount; i++)//Удаление ЧЧ:ММ из даты
+                    //Удаление ЧЧ:ММ из дат:
+                    for (int i = 0; i < reader.FieldCount; i++)
                     {
                         if (temp[i] is DateTime)
                         {
@@ -46,11 +51,13 @@ namespace Program
                         }
                     }
                     DGV_Table.Rows.Add(temp);
+                    //Считывание и обработка остальных строк:
                     while (reader.Read())
                     {
                         temp = new object[reader.FieldCount];
                         reader.GetValues(temp);
-                        for (int i = 0; i < reader.FieldCount; i++)//Удаление ЧЧ:ММ из даты
+                        //Удаление ЧЧ:ММ из дат:
+                        for (int i = 0; i < reader.FieldCount; i++)
                         {
                             if (temp[i] is DateTime)
                             {
@@ -62,6 +69,7 @@ namespace Program
                     reader.Close();
                 }
                 else
+                //Если результат SQL-запроса пуст
                 {
                     reader.Close();
                     DGV_Table.Rows.Clear();
@@ -71,6 +79,7 @@ namespace Program
                 }
             }
             catch(Exception ex)
+            //Если при обработке запроса произошла ошибка:
             {
                 MessageBox.Show("При обработке запроса возникла ошибка: " + ex.Message);
                 Close();
@@ -78,11 +87,13 @@ namespace Program
         }
 
         private void btn_Output_Click(object sender, EventArgs e)
+        //Экспорт полученной таблицы в файл с расширением .xlsx
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "Excel files (*.xlsx)|*.xlsx";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
+                //data - матрица, представляющая полученную таблицу
                 string[,] data = new string[DGV_Table.Rows.Count + 1, DGV_Table.Columns.Count];
                 for (int t=0;t< DGV_Table.Columns.Count; t++)
                 {
@@ -97,6 +108,7 @@ namespace Program
                 }
                 try
                 {
+                    //Сохранение таблицы по пути sfd.FileName
                     Control.XLOutput(sfd.FileName, data, DGV_Table.Rows.Count + 1, DGV_Table.Columns.Count);
                 }
                 catch
@@ -104,7 +116,6 @@ namespace Program
                     MessageBox.Show("При сохранении файла произошла ошибка!");
                 }
             }
-            //DGV_Table.
         }
 
         private void btn_Close_Click(object sender, EventArgs e)

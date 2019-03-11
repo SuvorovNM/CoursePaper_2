@@ -19,6 +19,7 @@ namespace Program
 
         private void Librarian_Account_Load(object sender, EventArgs e)
         {
+            //Заполнение всех полей информацией о текущем авторизованном библиотекаре
             TB_Name.Text = MainMenu.CurrentLibrarian.FIO;
             TB_Birth.Text = MainMenu.CurrentLibrarian.Birth;
             TB_Phone.Text = MainMenu.CurrentLibrarian.Phone;

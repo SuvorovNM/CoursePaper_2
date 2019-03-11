@@ -14,10 +14,15 @@ namespace Program
 {
     public partial class Journal : Form
     {
+        //ChosenColumns - список выбранных столбцов (true - столбец выбран, false - не выбран)
         bool[] ChosenColumns = new bool[10];
+        //ChosenFilters - список выбранных фильтров (true - фильтр выбран, false - не выбран)
         bool[] ChosenFilters = new bool[8];
+        //Cols - список названий атрибутов сущностей для выводимых столбцов
         string[] Cols = { "Operation_ID","Publication_Code", "Librarian_Card_Code", "LibrarianGiver_Staff_Code", "LibrarianReciever_Staff_Code", "Give_Date","Expected_Return_Date","Real_Return_Date","Penalty_Sum","Penalty_Info" };
+        //ColsForUser - список алиасов (названий, выводимых пользователю) для выводимых столбцов
         string[] ColsForUser = { @"'Код операции'", "'ID книги'", "'№ Читательского билета'", "'Шт. номер выдавшего'", "'Шт. номер принявшего'", "'Дата выдачи'", "'Ожидаемая дата сдачи'", "'Реальная дата сдачи'", "'Сумма штрафа'", "'Информация о штрафе'" };
+        //LastQuery - Последний использованный фильтр
         string LastQuery;
         public Journal()
         {
@@ -141,6 +146,7 @@ namespace Program
 
         private void btn_ApplyFilters_Click(object sender, EventArgs e)
         {
+            //Создание фильтра (WHERE CLAUSE):
             string[] values = new string[8];
             string d0 = "";
             string d1 = "";
@@ -175,56 +181,70 @@ namespace Program
                     FilterCode += " and " + Cols[i] + "= '" + values[i] + "'";
             }
             LastQuery = FilterCode;
+            //Вывод таблицы с заданным фильтром и выбранными столбцами для вывода
             OutputJ(LastQuery);
         }
         private void OutputJ(string filter)
+        //Вывод в DataGridView полученной таблицы с заданным фильтром и выбранными столбцами для вывода
         {
+            //Columns - строка для выводимых пользователю столбцов
             string Columns = "";
-            bool AtLeastOne = false;//->false
+            //AtLeastOne - выводится хотя бы 1 столбец
+            bool AtLeastOne = false;
+            //Составление строки с выводимыми столбцами (с алиасами):
             for (int i = 0; i < ChosenColumns.Length; i++)
             {
                 if (ChosenColumns[i])
                 {
                     if (!AtLeastOne)
+                    //Первый выводимый столбец:
                     {
                         Columns += Cols[i] + " as " + ColsForUser[i];
                         AtLeastOne = true;
                     }
                     else
+                    //Начиная со второго столбца:
                     {
                         Columns += ", " + Cols[i] + " as " + ColsForUser[i];
                     }
                 }
             }
             if (Columns != "")
+            //Если список выводимых столбцов не пуст:
             {
+                //Составление итогового запроса:
                 string sql = "select " + Columns + " from BookGiving, Penalty where BookGiving.Deleted=0 and Penalty_Code=Penalty_ID" + filter;
                 DbDataReader reader = Control.ExecCommand(sql);
                 if (reader.HasRows)
+                //Если по заданному запросу найдена хотя бы 1 строка журнала
                 {
                     DGV_Journal.Rows.Clear();
                     DGV_Journal.Columns.Clear();
+                    //Определение названий столбцов для DataGridView:
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
                         string str = reader.GetName(i);
                         DGV_Journal.Columns.Add(str, str);
                     }
+                    //Считывание первой строки:
                     reader.Read();
                     object[] temp = new object[reader.FieldCount];
                     reader.GetValues(temp);
-                    for (int i = 0; i < reader.FieldCount; i++)//Удаление ЧЧ:ММ из Birthday
+                    for (int i = 0; i < reader.FieldCount; i++)//Удаление ЧЧ:ММ из выводимых дат
                     {
                         if (temp[i] is DateTime)
                         {
                             temp[i] = ((DateTime)temp[i]).ToShortDateString();
                         }
                     }
+                    //Добавление 1 строки
                     DGV_Journal.Rows.Add(temp);
+                    //Считывание и добавление остальных строк
                     while (reader.Read())
                     {
                         temp = new object[reader.FieldCount];
                         reader.GetValues(temp);
-                        for (int i = 0; i < reader.FieldCount; i++)//Удаление ЧЧ:ММ из Birthday
+                        for (int i = 0; i < reader.FieldCount; i++)//Удаление ЧЧ:ММ из выводимых дат
                         {
                             if (temp[i] is DateTime)
                             {
@@ -236,7 +256,9 @@ namespace Program
                     reader.Close();
                 }
                 else
+                //Вывод MessageBox с сообщением о пустом содержимом?
                 {
+                    MessageBox.Show("Не было найдено ни одной записи журнала!");
                     DGV_Journal.Rows.Clear();
                     DGV_Journal.Columns.Clear();
                     reader.Close();

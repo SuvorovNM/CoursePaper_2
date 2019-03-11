@@ -23,7 +23,7 @@ namespace Program
         string LastQuery = "";
         //Cols - список названий атрибутов сущностей для выводимых столбцов
         string[] Cols = { "Publication_ID", "Publication.Name", "Author", "Year", "BBK", "Available", "Publisher.Name" };
-        //Cols - список алиасов (названий, выводимых пользователю) для выводимых столбцов
+        //ColsForUser - список алиасов (названий, выводимых пользователю) для выводимых столбцов
         string[] ColsForUser = { @"'№'", "'Название'", "'Автор'", "'Год'", "'ББК'", "'Наличие'", "'Издательство'" };
         //SelectedBook - Publication_ID выбранного издания
         public static string SelectedBook = "1";
@@ -231,14 +231,14 @@ namespace Program
             OutputBooks(LastQuery);
         }
         public void OutputBooks(string filter)
-        //Вывод книг по заданному фильтру (WHERE CLAUSE)
+        //Вывод книг по заданному фильтру filter (WHERE CLAUSE) и выбранным столбцам
         {
-            //existance - наличие книги
+            //existance - присутствие атрибута "Наличие" у издания
             bool existance = false;
             int index = 0;
             //indexofex - Номер столбца с наличием книги
             int indexofex = -1;
-            //Columns - выводимые столбцы
+            //Columns - строка для выводимых пользователю столбцов
             string Columns = "";
             //AtLeastOne - выводится хотя бы 1 столбец
             bool AtLeastOne = false;
