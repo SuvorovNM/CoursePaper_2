@@ -181,7 +181,6 @@ namespace Program
             values[0] = TB_LibraryCard.Text;
             values[1] = TB_FIO.Text;
             string ind = (CB_Month.SelectedIndex + 1).ToString();
-            //ind++;
             if (ind.Length == 1)
             {
                 ind = "0" + ind;

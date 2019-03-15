@@ -39,6 +39,10 @@
             // 
             this.DGV_CurrentBooks.AllowUserToAddRows = false;
             this.DGV_CurrentBooks.AllowUserToDeleteRows = false;
+            this.DGV_CurrentBooks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DGV_CurrentBooks.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DGV_CurrentBooks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_CurrentBooks.Location = new System.Drawing.Point(13, 30);
             this.DGV_CurrentBooks.MultiSelect = false;
@@ -59,6 +63,7 @@
             // 
             // btn_Recieve
             // 
+            this.btn_Recieve.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Recieve.Location = new System.Drawing.Point(469, 365);
             this.btn_Recieve.Name = "btn_Recieve";
             this.btn_Recieve.Size = new System.Drawing.Size(89, 23);
@@ -69,6 +74,7 @@
             // 
             // button2
             // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button2.Location = new System.Drawing.Point(15, 365);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
@@ -88,6 +94,7 @@
             this.Controls.Add(this.DGV_CurrentBooks);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(586, 439);
             this.Name = "CurrentBooks";
             this.Text = "Текущие книги для читателя";
             this.Load += new System.EventHandler(this.CurrentBooks_Load);

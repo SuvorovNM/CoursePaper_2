@@ -53,6 +53,10 @@ namespace Program
                     MainMenu.enter = this;
                     this.Hide();
                 }
+                else
+                {
+                    MessageBox.Show("Введен неверный логин и/или пароль!");
+                }
                 reader.Close();
             }
             catch

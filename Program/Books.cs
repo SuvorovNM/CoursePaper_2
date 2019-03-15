@@ -119,7 +119,8 @@ namespace Program
             {
                 if (ChosenFilters[i])
                 {
-                    //Если использован фильтр Название, Автор, Издательство, то проверяется не точное, а частичное совпадение
+                    //Если использован фильтр Название, Автор, Издательство, 
+                    //то проверяется не точное, а частичное совпадение
                     if (i == 1 || i == 2 || i == 6)
                     {
                         FilterCode += " and " + Cols[i] + " like '%" + values[i] + "%'";
@@ -271,7 +272,9 @@ namespace Program
             {
                 //Составление итогового запроса:
                 //Publication_ID используется для однозначного определения выбранного пользователем издания
-                string Books = "select Publication_ID, "+Columns+" from Publication, Publisher where Publisher_Code=Publisher_ID and Publication.Deleted=0 "+filter;
+                string Books = "select Publication_ID, "+Columns+" " +
+                    "from Publication, Publisher " +
+                    "where Publisher_Code=Publisher_ID and Publication.Deleted=0 "+filter;
                 SqlCommand cmd = new SqlCommand(Books, Authorization.conn);
                 DbDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)

@@ -324,10 +324,11 @@
             this.Controls.Add(this.lb_BBK);
             this.Controls.Add(this.lb_Author);
             this.Controls.Add(this.lb_Name);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddBook";
-            this.Text = "Добавление книги";
+            this.Text = "Добавление издания";
             this.Load += new System.EventHandler(this.AddBook_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -216,6 +216,7 @@
             this.Controls.Add(this.lb_LibraryTicket);
             this.Controls.Add(this.lb_Birth);
             this.Controls.Add(this.lb_Name);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Librarian_Info";

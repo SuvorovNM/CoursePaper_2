@@ -45,6 +45,7 @@ namespace Program
             {
                 //Заполнение полей формы:
                 FillForm();
+                this.Text = "Изменение библиотекаря";
             }
         }
         private void FillForm()

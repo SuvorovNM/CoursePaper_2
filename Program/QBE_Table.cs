@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data.Common;
+using System.Threading;
 
 namespace Program
 {
@@ -21,7 +22,6 @@ namespace Program
             InitializeComponent();
             sql = _sql;
         }
-
         private void QBE_Table_Load(object sender, EventArgs e)
         {
             try
@@ -110,6 +110,7 @@ namespace Program
                 {
                     //Сохранение таблицы по пути sfd.FileName
                     Control.XLOutput(sfd.FileName, data, DGV_Table.Rows.Count + 1, DGV_Table.Columns.Count);
+                    MessageBox.Show("Данные были сохранены в выбранный вами файл!");
                 }
                 catch
                 {

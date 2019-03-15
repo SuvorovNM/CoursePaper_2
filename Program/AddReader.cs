@@ -519,6 +519,7 @@ namespace Program
                 SqlCommand command = new SqlCommand(CheckForExistance, Authorization.conn);
                 DbDataReader reader = command.ExecuteReader();
                 bool exist = reader.HasRows;
+                this.Text = "Изменение читателя";
                 if (exist)
                 {
                     reader.Read();
@@ -549,6 +550,8 @@ namespace Program
                 else
                 {
                     reader.Close();
+                    MessageBox.Show("Не удалось загрузить информацию для изменения для данного читателя!");
+                    Close();
                 }
             }
         }

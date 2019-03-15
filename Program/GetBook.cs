@@ -147,6 +147,7 @@ namespace Program
                 lb_PenaltyInfo.Visible = false;
                 RTB_PenaltyInfo.Visible = false;
                 btn_Apply.Visible = false;
+                MessageBox.Show("Данная книга не числится в списке выданных!");
             }
         }
 

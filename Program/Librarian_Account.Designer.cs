@@ -153,6 +153,7 @@
             this.Controls.Add(this.lb_Birthday);
             this.Controls.Add(this.TB_Name);
             this.Controls.Add(this.lb_Name);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Librarian_Account";

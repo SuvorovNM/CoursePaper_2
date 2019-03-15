@@ -44,6 +44,7 @@
             this.TSM_Report = new System.Windows.Forms.ToolStripMenuItem();
             this.TSM_Librarian = new System.Windows.Forms.ToolStripMenuItem();
             this.TSM_Librarian_Profile = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSM_Librarian_Work = new System.Windows.Forms.ToolStripMenuItem();
             this.TSM_Librarian_Change = new System.Windows.Forms.ToolStripMenuItem();
             this.TSM_Librarian_Quit = new System.Windows.Forms.ToolStripMenuItem();
             this.DGV_Readers = new System.Windows.Forms.DataGridView();
@@ -66,7 +67,6 @@
             this.CB_Filter_Date = new System.Windows.Forms.CheckBox();
             this.CB_Filter_Phone = new System.Windows.Forms.CheckBox();
             this.CB_Filter_Email = new System.Windows.Forms.CheckBox();
-            this.TSM_Librarian_Work = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_Update = new System.Windows.Forms.Button();
             this.btn_Delete = new System.Windows.Forms.Button();
             this.btn_Change = new System.Windows.Forms.Button();
@@ -209,6 +209,13 @@
             this.TSM_Librarian_Profile.Text = "Просмотр профиля";
             this.TSM_Librarian_Profile.Click += new System.EventHandler(this.TSM_Librarian_Profile_Click);
             // 
+            // TSM_Librarian_Work
+            // 
+            this.TSM_Librarian_Work.Name = "TSM_Librarian_Work";
+            this.TSM_Librarian_Work.Size = new System.Drawing.Size(218, 22);
+            this.TSM_Librarian_Work.Text = "Работа с библиотекарями";
+            this.TSM_Librarian_Work.Click += new System.EventHandler(this.TSM_Librarian_Work_Click);
+            // 
             // TSM_Librarian_Change
             // 
             this.TSM_Librarian_Change.Name = "TSM_Librarian_Change";
@@ -227,6 +234,9 @@
             // 
             this.DGV_Readers.AllowUserToAddRows = false;
             this.DGV_Readers.AllowUserToDeleteRows = false;
+            this.DGV_Readers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.DGV_Readers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DGV_Readers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Readers.Location = new System.Drawing.Point(194, 48);
@@ -448,15 +458,9 @@
             this.CB_Filter_Email.UseVisualStyleBackColor = true;
             this.CB_Filter_Email.CheckedChanged += new System.EventHandler(this.CB_Filter_Email_CheckedChanged);
             // 
-            // TSM_Librarian_Work
-            // 
-            this.TSM_Librarian_Work.Name = "TSM_Librarian_Work";
-            this.TSM_Librarian_Work.Size = new System.Drawing.Size(218, 22);
-            this.TSM_Librarian_Work.Text = "Работа с библиотекарями";
-            this.TSM_Librarian_Work.Click += new System.EventHandler(this.TSM_Librarian_Work_Click);
-            // 
             // btn_Update
             // 
+            this.btn_Update.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Update.Image = global::Program.Properties.Resources._13;
             this.btn_Update.Location = new System.Drawing.Point(628, 71);
             this.btn_Update.Name = "btn_Update";
@@ -467,6 +471,7 @@
             // 
             // btn_Delete
             // 
+            this.btn_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Delete.Image = global::Program.Properties.Resources.Крест;
             this.btn_Delete.Location = new System.Drawing.Point(628, 310);
             this.btn_Delete.Name = "btn_Delete";
@@ -477,6 +482,7 @@
             // 
             // btn_Change
             // 
+            this.btn_Change.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Change.Image = global::Program.Properties.Resources.Гаечный_ключ1;
             this.btn_Change.Location = new System.Drawing.Point(628, 249);
             this.btn_Change.Name = "btn_Change";
@@ -487,6 +493,7 @@
             // 
             // btn_Add
             // 
+            this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Add.Image = global::Program.Properties.Resources.plus11;
             this.btn_Add.Location = new System.Drawing.Point(628, 188);
             this.btn_Add.Name = "btn_Add";
@@ -497,6 +504,7 @@
             // 
             // btn_Info
             // 
+            this.btn_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Info.Image = global::Program.Properties.Resources.img_5255192;
             this.btn_Info.Location = new System.Drawing.Point(628, 130);
             this.btn_Info.Name = "btn_Info";
@@ -538,6 +546,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(697, 466);
             this.Name = "MainMenu";
             this.Text = "Главное меню";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainMenu_FormClosed);

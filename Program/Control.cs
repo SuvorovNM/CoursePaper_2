@@ -92,8 +92,6 @@ namespace Program
                         string Name = books[i, 1].ToString();
                         //Author - автор книги
                         string Author = books[i, 2].ToString();
-
-                        //string TypePub = books[i, 0].ToString();//
                         //BBK - ББК книги
                         string BBK = books[i, 3].ToString();
                         //UDK - УДК книги
@@ -111,9 +109,11 @@ namespace Program
                         //Number - номер выпуска журнала (для книг не учитывается)
                         string Number = books[i, 10].ToString();
                         //Проверка корректности длин каждого из значений
-                        CorrectInput = (IsBook == "0" || IsBook == "1") && Name.Length > 2 && Name.Length < 255 && Author.Length > 2 && Author.Length < 80 &&
-                            BBK.Length > 0 && BBK.Length < 80 && UDK.Length > 0 && UDK.Length < 80 && ISBN.Length > 8 && ISBN.Length < 19 && Pages.Length > 0 && PubName.Length > 2 && PubName.Length < 80
-                            && PubCity.Length > 2 && PubCity.Length < 40 && PubYear.Length == 4;
+                        CorrectInput = (IsBook == "0" || IsBook == "1") && Name.Length > 2 && Name.Length < 255 
+                            && Author.Length > 2 && Author.Length < 80 &&
+                            BBK.Length > 0 && BBK.Length < 80 && UDK.Length > 0 && UDK.Length < 80 
+                            && ISBN.Length > 8 && ISBN.Length < 19 && Pages.Length > 0 && PubName.Length > 2 
+                            && PubName.Length < 80 && PubCity.Length > 2 && PubCity.Length < 40 && PubYear.Length == 4;
                         if (CorrectInput)
                         {
                             //PubCode - ID издательства (Publisher)
@@ -197,7 +197,8 @@ namespace Program
             return penalty;
         }
         //Принятие книги с записью штрафа:
-        public static bool GetBook(string Publication_ID, string Operation_ID, string LibrarianReciever, string Penalty_Info, string Penalty_Sum)
+        public static bool GetBook(string Publication_ID, string Operation_ID, string LibrarianReciever, 
+            string Penalty_Info, string Penalty_Sum)
         //Обработчик получения книги библиотекарем от читателя
         //Publication_ID - ID издания
         //Operation_ID - ID операции по выдаче/принятии книги
@@ -206,7 +207,8 @@ namespace Program
         //Penalty_Sum - сумма налагаемого штрафа (по умолчанию = 0)
         {
             //Создание сущности "Штраф"
-            string sql = "insert into Penalty (Penalty_Info, Penalty_Sum, Deleted) values ('"+Penalty_Info+"', '"+Penalty_Sum+"', 0)";
+            string sql = "insert into Penalty (Penalty_Info, Penalty_Sum, Deleted) " +
+                "values ('"+Penalty_Info+"', '"+Penalty_Sum+"', 0)";
             DbDataReader reader = null;
             string Penalty_ID = "";
             try
@@ -223,7 +225,9 @@ namespace Program
                 string today = DateTime.Today.Year+"-"+DateTime.Today.Month+"-"+DateTime.Today.Day;
                 //Обновление операции по выдаче принятии/книги добавлением экземпляра штрафа, 
                 //даты реального возврата и штатным номером принявшего книгу библиотекаря
-                sql = "update BookGiving set Penalty_Code="+Penalty_ID+", Real_Return_Date='"+today+"', LibrarianReciever_Staff_Code="+LibrarianReciever+" where Operation_ID="+Operation_ID;
+                sql = "update BookGiving set Penalty_Code="+Penalty_ID+", Real_Return_Date='"+today+"', " +
+                    "LibrarianReciever_Staff_Code="+LibrarianReciever+" " +
+                    "where Operation_ID="+Operation_ID;
                 reader = ExecCommand(sql);
                 reader.Close();
                 //Обновление поля "Наличие" на 1 (т.е. книга появится в списке доступных для выдачи)
@@ -243,7 +247,8 @@ namespace Program
         //Получение информации о выданной книге (если она на самом деле выдана)
         //id - ID издания
         {
-            string sql = "select Librarian_Card_Code, Give_Date, Expected_Return_Date, Operation_ID from BookGiving where Publication_Code="+id+" and Real_Return_Date IS NULL";
+            string sql = "select Librarian_Card_Code, Give_Date, Expected_Return_Date, Operation_ID " +
+                "from BookGiving where Publication_Code="+id+" and Real_Return_Date IS NULL";
             //Получение данных:
             //Librarian_Card_Code - ID читателя (номер читательского билета)
             //Give_Date - дата выдачи книги
@@ -280,7 +285,8 @@ namespace Program
             }
         }
         
-        public static string GiveBook(string LibrarianGiver_Staff_Code, string Librarian_Card_Code, string Publication_Code, string Give_Date, string Expected_Return_Date)
+        public static string GiveBook(string LibrarianGiver_Staff_Code, string Librarian_Card_Code, 
+            string Publication_Code, string Give_Date, string Expected_Return_Date)
         //Обработчик выдачи книги читателю
         //Возвращает код операции выдачи
         //LibrarianGiver_Staff_Code - код библиотекаря, выдающего книгу
@@ -289,8 +295,10 @@ namespace Program
         //Give_Date - дата выдачи книги
         //Expected_Return_Date - ожидаемая дата возврата (т.е. книга выдана до этой даты)
         {
-            string sql = "insert into BookGiving(LibrarianGiver_Staff_Code, Librarian_Card_Code, Publication_Code, Give_Date, Expected_Return_Date, Deleted) " +
-                "values ('" + LibrarianGiver_Staff_Code + "', '" + Librarian_Card_Code + "', '" + Publication_Code + "', '" + Give_Date + "', '" + Expected_Return_Date + "', 0)";
+            string sql = "insert into BookGiving(LibrarianGiver_Staff_Code, Librarian_Card_Code, " +
+                "Publication_Code, Give_Date, Expected_Return_Date, Deleted) " +
+                "values ('" + LibrarianGiver_Staff_Code + "', '" + Librarian_Card_Code + "', '" 
+                + Publication_Code + "', '" + Give_Date + "', '" + Expected_Return_Date + "', 0)";
             DbDataReader reader = null;
             try
             {
@@ -335,7 +343,8 @@ namespace Program
         //Возвращает индекс добавленного элемента, если добавление прошло успешно
         {
             int Publisher_ID = -1;
-            string sql = "insert into Publisher(Name, Year, City, Deleted) values ('"+Name+"', '"+Year+"', '"+City+"', 0)";
+            string sql = "insert into Publisher(Name, Year, City, Deleted) " +
+                "values ('"+Name+"', '"+Year+"', '"+City+"', 0)";
             try
             {
                 DbDataReader reader = ExecCommand(sql);
@@ -428,7 +437,8 @@ namespace Program
             //Publication_ID
             int Publication_ID = -1;
             //Добавление нового издания:
-            string sql = "insert into Publication(Name, BBK, UDK, Author, Publisher_Code, Deleted, Available) values ('"+Name+"', '"+BBK+"', '"+UDK+"', '"+Author+"', '"+Publisher_Code+"', 0, 1)";
+            string sql = "insert into Publication(Name, BBK, UDK, Author, Publisher_Code, Deleted, Available) " +
+                "values ('"+Name+"', '"+BBK+"', '"+UDK+"', '"+Author+"', '"+Publisher_Code+"', 0, 1)";
             try
             {
                 DbDataReader reader = ExecCommand(sql);
@@ -454,7 +464,8 @@ namespace Program
         //Publication_Code - ID издания, на которое будет ссылаться книга
         //Возвращает true, если книга была добавлена; false - если не была добавлена
         {
-            string sql = "insert into Book(ISBN, Page_Quantity, Publication_Code, Deleted) values ('"+ISBN+"', '"+Page_Quantity+"', '"+Publication_Code+"', 0)";
+            string sql = "insert into Book(ISBN, Page_Quantity, Publication_Code, Deleted) " +
+                "values ('"+ISBN+"', '"+Page_Quantity+"', '"+Publication_Code+"', 0)";
             try
             {
                 DbDataReader reader = ExecCommand(sql);
@@ -496,7 +507,8 @@ namespace Program
         {
             string PubID = Books.SelectedBook;
             DbDataReader reader = null;
-            string sqlUpd = "update Journal set ISSN='"+ISSN+"', Page_Quantity='"+Page_Quantity+"', Release_Number='"+Release_Number+"' where Publication_Code="+PubID;
+            string sqlUpd = "update Journal set ISSN='"+ISSN+"', Page_Quantity='"+Page_Quantity+"', " +
+                "Release_Number='"+Release_Number+"' where Publication_Code="+PubID;
             try
             {
                 reader = ExecCommand(sqlUpd);
@@ -529,7 +541,9 @@ namespace Program
             }
             return true;
         }
-        public static bool AddNewLibrarian(string FIO, string Phone_Number, string Email, DateTime Birthday, string Region, string City, string Street, string House_Number,string Flat_Number, string Password, DateTime Hiring)
+        public static bool AddNewLibrarian(string FIO, string Phone_Number, string Email,
+            DateTime Birthday, string Region, string City, string Street, string House_Number, 
+            string Flat_Number, string Password, DateTime Hiring)
         //Операция по добавлению нового библиотекаря
         //FIO - ФИО библиотекаря
         //Phone_Number - номер телефона библиотекаря
@@ -544,7 +558,8 @@ namespace Program
         //Hiring - дата найма библиотекаря
         {
             //Добавление нового экземпляра Адрес:
-            string sql = "insert into Address(Region, City, Street, House_Number, Flat_Number, Deleted) values ('" + Region + "', '" + City + "', '" + Street + "', '" + House_Number + "', '" + Flat_Number + "', 0)";
+            string sql = "insert into Address(Region, City, Street, House_Number, Flat_Number, Deleted) " +
+                "values ('" + Region + "', '" + City + "', '" + Street + "', '" + House_Number + "', '" + Flat_Number + "', 0)";
             DbDataReader reader = ExecCommand(sql);
             reader.Close();
             //Получение ID добавленного адреса:
@@ -557,7 +572,8 @@ namespace Program
             string Bday = Birthday.Year + "-" + Birthday.Month + "-" + Birthday.Day;
             try
             {
-                sql = "insert into Person(FIO, Birthday, Phone_Number, Email, Address_Code, Deleted) values ('" + FIO + "', '" + Bday + "', '" + Phone_Number + "', '" + Email + "', '" + Address_ID + "', 0)";
+                sql = "insert into Person(FIO, Birthday, Phone_Number, Email, Address_Code, Deleted) " +
+                    "values ('" + FIO + "', '" + Bday + "', '" + Phone_Number + "', '" + Email + "', '" + Address_ID + "', 0)";
                 reader = ExecCommand(sql);
                 reader.Close();
             }
@@ -582,7 +598,8 @@ namespace Program
             reader.Close();
             //Добавление нового экземпляра Библиотекарь:
             string Hiring_Date = Hiring.Year + "-" + Hiring.Month + "-" + Hiring.Day;
-            sql="insert into Librarian(Person_Code, Hiring_Date, Password, Deleted, Privilege) values ('" + Person_ID + "', '" + Hiring_Date + "', '"+Password+"', 0, 0)";
+            sql="insert into Librarian(Person_Code, Hiring_Date, Password, Deleted, Privilege) " +
+                "values ('" + Person_ID + "', '" + Hiring_Date + "', '"+Password+"', 0, 0)";
             try
             {
                 reader = ExecCommand(sql);
@@ -606,7 +623,9 @@ namespace Program
             }
         }
 
-        public static bool ChangeLibrarian(string FIO, string Phone_Number, string Email, DateTime Birthday, string Region, string City, string Street, string House_Number, string Flat_Number, string Password, DateTime Hiring)
+        public static bool ChangeLibrarian(string FIO, string Phone_Number, string Email, 
+            DateTime Birthday, string Region, string City, string Street, string House_Number, 
+            string Flat_Number, string Password, DateTime Hiring)
         //Операция по изменению информации о существующем библиотекаре
         //FIO - ФИО библиотекаря
         //Phone_Number - номер телефона библиотекаря
@@ -622,7 +641,9 @@ namespace Program
         {
             //Получение Person_ID (ID сущности Человек), Address_ID (ID сущности Адрес)
             //Librarians.SelectedUser - текущий выбранный библиотекарь
-            string IDs = "select Person_ID, Address_ID from Librarian, Person, Address where Librarian.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Staff_Number=" + Librarians.SelectedUser;
+            string IDs = "select Person_ID, Address_ID from Librarian, Person, Address " +
+                "where Librarian.Deleted=0 and Person_Code=Person_ID " +
+                "and Address_Code=Address_ID and Staff_Number=" + Librarians.SelectedUser;
             DbDataReader reader = ExecCommand(IDs);
             //Если такие ID были найдены:
             if (reader.HasRows)
@@ -632,7 +653,10 @@ namespace Program
                 string Address_ID = reader[1].ToString();
                 reader.Close();
                 //Изменение информации о Адресе:
-                string sql = "update Address set Region='" + Region + "', City='" + City + "', Street='" + Street + "', House_Number='" + House_Number + "', Flat_Number='" + Flat_Number + "' where Address_ID=" + Address_ID;
+                string sql = "update Address set Region='" + Region + "', City='" + City + "', " +
+                    "Street='" + Street + "', House_Number='" + House_Number + "', " +
+                    "Flat_Number='" + Flat_Number + "' " +
+                    "where Address_ID=" + Address_ID;
                 try
                 {
                     reader = ExecCommand(sql);
@@ -646,7 +670,9 @@ namespace Program
                 //Изменение информации об атрибутах сущности Человек:
                 string birth = Birthday.Year + "-" + Birthday.Month + "-" + Birthday.Day;
                 string Hiring_Date = Hiring.Year + "-" + Hiring.Month + "-" + Hiring.Day;
-                sql = "update Person set FIO='" + FIO + "', Birthday='" + birth + "', Phone_Number='" + Phone_Number + "', Email='" + Email + "' where Person_ID=" + Person_ID;
+                sql = "update Person set FIO='" + FIO + "', Birthday='" + birth + "', " +
+                    "Phone_Number='" + Phone_Number + "', Email='" + Email + "' " +
+                    "where Person_ID=" + Person_ID;
                 try
                 {
                     reader = ExecCommand(sql);
@@ -658,7 +684,8 @@ namespace Program
                     return false;
                 }
                 //Изменение информации об атрибутах сущности Библиотекарь:
-                sql = "update Librarian set Hiring_Date='"+Hiring_Date+"', Password='"+Password+"' where Person_Code="+Person_ID;
+                sql = "update Librarian set Hiring_Date='"+Hiring_Date+"', Password='"+Password+"' " +
+                    "where Person_Code="+Person_ID;
                 try
                 {
                     reader = ExecCommand(sql);
@@ -684,7 +711,9 @@ namespace Program
         //Staff_Number - ID текущего выбранного библиотекаря (его штатный номер)
         {
             //Получение Person_ID (ID сущности Человек), Address_ID (ID сущности Адрес)
-            string CheckForExistance = "select Person_ID, Address_ID from Librarian, Person, Address where Librarian.Deleted=0 and Person_Code=Person_ID and Address_Code=Address_ID and Staff_Number=" + Staff_Number;
+            string CheckForExistance = "select Person_ID, Address_ID from Librarian, Person, Address " +
+                "where Librarian.Deleted=0 and Person_Code=Person_ID " +
+                "and Address_Code=Address_ID and Staff_Number=" + Staff_Number;
             DbDataReader reader = ExecCommand(CheckForExistance);
             //Если такие ID были найдены:
             if (reader.HasRows)

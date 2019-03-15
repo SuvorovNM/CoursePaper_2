@@ -18,9 +18,12 @@ namespace Program
         //Book - атрибуты сущности "Книга"
         string[] Book = {"Book_ID","ISBN", "Page_Quantity","Publication_Code","Deleted"};
         //BookGiving - атрибуты сущности "Выдача/принятие книги"
-        string[] BookGiving = {"Operation_ID","LibrarianGiver_Staff_Code","Librarian_Card_Code","Penalty_Code", "Publication_Code", "Give_Date","Expected_Return_Date","Real_Return_Date","LibrarianReciever_Staff_Code","Deleted"};
+        string[] BookGiving = {"Operation_ID","LibrarianGiver_Staff_Code","Librarian_Card_Code",
+            "Penalty_Code", "Publication_Code", "Give_Date","Expected_Return_Date",
+            "Real_Return_Date","LibrarianReciever_Staff_Code","Deleted"};
         //Journal - атрибуты сущности "Серийное издание"
-        string[] Journal = {"Journal_ID", "Release_Number", "ISSN", "Page_Quantity", "Publication_Code", "Deleted" };
+        string[] Journal = {"Journal_ID", "Release_Number", "ISSN", "Page_Quantity",
+            "Publication_Code", "Deleted" };
         //Librarian - атрибуты сущности "Библиотекарь"
         string[] Librarian = {"Staff_Number", "Person_Code", "Hiring_Date", "Password", "Deleted", "Privilege" };
         //Penalty - атрибуты сущности "Штраф"
@@ -28,7 +31,8 @@ namespace Program
         //Person - атрибуты сущности "Человек"
         string[] Person = {"Person_ID", "FIO","Birthday","Phone_Number","Email","Address_Code","Deleted" };
         //Publication - атрибуты сущности "Издание"
-        string[] Publication = {"Publication_ID", "Name", "BBK", "UDK", "Author", "Publisher_Code", "Deleted","Available" };
+        string[] Publication = {"Publication_ID", "Name", "BBK", "UDK", "Author", "Publisher_Code",
+            "Deleted","Available" };
         //Publisher - атрибуты сущности "Издатель"
         string[] Publisher = {"Publisher_ID","Name","Year", "City", "Deleted" };
         //Reader - атрибуты сущности "Читатель"
@@ -79,13 +83,15 @@ namespace Program
             //Если есть права администратора:
             {
                 //Сущность библиотекарь содержит атрибут "Password"
-                Librarian = new string[]{ "Staff_Number", "Person_Code", "Hiring_Date", "Password", "Deleted", "Privilege" };
+                Librarian = new string[]{ "Staff_Number", "Person_Code", "Hiring_Date",
+                    "Password", "Deleted", "Privilege" };
             }
             else
             //Если у текущего библиотекаря нет прав администратора
             {
                 //Сущность библиотекарь не содержит атрибут "Password"
-                Librarian = new string[] { "Staff_Number", "Person_Code", "Hiring_Date", "Deleted", "Privilege" };
+                Librarian = new string[] { "Staff_Number", "Person_Code", "Hiring_Date",
+                    "Deleted", "Privilege" };
             }
             //Составление словаря Items:
             Items = new Dictionary<string, string[]>();
@@ -281,7 +287,7 @@ namespace Program
             if (DGV_Chosen.Rows.Count > 0)
             {
                 //Составление списка выводимых столбцов:
-                selects += "select distinct ";
+                selects = "select distinct top (10000) ";
                 //table - список используемых сущностей
                 List<string> table = new List<string>();
                 //Составление списка используемых сущностей:
@@ -307,13 +313,15 @@ namespace Program
                 //sql - соединение selects и tables
                 sql = selects + tables;
                 //Если последний фильтр был корректно заполнен:
-                if (CB_ChAt.Text.Length > 0 && CB_Sign.Text.Length > 0 && CB_Value.Text.Length > 0 && CB_Conj.SelectedIndex == 2)
+                if (CB_ChAt.Text.Length > 0 && CB_Sign.Text.Length > 0 && CB_Value.Text.Length > 0 
+                    && CB_Conj.SelectedIndex == 2)
                 {
                     where +=" "+CB_ChAt.Text + CB_Sign.Text + CB_Value.Text;
                 }
                 else
                 {
-                    if (count == 0 && CB_ChAt.Text.Length == 0 && CB_Sign.Text.Length == 0 && CB_Value.Text.Length == 0 && CB_Conj.SelectedIndex == -1)
+                    if (count == 0 && CB_ChAt.Text.Length == 0 && CB_Sign.Text.Length == 0 
+                        && CB_Value.Text.Length == 0 && CB_Conj.SelectedIndex == -1)
                     {
                         where = "";
                         sql.Remove(sql.Length - 1);

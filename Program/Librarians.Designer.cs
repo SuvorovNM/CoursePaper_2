@@ -60,6 +60,7 @@
             // 
             // btn_Update
             // 
+            this.btn_Update.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Update.Image = global::Program.Properties.Resources._13;
             this.btn_Update.Location = new System.Drawing.Point(627, 44);
             this.btn_Update.Name = "btn_Update";
@@ -140,6 +141,7 @@
             // 
             // btn_Delete
             // 
+            this.btn_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Delete.Image = global::Program.Properties.Resources.Крест;
             this.btn_Delete.Location = new System.Drawing.Point(627, 283);
             this.btn_Delete.Name = "btn_Delete";
@@ -150,6 +152,7 @@
             // 
             // btn_Change
             // 
+            this.btn_Change.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Change.Image = global::Program.Properties.Resources.Гаечный_ключ1;
             this.btn_Change.Location = new System.Drawing.Point(627, 222);
             this.btn_Change.Name = "btn_Change";
@@ -160,6 +163,7 @@
             // 
             // btn_Add
             // 
+            this.btn_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Add.Image = global::Program.Properties.Resources.plus11;
             this.btn_Add.Location = new System.Drawing.Point(627, 161);
             this.btn_Add.Name = "btn_Add";
@@ -170,6 +174,7 @@
             // 
             // btn_Info
             // 
+            this.btn_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Info.Image = global::Program.Properties.Resources.img_5255192;
             this.btn_Info.Location = new System.Drawing.Point(627, 103);
             this.btn_Info.Name = "btn_Info";
@@ -274,7 +279,10 @@
             // 
             this.DGV_Workers.AllowUserToAddRows = false;
             this.DGV_Workers.AllowUserToDeleteRows = false;
-            this.DGV_Workers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.DGV_Workers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DGV_Workers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DGV_Workers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Workers.Location = new System.Drawing.Point(193, 21);
             this.DGV_Workers.MultiSelect = false;
@@ -288,6 +296,7 @@
             // 
             // btn_Close
             // 
+            this.btn_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Close.Location = new System.Drawing.Point(602, 389);
             this.btn_Close.Name = "btn_Close";
             this.btn_Close.Size = new System.Drawing.Size(75, 23);
@@ -367,6 +376,7 @@
             this.Controls.Add(this.DGV_Workers);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(705, 463);
             this.Name = "Librarians";
             this.Text = "Работа с библиотекарями";
             this.Load += new System.EventHandler(this.Librarians_Load);

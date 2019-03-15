@@ -392,6 +392,7 @@
             this.Controls.Add(this.lb_Email);
             this.Controls.Add(this.lb_Phone);
             this.Controls.Add(this.lb_Name);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddLib";

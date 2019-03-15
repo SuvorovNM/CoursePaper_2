@@ -285,6 +285,7 @@
             this.Controls.Add(this.lb_ReaderTicket);
             this.Controls.Add(this.TB_BookID);
             this.Controls.Add(this.lb_BookID);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "GetBook";

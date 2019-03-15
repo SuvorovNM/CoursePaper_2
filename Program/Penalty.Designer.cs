@@ -98,12 +98,13 @@
             // 
             this.DGV_Penalties.AllowUserToAddRows = false;
             this.DGV_Penalties.AllowUserToDeleteRows = false;
-            this.DGV_Penalties.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedHeaders;
+            this.DGV_Penalties.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DGV_Penalties.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Penalties.Location = new System.Drawing.Point(13, 54);
             this.DGV_Penalties.MultiSelect = false;
             this.DGV_Penalties.Name = "DGV_Penalties";
             this.DGV_Penalties.ReadOnly = true;
+            this.DGV_Penalties.RowHeadersVisible = false;
             this.DGV_Penalties.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DGV_Penalties.Size = new System.Drawing.Size(485, 273);
             this.DGV_Penalties.TabIndex = 1;
@@ -131,6 +132,7 @@
             this.Controls.Add(this.TB_CurrentPenaltySum);
             this.Controls.Add(this.lb_CurrentPenalty);
             this.Controls.Add(this.lb_Name);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Penalty";

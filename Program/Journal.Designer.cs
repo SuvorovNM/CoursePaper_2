@@ -65,6 +65,10 @@
             // 
             this.DGV_Journal.AllowUserToAddRows = false;
             this.DGV_Journal.AllowUserToDeleteRows = false;
+            this.DGV_Journal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DGV_Journal.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DGV_Journal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Journal.Location = new System.Drawing.Point(180, 12);
             this.DGV_Journal.Name = "DGV_Journal";
@@ -211,6 +215,7 @@
             // 
             // btn_Close
             // 
+            this.btn_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Close.Location = new System.Drawing.Point(657, 490);
             this.btn_Close.Name = "btn_Close";
             this.btn_Close.Size = new System.Drawing.Size(75, 23);
@@ -397,6 +402,7 @@
             this.Controls.Add(this.DGV_Journal);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(760, 562);
             this.Name = "Journal";
             this.Text = "Журнал выдачи и принятия книг";
             this.Load += new System.EventHandler(this.Journal_Load);

@@ -237,6 +237,7 @@
             this.Controls.Add(this.lb_Author);
             this.Controls.Add(this.lb_Name);
             this.Controls.Add(this.lb_BookID);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "BookInfo";

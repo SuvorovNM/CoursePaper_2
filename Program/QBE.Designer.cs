@@ -259,6 +259,7 @@
             this.Controls.Add(this.btn_AddOne);
             this.Controls.Add(this.lb_Entity);
             this.Controls.Add(this.CB_Entities);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "QBE";

@@ -88,6 +88,7 @@
             this.Controls.Add(this.tb_Login);
             this.Controls.Add(this.lb_Password);
             this.Controls.Add(this.lb_Login);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "Authorization";
             this.Text = "Авторизация";
