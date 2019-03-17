@@ -264,11 +264,6 @@ namespace Program
             }
             btn_Next.Enabled = Control.CheckCorrect(Correct);
         }
-
-        private void CB_Value_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //
-        }
         private void RefreshForm()
         //Обновление полей фильтров и очищение sql, where, tables, selects
         {
@@ -280,6 +275,7 @@ namespace Program
             sql = "";
             tables = "";
             selects = "";
+            count = 0;
             where = "where";
         }
         private void btn_OK_Click(object sender, EventArgs e)

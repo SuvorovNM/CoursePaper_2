@@ -150,7 +150,6 @@
             this.CB_Value.Name = "CB_Value";
             this.CB_Value.Size = new System.Drawing.Size(177, 21);
             this.CB_Value.TabIndex = 10;
-            this.CB_Value.SelectedIndexChanged += new System.EventHandler(this.CB_Value_SelectedIndexChanged);
             this.CB_Value.TextChanged += new System.EventHandler(this.CB_Value_TextChanged);
             // 
             // CB_Conj

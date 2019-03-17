@@ -133,30 +133,41 @@ namespace Program
                                     if (IsBook == "0")
                                     {
                                         //Добавление новой книги
-                                        AddNewBook(ISBN, Pages, Pub_ID);
+                                        if (!AddNewBook(ISBN, Pages, Pub_ID))
+                                        {
+                                            //Удаление издателя и издательства
+                                            DeletePub(PubCode, Pub_ID);
+                                            return correctexecuted;
+                                        }
                                     }
                                     //Если серийное издание:
-                                    else if (IsBook == "1"&&Number.Length>0&& ISBN.Length==9)
+                                    else if (IsBook == "1" && Number.Length > 0 && ISBN.Length == 9)
                                     {
-                                        //Добавление нового журнала
-                                        AddNewJournal(Number, ISBN, Pages, Pub_ID);
+                                        //Добавление нового журнала                                        
+                                        if (!AddNewJournal(Number, ISBN, Pages, Pub_ID))
+                                        {
+                                            //Удаление издателя и издательства
+                                            DeletePub(PubCode, Pub_ID);
+                                            return correctexecuted;
+                                        }
                                     }
                                     //Если IsBook принимает любое значение, отличное от "0" и "1", или в длине номера выпуска или ISSN была допущена ошибка
                                     else
                                     {
-                                        //Удаление издания (Publication)
-                                        string sql = "delete from Publication where Publication_ID=" + Pub_ID;
-                                        reader = ExecCommand(sql);
-                                        reader.Close();
-                                        //Удаление издателя (Publisher)
-                                        sql = "delete from Publisher where Publisher_ID" + PubCode;
-                                        reader = ExecCommand(sql);
-                                        reader.Close();
+                                        //Удаление издателя и издательства
+                                        DeletePub(PubCode, Pub_ID);
                                         return correctexecuted;
                                     }
                                 }
-                                else return correctexecuted;
+                                else
+                                {
+                                    string sql = "delete from Publisher where Publisher_ID" + PubCode;
+                                    reader = ExecCommand(sql);
+                                    reader.Close();
+                                    return correctexecuted;
+                                }
                             }
+                            else return correctexecuted;
                         }
                         else return correctexecuted;
                         //Издание было добавлено, количество добавленных изданий инкрементируется
@@ -170,6 +181,20 @@ namespace Program
                 }
             }
         }
+
+        private static void DeletePub(int PubCode, int Pub_ID)
+        //Удаление экземпляров Издание с ID=Pub_ID
+        //и Издательство с ID=PubCode
+        {
+            DbDataReader reader;
+            string sql = "delete from Publication where Publication_ID=" + Pub_ID;
+            reader = ExecCommand(sql);
+            reader.Close();
+            sql = "delete from Publisher where Publisher_ID" + PubCode;
+            reader = ExecCommand(sql);
+            reader.Close();
+        }
+
         public static DbDataReader ExecCommand(string sql)
         //Обработчик команды sql; возвращает DBDataReader, полученный после обработки запроса
         {

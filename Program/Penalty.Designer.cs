@@ -108,7 +108,6 @@
             this.DGV_Penalties.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DGV_Penalties.Size = new System.Drawing.Size(485, 273);
             this.DGV_Penalties.TabIndex = 1;
-            this.DGV_Penalties.SelectionChanged += new System.EventHandler(this.DGV_Penalties_SelectionChanged);
             // 
             // lb_Precedents
             // 

@@ -274,6 +274,7 @@
             this.TB_LibrarianCode.Name = "TB_LibrarianCode";
             this.TB_LibrarianCode.Size = new System.Drawing.Size(136, 20);
             this.TB_LibrarianCode.TabIndex = 28;
+            this.TB_LibrarianCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_LibrarianCode_KeyPress);
             // 
             // DGV_Workers
             // 

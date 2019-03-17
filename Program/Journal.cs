@@ -301,5 +301,40 @@ namespace Program
             DTP_Real_Date.Value = DateTime.Today;
             OutputJ("");
         }
+
+        private void TB_OperationID_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8)) return;
+            else
+                e.Handled = true;
+        }
+
+        private void TB_BookID_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8)) return;
+            else
+                e.Handled = true;
+        }
+
+        private void TB_ReaderTicket_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8)) return;
+            else
+                e.Handled = true;
+        }
+
+        private void TB_GiverStaffNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8)) return;
+            else
+                e.Handled = true;
+        }
+
+        private void TB_RecieverStaffNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8)) return;
+            else
+                e.Handled = true;
+        }
     }
 }

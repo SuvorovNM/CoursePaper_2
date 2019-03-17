@@ -105,10 +105,5 @@ namespace Program
             ShowPenalties();
             TB_CurrentPenaltySum.Text = Control.GetPenalty(MainMenu.SelectedReader);
         }
-
-        private void DGV_Penalties_SelectionChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

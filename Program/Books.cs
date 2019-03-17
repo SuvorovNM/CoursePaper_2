@@ -294,11 +294,12 @@ namespace Program
                     //Считывание первой строки:
                     reader.Read();
                     object[] temp = new object[reader.FieldCount];
-                    reader.GetValues(temp);
+                    reader.GetValues(temp);                    
                     if (existance)
                     //Преобразование значения столбца "Наличия" в приемлимый для пользователя вид
                     {
-                        if (temp[indexofex + 1].ToString() == "false")
+                        string t = temp[indexofex + 1].ToString();
+                        if (t == "false"||t=="False")
                         {
                             temp[indexofex + 1] = "Нет";
                         }
@@ -315,7 +316,8 @@ namespace Program
                         reader.GetValues(temp);
                         if (existance)
                         {
-                            if (temp[indexofex+1].ToString() == "False")
+                            string t = temp[indexofex + 1].ToString();
+                            if (t == "false" || t == "False")
                             {
                                 temp[indexofex+1] = "Нет";
                             }
@@ -505,6 +507,13 @@ namespace Program
                     MessageBox.Show("Файл не удалось обработать!");
                 }
             }
+        }
+
+        private void TB_Id_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)8)) return;
+            else
+                e.Handled = true;
         }
     }
 }

@@ -95,6 +95,7 @@
             this.TB_BookID.Name = "TB_BookID";
             this.TB_BookID.Size = new System.Drawing.Size(144, 20);
             this.TB_BookID.TabIndex = 2;
+            this.TB_BookID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_BookID_KeyPress);
             // 
             // CB_ReaderTicket
             // 
@@ -115,6 +116,7 @@
             this.TB_ReaderTicket.Name = "TB_ReaderTicket";
             this.TB_ReaderTicket.Size = new System.Drawing.Size(144, 20);
             this.TB_ReaderTicket.TabIndex = 4;
+            this.TB_ReaderTicket.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_ReaderTicket_KeyPress);
             // 
             // CB_GiverStaffNumber
             // 
@@ -133,6 +135,7 @@
             this.TB_GiverStaffNumber.Name = "TB_GiverStaffNumber";
             this.TB_GiverStaffNumber.Size = new System.Drawing.Size(143, 20);
             this.TB_GiverStaffNumber.TabIndex = 6;
+            this.TB_GiverStaffNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_GiverStaffNumber_KeyPress);
             // 
             // CB_RecieverStaffNumber
             // 
@@ -151,6 +154,7 @@
             this.TB_RecieverStaffNumber.Name = "TB_RecieverStaffNumber";
             this.TB_RecieverStaffNumber.Size = new System.Drawing.Size(143, 20);
             this.TB_RecieverStaffNumber.TabIndex = 8;
+            this.TB_RecieverStaffNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_RecieverStaffNumber_KeyPress);
             // 
             // CB_GiveDate
             // 
@@ -331,6 +335,7 @@
             this.TB_OperationID.Name = "TB_OperationID";
             this.TB_OperationID.Size = new System.Drawing.Size(144, 20);
             this.TB_OperationID.TabIndex = 37;
+            this.TB_OperationID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_OperationID_KeyPress);
             // 
             // CB_OperationID
             // 

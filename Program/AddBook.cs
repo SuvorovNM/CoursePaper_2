@@ -312,22 +312,32 @@ namespace Program
                     //Получение необходимой информации о серийном издании для заполнения всех элементов:
                     string SQLInfo = "select Publication.Name, Author, BBK, UDK, ISSN, Page_Quantity, Publisher.Name, Year, City, Release_Number from Publication, Publisher, Journal where Publication_Code=Publication_ID and Publisher_Code=Publisher_ID and Publication_ID=" + Books.SelectedBook;
                     reader = Control.ExecCommand(SQLInfo);
-                    reader.Read();
-                    TB_Name.Text = reader[0].ToString();
-                    TB_Author.Text = reader[1].ToString();
-                    TB_BBK.Text = reader[2].ToString();
-                    TB_UDK.Text = reader[3].ToString();
-                    TB_ISBN.Text = reader[4].ToString();
-                    TB_Pages.Text = reader[5].ToString();
-                    TB_PubName.Text = reader[6].ToString();
-                    TB_Year.Text = reader[7].ToString();
-                    TB_City.Text = reader[8].ToString();
-                    TB_ReleaseNumber.Text = reader[9].ToString();
-                    CB_PubType.SelectedIndex = 1;
-                    CB_PubType.Enabled = false;
-                    lb_ReleaseNumber.Visible = true;
-                    TB_ReleaseNumber.Visible = true;
-                    reader.Close();
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        TB_Name.Text = reader[0].ToString();
+                        TB_Author.Text = reader[1].ToString();
+                        TB_BBK.Text = reader[2].ToString();
+                        TB_UDK.Text = reader[3].ToString();
+                        TB_ISBN.Text = reader[4].ToString();
+                        TB_Pages.Text = reader[5].ToString();
+                        TB_PubName.Text = reader[6].ToString();
+                        TB_Year.Text = reader[7].ToString();
+                        TB_City.Text = reader[8].ToString();
+                        TB_ReleaseNumber.Text = reader[9].ToString();
+                        CB_PubType.SelectedIndex = 1;
+                        CB_PubType.Enabled = false;
+                        lb_ReleaseNumber.Visible = true;
+                        TB_ReleaseNumber.Visible = true;
+                        reader.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Невозможно получить информацию о данном издании!");
+                        reader.Close();
+                        Close();
+                    }
+                    
                 }
             }
         }

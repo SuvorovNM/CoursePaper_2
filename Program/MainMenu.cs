@@ -18,7 +18,7 @@ namespace Program
         //CurrentLibrarian - ID библиотекаря, вошедшего в приложение
         public static Librarian CurrentLibrarian;
         //Регулярное выражение для email:
-        static string patEmail = @"^(?(')('.+?(?<!\\)'@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
+        static string patEmail = @"^(?(')('.+?(?<!\\)'@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
         Regex rgEmail = new Regex(patEmail);
         //enter - Ссылка на окно авторизации
         public static Authorization enter;
@@ -39,21 +39,6 @@ namespace Program
         public MainMenu()
         {
             InitializeComponent();
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void MainMenu_FormClosed(object sender, FormClosedEventArgs e)
@@ -402,7 +387,7 @@ namespace Program
                 TSM_Readers_CurrentBooks.Enabled = true;
                 TSM_Readers_CurrentPenalty.Enabled = true;
                 TSM_Books_Give.Enabled = true;
-                TSM_books_get.Enabled = true;
+                //TSM_books_get.Enabled = true;
             }
             else
             //Если не было выведено ни 1 читателя, то отключение возможностей удаления, изменения, получения информации о текущем читателе
@@ -415,7 +400,7 @@ namespace Program
                 TSM_Readers_CurrentBooks.Enabled = false;
                 TSM_Readers_CurrentPenalty.Enabled = false;
                 TSM_Books_Give.Enabled = false;
-                TSM_books_get.Enabled = false;
+                //TSM_books_get.Enabled = false;
             }
         }
 

@@ -181,6 +181,7 @@
             this.TB_Id.Name = "TB_Id";
             this.TB_Id.Size = new System.Drawing.Size(137, 20);
             this.TB_Id.TabIndex = 10;
+            this.TB_Id.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_Id_KeyPress);
             // 
             // CB_Avail
             // 
